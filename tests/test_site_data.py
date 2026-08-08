@@ -12,6 +12,9 @@ class SiteDataTests(unittest.TestCase):
     def test_monthly_profile_links(self):
         data=json.loads((ROOT/'docs/data/biggest-winners.json').read_text(encoding='utf-8'))
         self.assertEqual(len(data['players']),50)
+        self.assertTrue(data['top50Windows'])
+        self.assertLess(data['performanceScaleMin'],data['performanceScaleMax'])
+        total_profile_games=0
         for p in data['players']:
             profile=json.loads((ROOT/'docs/data/monthly-profiles'/f"{p['id']}.json").read_text(encoding='utf-8'))
             self.assertEqual(profile['month'],'2026-07')
@@ -22,7 +25,11 @@ class SiteDataTests(unittest.TestCase):
             self.assertTrue(profile['coverageWindows'])
             self.assertEqual(sum(w['games'] for w in profile['hourlyWindows']),profile['performanceGames'])
             self.assertEqual(profile['activityScaleMax'],150)
+            self.assertEqual(profile['performanceScaleMin'],data['performanceScaleMin'])
+            self.assertEqual(profile['performanceScaleMax'],data['performanceScaleMax'])
             self.assertEqual((profile['difficultyScaleMin'],profile['difficultyScaleMax']),(-30,30))
+            total_profile_games+=profile['performanceGames']
+        self.assertEqual(sum(w['games'] for w in data['top50Windows']),total_profile_games)
     def test_activity_uses_scanner_coverage_not_active_days(self):
         profile=json.loads((ROOT/'docs/data/monthly-profiles'/'ef0f1623-66b8-4e57-9f0a-08b104875b7e.json').read_text(encoding='utf-8'))
         hour10=profile['hourly'][10]; hour23=profile['hourly'][23]

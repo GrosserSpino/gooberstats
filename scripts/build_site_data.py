@@ -36,6 +36,7 @@ def main():
         difficulties.update({int(r['hour']):float(r['difficulty_relative_pct']) for r in difficulty_doc.get('hours',[])})
     hourly=defaultdict(lambda:defaultdict(lambda:{'games':0,'wins':0,'dates':set()}))
     coverage_dates=set()
+    coverage_by_hour=defaultdict(set)
     delta_root=args.tools_root.resolve()/'hourly_deltas'
     for day_dir in sorted(delta_root.glob(f'{month.name}-*')):
         for delta in sorted(day_dir.glob('*.csv')):
@@ -51,7 +52,7 @@ def main():
             if end_dt<=start_dt: end_dt+=timedelta(days=1)
             minutes=(end_dt-start_dt).total_seconds()/60
             if not (50<=minutes<=70 and start_dt.minute<=15 and end_dt.minute<=20): continue
-            hour=start_dt.hour; coverage_dates.add(day_dir.name)
+            hour=start_dt.hour; coverage_dates.add(day_dir.name); coverage_by_hour[hour].add(day_dir.name)
             for row in delta_rows:
                 pid=(row.get('id') or row.get('player_id') or '').strip()
                 if pid not in top_ids: continue
@@ -63,7 +64,7 @@ def main():
     for player in players:
         pid=player['id']; rows=[]; adjusted_wins=0.0; performance_games=0
         for hour in range(24):
-            item=hourly[pid][hour]; games=item['games']; wins=item['wins']; days=len(item['dates'])
+            item=hourly[pid][hour]; games=item['games']; wins=item['wins']; days=len(coverage_by_hour[hour])
             factor=1+difficulties[hour]/100
             if games>0 and factor>0: adjusted_wins+=wins/factor; performance_games+=games
             rows.append({'hour':hour,'games':games,'wins':wins,'winrate':round(wins/games*100,2) if games else None,'gamesPerCoveredDay':round(games/days,3) if days else 0,'difficulty':round(difficulties[hour],1),'coveredDays':days})

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import argparse, csv, json, re, shutil
+import math
 from collections import defaultdict
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
@@ -69,6 +70,8 @@ def main():
                 if games>0: player_windows[pid].append({'timestamp':timestamp,'games':games,'wins':wins,'difficulty':round(difficulties[hour],1)})
     monthly_dir=out/'monthly-profiles'; monthly_dir.mkdir(exist_ok=True)
     for old in monthly_dir.glob('*.json'): old.unlink()
+    highest_hour=max((item['games'] for pid in top_ids for item in hourly[pid].values()),default=0)
+    activity_scale_max=max(25,int(math.ceil(highest_hour/25))*25)
     for player in players:
         pid=player['id']; rows=[]; adjusted_wins=0.0; performance_games=0
         for hour in range(24):
@@ -76,7 +79,7 @@ def main():
             factor=1+difficulties[hour]/100
             if games>0 and factor>0: adjusted_wins+=wins/factor; performance_games+=games
             rows.append({'hour':hour,'games':games,'wins':wins,'winrate':round(wins/games*100,2) if games else None,'gamesPerCoveredDay':round(games/days,3) if days else 0,'difficulty':round(difficulties[hour],1),'coveredDays':days})
-        profile={**player,'month':month.name,'monthLabel':label,'sourceTimeZone':'Europe/Berlin','monthlyWinrateValue':round(player['wins']/player['games']*100,2) if player['games'] else 0,'performanceRate':round(adjusted_wins/performance_games*100,2) if performance_games else None,'performanceGames':performance_games,'hourlyCoverageStart':min(coverage_dates) if coverage_dates else None,'hourlyCoverageEnd':max(coverage_dates) if coverage_dates else None,'coverageWindows':list(coverage_windows.values()),'hourlyWindows':player_windows[pid],'hourly':rows}
+        profile={**player,'month':month.name,'monthLabel':label,'sourceTimeZone':'Europe/Berlin','activityScaleMax':activity_scale_max,'difficultyScaleMin':-30,'difficultyScaleMax':30,'monthlyWinrateValue':round(player['wins']/player['games']*100,2) if player['games'] else 0,'performanceRate':round(adjusted_wins/performance_games*100,2) if performance_games else None,'performanceGames':performance_games,'hourlyCoverageStart':min(coverage_dates) if coverage_dates else None,'hourlyCoverageEnd':max(coverage_dates) if coverage_dates else None,'coverageWindows':list(coverage_windows.values()),'hourlyWindows':player_windows[pid],'hourly':rows}
         (monthly_dir/f'{pid}.json').write_text(json.dumps(profile,ensure_ascii=False,separators=(',',':')),encoding='utf-8')
     print(f'Exported {len(players)} monthly winner profiles for {label}; hourly coverage {min(coverage_dates) if coverage_dates else "none"} to {max(coverage_dates) if coverage_dates else "none"}.')
 if __name__=='__main__': main()

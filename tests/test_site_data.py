@@ -21,6 +21,8 @@ class SiteDataTests(unittest.TestCase):
             self.assertEqual(profile['sourceTimeZone'],'Europe/Berlin')
             self.assertTrue(profile['coverageWindows'])
             self.assertEqual(sum(w['games'] for w in profile['hourlyWindows']),profile['performanceGames'])
+            self.assertEqual(profile['activityScaleMax'],150)
+            self.assertEqual((profile['difficultyScaleMin'],profile['difficultyScaleMax']),(-30,30))
     def test_activity_uses_scanner_coverage_not_active_days(self):
         profile=json.loads((ROOT/'docs/data/monthly-profiles'/'ef0f1623-66b8-4e57-9f0a-08b104875b7e.json').read_text(encoding='utf-8'))
         hour10=profile['hourly'][10]; hour23=profile['hourly'][23]

@@ -3,6 +3,9 @@ import argparse, csv, json, re, shutil
 from collections import defaultdict
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
+from zoneinfo import ZoneInfo
+
+BERLIN=ZoneInfo('Europe/Berlin')
 
 def completed_month_dirs(root: Path):
     current = date.today().strftime('%Y-%m')
@@ -35,6 +38,8 @@ def main():
         difficulty_doc=json.loads(difficulty_path.read_text(encoding='utf-8'))
         difficulties.update({int(r['hour']):float(r['difficulty_relative_pct']) for r in difficulty_doc.get('hours',[])})
     hourly=defaultdict(lambda:defaultdict(lambda:{'games':0,'wins':0,'dates':set()}))
+    player_windows=defaultdict(list)
+    coverage_windows={}
     coverage_dates=set()
     coverage_by_hour=defaultdict(set)
     delta_root=args.tools_root.resolve()/'hourly_deltas'
@@ -53,12 +58,15 @@ def main():
             minutes=(end_dt-start_dt).total_seconds()/60
             if not (50<=minutes<=70 and start_dt.minute<=15 and end_dt.minute<=20): continue
             hour=start_dt.hour; coverage_dates.add(day_dir.name); coverage_by_hour[hour].add(day_dir.name)
+            timestamp=start_dt.replace(tzinfo=BERLIN).astimezone(timezone.utc).isoformat().replace('+00:00','Z')
+            coverage_windows[timestamp]={'timestamp':timestamp,'difficulty':round(difficulties[hour],1)}
             for row in delta_rows:
                 pid=(row.get('id') or row.get('player_id') or '').strip()
                 if pid not in top_ids: continue
                 games=int(float(row.get('games') or 0)); wins=int(float(row.get('wins') or 0))
                 hourly[pid][hour]['games']+=games; hourly[pid][hour]['wins']+=wins
                 hourly[pid][hour]['dates'].add(day_dir.name)
+                if games>0: player_windows[pid].append({'timestamp':timestamp,'games':games,'wins':wins,'difficulty':round(difficulties[hour],1)})
     monthly_dir=out/'monthly-profiles'; monthly_dir.mkdir(exist_ok=True)
     for old in monthly_dir.glob('*.json'): old.unlink()
     for player in players:
@@ -68,7 +76,7 @@ def main():
             factor=1+difficulties[hour]/100
             if games>0 and factor>0: adjusted_wins+=wins/factor; performance_games+=games
             rows.append({'hour':hour,'games':games,'wins':wins,'winrate':round(wins/games*100,2) if games else None,'gamesPerCoveredDay':round(games/days,3) if days else 0,'difficulty':round(difficulties[hour],1),'coveredDays':days})
-        profile={**player,'month':month.name,'monthLabel':label,'monthlyWinrateValue':round(player['wins']/player['games']*100,2) if player['games'] else 0,'performanceRate':round(adjusted_wins/performance_games*100,2) if performance_games else None,'performanceGames':performance_games,'hourlyCoverageStart':min(coverage_dates) if coverage_dates else None,'hourlyCoverageEnd':max(coverage_dates) if coverage_dates else None,'hourly':rows}
+        profile={**player,'month':month.name,'monthLabel':label,'sourceTimeZone':'Europe/Berlin','monthlyWinrateValue':round(player['wins']/player['games']*100,2) if player['games'] else 0,'performanceRate':round(adjusted_wins/performance_games*100,2) if performance_games else None,'performanceGames':performance_games,'hourlyCoverageStart':min(coverage_dates) if coverage_dates else None,'hourlyCoverageEnd':max(coverage_dates) if coverage_dates else None,'coverageWindows':list(coverage_windows.values()),'hourlyWindows':player_windows[pid],'hourly':rows}
         (monthly_dir/f'{pid}.json').write_text(json.dumps(profile,ensure_ascii=False,separators=(',',':')),encoding='utf-8')
     print(f'Exported {len(players)} monthly winner profiles for {label}; hourly coverage {min(coverage_dates) if coverage_dates else "none"} to {max(coverage_dates) if coverage_dates else "none"}.')
 if __name__=='__main__': main()

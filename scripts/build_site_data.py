@@ -81,7 +81,7 @@ def main():
             window=[hourly[pid][(hour+offset)%24] for offset in (-2,-1,0,1,2)]
             games=sum(item['games'] for item in window)
             wins=sum(item['wins'] for item in window)
-            if hourly[pid][hour]['games']>=20 and games>=30: chart_rates.append(100*wins/games)
+            if hourly[pid][hour]['games']>=15 and games>=30: chart_rates.append(100*wins/games)
     performance_scale_min=max(0,10*math.floor(min(chart_rates,default=0)/10))
     performance_scale_max=min(100,10*math.ceil(max(chart_rates,default=100)/10))
     if performance_scale_max-performance_scale_min<40:

@@ -7,26 +7,20 @@
   <title>GooberStats</title>
   <link rel="stylesheet" href="./styles.css">
   <link rel="stylesheet" href="./profile.css">
+  <link rel="stylesheet" href="./monthly.css">
 </head>
 <body>
   <header class="site-header">
     <a class="brand" href="#performance" aria-label="GooberStats home"><span class="brand-mark">G</span><span><b>GooberStats</b><small>GOOBER DASH ANALYTICS</small></span></a>
-    <nav aria-label="Main navigation">
-      <button class="nav-button active" data-view="performance">Performance</button>
-      <button class="nav-button" data-view="winners">Biggest Winners</button>
-    </nav>
+    <div class="month-badge" id="header-month">Monthly Hall of Fame</div>
   </header>
   <main>
-    <section id="performance" class="view active">
-      <div class="intro"><div><p class="eyebrow">PLAYER PERFORMANCE</p><h1>Every run tells a story.</h1><p>Difficulty-adjusted performance, long-term form and playing patterns from clean tracking data.</p></div><div class="method"><b>Performance Rate</b><span>Last 250 clean games · minimum 100 · adjusted for hourly difficulty</span></div></div>
-      <div class="performance-layout">
-        <aside class="panel leaderboard-panel"><div class="panel-title"><div><p class="eyebrow">TOP 100</p><h2>Performance</h2></div><input id="player-search" type="search" placeholder="Find player…" aria-label="Find player"></div><div id="performance-list" class="rank-list"></div></aside>
-        <section id="profile" class="panel profile-panel"><div class="loading">Loading player profiles…</div></section>
-      </div>
-    </section>
-    <section id="winners" class="view">
+    <section id="winners" class="view active">
       <div class="winner-hero"><div><p class="eyebrow">MONTHLY TOP 50</p><h1>Biggest Winners</h1><p id="winner-month">Last completed month</p></div><div class="winner-podium" id="winner-podium"></div></div>
-      <div class="panel winners-panel"><div class="table-heading"><div><p class="eyebrow">THE GRIND LEADERBOARD</p><h2 id="winner-title">Biggest Winners</h2></div><p>Ranked by wins during the complete calendar month.</p></div><div class="winner-table-wrap"><table><thead><tr><th>#</th><th>Player</th><th>Country</th><th>Games</th><th>Win rate</th><th>Wins</th></tr></thead><tbody id="winner-list"></tbody></table></div></div>
+      <div class="monthly-layout">
+        <aside class="panel monthly-leaderboard"><div class="panel-title"><p class="eyebrow">THE GRIND LEADERBOARD</p><h2 id="winner-title">Biggest Winners</h2><p>Click a Top 50 player to unlock their monthly profile.</p></div><div id="winner-list" class="monthly-rank-list"></div></aside>
+        <section id="monthly-profile" class="panel profile-panel"><div class="loading">Select a Top 50 player.</div></section>
+      </div>
     </section>
   </main>
   <footer>Independent Goober Dash statistics · Tracking coverage and confidence vary by player.</footer>

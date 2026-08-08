@@ -8,7 +8,7 @@ Public, static Goober Dash analytics for GitHub Pages.
 python scripts/build_site_data.py --tools-root ../goober-dash-tools-sync
 ```
 
-The exporter selects the latest fully completed monthly leaderboard and writes its top 50 to `docs/data/biggest-winners.json`. Player profiles are copied from `Goober Profiles/public/data`.
+The exporter selects the latest fully completed monthly leaderboard and writes its top 50 to `docs/data/biggest-winners.json`. Only those 50 players receive a monthly profile under `docs/data/monthly-profiles`. Overall records use the full calendar month; hourly analysis uses all available clean hourly windows from that month without a 250-game cap.
 
 ## Monthly background
 

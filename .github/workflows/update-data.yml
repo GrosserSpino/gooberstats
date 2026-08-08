@@ -17,8 +17,6 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Build current profile source
-        run: python "tools/Goober Profiles/build_profiles.py"
       - name: Export site data
         run: python scripts/build_site_data.py --tools-root tools
       - name: Commit changed data

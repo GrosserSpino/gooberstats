@@ -1,7 +1,5 @@
 name: Update GooberStats data
 on:
-  schedule:
-    - cron: '27 * * * *'
   workflow_dispatch:
 permissions:
   contents: write

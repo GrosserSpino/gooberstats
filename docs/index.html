@@ -13,10 +13,18 @@
 <body>
   <main>
     <section id="winners" class="view active">
-      <nav class="month-tabs" id="month-tabs" aria-label="Choose leaderboard month"></nav>
-      <div class="winner-hero"><div><p class="eyebrow">MONTHLY TOP 50</p><h1>Biggest Winners</h1><p id="winner-month">Last completed month</p></div><div class="winner-podium" id="winner-podium"></div></div>
+      <div class="winner-hero">
+        <img class="winner-logo" src="./assets/goober-dash-logo.png" alt="Goober Dash">
+        <button class="month-arrow month-arrow-left" id="month-previous" type="button" aria-label="Newer month"></button>
+        <div class="winner-heading"><h1>Biggest Winners</h1><p id="winner-month">August 2026</p></div>
+        <button class="month-arrow month-arrow-right" id="month-next" type="button" aria-label="Older month"></button>
+      </div>
+      <div class="site-time-control">
+        <span id="updated-at">Updated —</span>
+        <label for="site-timezone"><span>Time zone</span><select id="site-timezone"></select></label>
+      </div>
       <div class="monthly-layout">
-        <aside class="panel monthly-leaderboard"><div class="panel-title"><p class="eyebrow">THE GRIND LEADERBOARD</p><h2 id="winner-title">Biggest Winners</h2><p>Click a Top 50 player to unlock their monthly profile.</p></div><div id="winner-list" class="monthly-rank-list"></div></aside>
+        <aside class="panel monthly-leaderboard"><div id="winner-list" class="monthly-rank-list"></div></aside>
         <section id="monthly-profile" class="panel profile-panel"><div class="loading">Select a Top 50 player.</div></section>
       </div>
     </section>

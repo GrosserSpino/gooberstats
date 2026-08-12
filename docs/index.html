@@ -8,16 +8,21 @@
   <link rel="stylesheet" href="./styles.css">
   <link rel="stylesheet" href="./profile.css">
   <link rel="stylesheet" href="./monthly.css">
-  <link rel="stylesheet" href="./theme.css?v=20260812-5">
+  <link rel="stylesheet" href="./theme.css?v=20260812-6">
 </head>
 <body>
   <main>
     <section id="winners" class="view active">
       <div class="winner-hero">
         <img class="winner-logo" src="./assets/goober-dash-logo.png" alt="Goober Dash">
-        <button class="month-arrow month-arrow-left" id="month-previous" type="button" aria-label="Newer month"><img src="./assets/month-arrow-left.png" alt=""></button>
-        <div class="winner-heading"><h1><img class="winner-title-image" src="./assets/hero-biggest-winners.png" alt="Biggest Winners"></h1><p><img class="winner-month-image" id="winner-month" src="./assets/hero-2026-08.png" alt="August 2026"></p></div>
-        <button class="month-arrow month-arrow-right" id="month-next" type="button" aria-label="Older month"><img src="./assets/month-arrow-right.png" alt=""></button>
+        <div class="winner-heading">
+          <h1><img class="winner-title-image" src="./assets/hero-biggest-winners.png" alt="Biggest Winners"></h1>
+          <div class="month-switcher">
+            <button class="month-arrow month-arrow-left" id="month-previous" type="button" aria-label="Newer month"><img src="./assets/month-arrow-left.png" alt=""></button>
+            <p><img class="winner-month-image" id="winner-month" src="./assets/hero-2026-08.png" alt="August 2026"></p>
+            <button class="month-arrow month-arrow-right" id="month-next" type="button" aria-label="Older month"><img src="./assets/month-arrow-right.png" alt=""></button>
+          </div>
+        </div>
       </div>
       <div class="site-time-control">
         <span id="updated-at">Updated —</span>
@@ -30,6 +35,6 @@
     </section>
   </main>
   <footer>Independent Goober Dash statistics · Tracking coverage and confidence vary by player.</footer>
-  <script src="./app.js?v=20260812-5" defer></script>
+  <script src="./app.js?v=20260812-6" defer></script>
 </body>
 </html>

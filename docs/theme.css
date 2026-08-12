@@ -17,13 +17,15 @@ h2,
 /* Monthly navigation hero */
 .winner-hero {
   max-width: none;
-  min-height: 300px;
+  min-height: 270px;
   margin-top: 92px;
-  padding: 105px 190px 42px;
+  padding: 105px 24px 25px;
   align-items: center;
   justify-content: center;
   text-align: center;
   overflow: visible;
+  background: none;
+  border-radius: 0;
 }
 .winner-logo {
   position: absolute;
@@ -35,36 +37,35 @@ h2,
   transform: translateX(-50%);
   filter: drop-shadow(0 14px 18px rgba(0,0,0,.42));
 }
-.winner-heading { position: relative; z-index: 1; }
+.winner-heading { position: relative; z-index: 1; display:flex; flex-direction:column; align-items:center; }
 .winner-heading h1 {
   margin: 0;
 }
 .winner-heading p {
-  margin: 18px 0 0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:430px;
+  margin: 0;
 }
 .winner-title-image { display: block; width: min(720px,62vw); height: auto; }
-.winner-month-image { display: block; width: auto; height: 70px; max-width: 48vw; object-fit: contain; margin: 0 auto; }
+.month-switcher { display:grid; grid-template-columns:72px 430px 72px; align-items:center; gap:14px; margin-top:18px; }
+.winner-month-image { display: block; width: auto; height: 56px; max-width: 430px; object-fit: contain; margin: 0 auto; }
 .month-arrow {
-  position: absolute;
-  z-index: 3;
-  top: 50%;
   display: flex;
   align-items: center;
   border: 0;
-  width: 118px;
-  height: 92px;
+  width: 72px;
+  height: 56px;
   padding: 0;
   background: transparent;
   cursor: pointer;
-  transform: translateY(-28%);
 }
 .month-arrow img { display:block; width:100%; height:100%; object-fit:contain; filter:drop-shadow(0 7px 5px rgba(0,0,0,.34)); transition:transform .15s ease,opacity .15s ease; }
 .month-arrow:not(:disabled):hover img { transform:scale(1.07); }
 .month-arrow:not(:disabled):active img { transform:scale(.96) translateY(2px); }
 .month-arrow:disabled { cursor:default; }
 .month-arrow:disabled img { opacity:.28; filter:none; }
-.month-arrow-left { left: 26px; }
-.month-arrow-right { right: 26px; }
 
 .site-time-control {
   display: flex;
@@ -103,13 +104,13 @@ h2,
 }
 
 @media(max-width:700px) {
-  .winner-hero { min-height: 270px; margin-top: 70px; padding: 88px 70px 30px; }
+  .winner-hero { min-height: 245px; margin-top: 70px; padding: 88px 0 18px; }
   .winner-logo { top: -110px; width: min(520px, 90vw); }
   .winner-title-image { width: min(500px,72vw); }
-  .winner-month-image { width: auto; height: 44px; max-width: 66vw; }
-  .month-arrow { top: auto; bottom: 14px; width:72px; height:58px; }
-  .month-arrow-left { left: 12px; }
-  .month-arrow-right { right: 12px; }
+  .month-switcher { grid-template-columns:48px minmax(0,248px) 48px; gap:5px; max-width:100%; margin-top:15px; }
+  .winner-heading p { width:100%; }
+  .winner-month-image { width:auto; height:32px; max-width:248px; }
+  .month-arrow { width:48px; height:38px; }
   .site-time-control { align-items: stretch; flex-direction: column; gap: 7px; }
   .site-time-control label { justify-content: space-between; }
   .site-time-control select { min-width: 0; max-width: 72%; }

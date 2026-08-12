@@ -8,22 +8,25 @@ from zoneinfo import ZoneInfo
 
 BERLIN=ZoneInfo('Europe/Berlin')
 
-def completed_month_dirs(root: Path):
+def completed_month_dirs(root: Path, include_current=False):
     current = date.today().strftime('%Y-%m')
-    return sorted((p for p in root.iterdir() if p.is_dir() and re.fullmatch(r'\d{4}-\d{2}', p.name) and p.name < current), key=lambda p:p.name)
+    return sorted((p for p in root.iterdir() if p.is_dir() and re.fullmatch(r'\d{4}-\d{2}', p.name) and (p.name <= current if include_current else p.name < current)), key=lambda p:p.name)
 
 def main():
     ap=argparse.ArgumentParser()
     ap.add_argument('--tools-root',type=Path,required=True)
+    ap.add_argument('--month',help='Export a specific month (YYYY-MM), including the current unfinished month.')
     ap.add_argument('--output',type=Path,default=Path(__file__).resolve().parents[1]/'docs'/'data')
     args=ap.parse_args(); out=args.output.resolve(); out.mkdir(parents=True,exist_ok=True)
     legacy_index=out/'players.json'
     if legacy_index.exists(): legacy_index.unlink()
     legacy_profiles=out/'profiles'
     if legacy_profiles.exists(): shutil.rmtree(legacy_profiles)
-    months=completed_month_dirs(args.tools_root.resolve()/'Leaderboards Monthly Top100')
+    months=completed_month_dirs(args.tools_root.resolve()/'Leaderboards Monthly Top100',include_current=bool(args.month))
     if not months: raise SystemExit('No completed monthly leaderboard found.')
-    month=months[-1]; csv_path=month/'assets.csv'
+    month=next((item for item in months if item.name==args.month),None) if args.month else months[-1]
+    if month is None: raise SystemExit(f'Month not found: {args.month}')
+    csv_path=month/'assets.csv'
     if not csv_path.exists(): csv_path=month/'leaderboard.csv'
     with csv_path.open(encoding='utf-8-sig',newline='') as f: rows=list(csv.DictReader(f))[:50]
     players=[]

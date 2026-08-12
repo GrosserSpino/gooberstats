@@ -2,6 +2,16 @@ import json, unittest
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 class SiteDataTests(unittest.TestCase):
+    def test_month_archives(self):
+        for month in ('2026-07','2026-08'):
+            root=ROOT/'docs/data/months'/month
+            data=json.loads((root/'biggest-winners.json').read_text(encoding='utf-8'))
+            self.assertEqual(data['month'],month)
+            self.assertEqual(len(data['players']),50)
+            self.assertEqual(len(list((root/'monthly-profiles').glob('*.json'))),50)
+        august=json.loads((ROOT/'docs/data/months/2026-08/biggest-winners.json').read_text(encoding='utf-8'))
+        self.assertEqual(august['players'][0]['name'],'Davi cardoso')
+        self.assertEqual(august['players'][0]['wins'],415)
     def test_biggest_winners(self):
         data=json.loads((ROOT/'docs/data/biggest-winners.json').read_text(encoding='utf-8'))
         self.assertEqual(data['month'],'2026-07')

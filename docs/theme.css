@@ -1,0 +1,15 @@
+@font-face {
+  font-family: "Luckiest Guy";
+  src: url("./assets/LuckiestGuy-Regular.ttf") format("truetype");
+  font-display: swap;
+}
+
+h1,
+h2,
+.brand b,
+.profile-tab,
+.rank-avatar,
+.player-badge strong {
+  font-family: "Luckiest Guy", system-ui, sans-serif;
+  letter-spacing: .025em;
+}

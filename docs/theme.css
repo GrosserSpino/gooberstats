@@ -16,6 +16,9 @@ h2,
 
 /* Monthly navigation hero */
 .winner-hero {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
   min-height: 300px;
   margin-top: 92px;
   padding: 105px 190px 42px;
@@ -41,8 +44,8 @@ h2,
 .winner-heading p {
   margin: 18px 0 0;
 }
-.winner-title-image { display: block; width: min(880px,72vw); height: auto; }
-.winner-month-image { display: block; width: min(390px,34vw); height: auto; margin: 0 auto; }
+.winner-title-image { display: block; width: min(720px,62vw); height: auto; }
+.winner-month-image { display: block; width: min(330px,29vw); height: auto; margin: 0 auto; }
 .month-arrow {
   position: absolute;
   z-index: 3;
@@ -107,8 +110,8 @@ h2,
 @media(max-width:700px) {
   .winner-hero { min-height: 270px; margin-top: 70px; padding: 88px 70px 30px; }
   .winner-logo { top: -110px; width: min(520px, 90vw); }
-  .winner-title-image { width: min(620px,82vw); }
-  .winner-month-image { width: min(300px,52vw); }
+  .winner-title-image { width: min(500px,72vw); }
+  .winner-month-image { width: min(250px,44vw); }
   .month-arrow { top: auto; bottom: 18px; padding: 11px 13px; border-radius: 12px; }
   .month-arrow b { font-size: 13px; }
   .month-arrow span { font-size: 36px; }

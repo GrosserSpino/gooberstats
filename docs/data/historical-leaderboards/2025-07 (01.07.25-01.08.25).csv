@@ -1,0 +1,34 @@
+﻿rank,player_id,name,wins,games,winrate,period_start,period_end,quality,source
+1,310a150e-3304-4e36-8328-97bbfe0a28f6,Guest5092,910,1559,58.37,2025-07-01,2025-08-01,exact,exports/yearly/2025_race.csv
+2,b886a191-8850-4632-a8b3-b2b2f03cba88,leck sibbi,553,1106,50.0,2025-07-01,2025-08-01,exact,exports/yearly/2025_race.csv
+3,16984496-8e4b-4bbe-b5af-57f361c7e9ca,jess,364,1183,30.77,2025-07-01,2025-08-01,exact,exports/yearly/2025_race.csv
+4,c01c6a1f-3d78-4289-b6a6-5f05ae69f295,ToJ Seatron,283,521,54.32,2025-07-01,2025-08-01,exact,exports/yearly/2025_race.csv
+5,f45172ef-58c6-4054-a97b-aafa5dc492fb,Lavender77,270,740,36.49,2025-07-01,2025-08-01,exact,exports/yearly/2025_race.csv
+6,81165876-ce4e-4e3c-a3a7-237720a31d4e,lizaveta,249,692,35.98,2025-07-01,2025-08-01,exact,exports/yearly/2025_race.csv
+7,caf4e45f-81de-4c20-927e-f1a5820cf3cb,HC,227,742,30.59,2025-07-01,2025-08-01,exact,exports/yearly/2025_race.csv
+8,0ac8bcaa-06a6-4f59-9a7a-5bcf730dd9d0,27,170,617,27.55,2025-07-01,2025-08-01,exact,exports/yearly/2025_race.csv
+9,c33a47f8-7c32-4197-a497-6335171a926e,pulga,166,830,20.0,2025-07-01,2025-08-01,exact,exports/yearly/2025_race.csv
+10,2b6447a8-44de-485d-91fa-a9633b4a66af,GUARD MOM,158,345,45.8,2025-07-01,2025-08-01,exact,exports/yearly/2025_race.csv
+11,216a32dd-44ef-4a42-b132-c3fab926904d,_MAESTRO_,141,373,37.8,2025-07-01,2025-08-01,exact,exports/yearly/2025_race.csv
+12,ede8b0c4-421f-4fb9-b0b2-7d2896d56585,DreamyBread.XCJF,120,406,29.56,2025-07-01,2025-08-01,exact,exports/yearly/2025_race.csv
+13,292f9c0f-693f-4937-8ae7-8bc1b7874d96,Den Kelly,103,330,31.21,2025-07-01,2025-08-01,exact,exports/yearly/2025_race.csv
+14,b36f404b-c5f0-40b8-b70e-ef45cf916817,Shparkles,103,312,33.01,2025-07-01,2025-08-01,exact,exports/yearly/2025_race.csv
+15,a804268f-9c76-413e-808f-1e934fe46b90,Afterglow,94,497,18.91,2025-07-01,2025-08-01,exact,exports/yearly/2025_race.csv
+16,e28b4f9d-915c-4eb1-9932-af4f14c16ae2,Carlonane,89,361,24.65,2025-07-01,2025-08-01,exact,exports/yearly/2025_race.csv
+17,2e5f5861-e9b6-42b5-8a52-6e35c144f95e,Drew Lock,78,286,27.27,2025-07-01,2025-08-01,exact,exports/yearly/2025_race.csv
+18,ef0f1623-66b8-4e57-9f0a-08b104875b7e,GrosserSpino,69,176,39.2,2025-07-01,2025-08-01,exact,exports/yearly/2025_race.csv
+19,c2836c77-5439-4cd2-8207-eeb5807f30f7,ToJ TRow,68,192,35.42,2025-07-01,2025-08-01,exact,exports/yearly/2025_race.csv
+20,e37843f3-5e95-48de-bd9f-638bf5f4b84d,twilightphi,62,154,40.26,2025-07-01,2025-08-01,exact,exports/yearly/2025_race.csv
+21,61db8d45-d4d2-453a-b77a-70b8a3c03c1e,mukill3r,53,221,23.98,2025-07-01,2025-08-01,exact,exports/yearly/2025_race.csv
+22,0c17cbc7-57b1-454e-857b-b34934b5b156,Los diablo,50,154,32.47,2025-07-01,2025-08-01,exact,exports/yearly/2025_race.csv
+23,313f4c0f-e782-4d19-a71b-a1ddf01cc8a2,handymanny,46,190,24.21,2025-07-01,2025-08-01,exact,exports/yearly/2025_race.csv
+24,e66af725-24c9-4358-a2f8-931ce82b7182,Frijoles,36,146,24.66,2025-07-01,2025-08-01,exact,exports/yearly/2025_race.csv
+25,6ed71f6b-f000-4af1-beae-e1351fe01aab,. .,32,123,26.02,2025-07-01,2025-08-01,exact,exports/yearly/2025_race.csv
+26,9397fe2e-dee1-48dc-b4a9-84d69b16b708,BOOPSY,23,72,31.94,2025-07-01,2025-08-01,exact,exports/yearly/2025_race.csv
+27,9092613a-e4db-4180-870a-7be368c530f8,HotDonut.65TN,21,70,30.0,2025-07-01,2025-08-01,exact,exports/yearly/2025_race.csv
+28,8250fdc6-0dba-4c3c-b66b-02186435f5db,Magiccards,7,73,9.59,2025-07-01,2025-08-01,exact,exports/yearly/2025_race.csv
+29,4cee8b5d-7340-4cd4-980d-38c59a322b7f,Lord Cuctus,6,32,18.75,2025-07-01,2025-08-01,exact,exports/yearly/2025_race.csv
+30,98aa547d-388e-4a04-9de2-498754736f49,chrixclub,3,33,9.09,2025-07-01,2025-08-01,exact,exports/yearly/2025_race.csv
+31,dae3c760-297e-4989-9070-2151a940c1cd,blackfire,3,28,10.71,2025-07-01,2025-08-01,exact,exports/yearly/2025_race.csv
+32,deb5bcf5-2747-4645-bf7a-b29222e31fce,Liamiscool,3,13,23.08,2025-07-01,2025-08-01,exact,exports/yearly/2025_race.csv
+33,0ee46d5e-afdd-4786-b745-97e3df034412,Norsunaama,1,5,20.0,2025-07-01,2025-08-01,exact,exports/yearly/2025_race.csv

@@ -32,8 +32,22 @@ def month_aliases(tools_root: Path, month_id: str):
             if name and name.casefold() not in {x.casefold() for x in aliases[pid]}: aliases[pid].append(name)
     return aliases
 
-def historical_badge_rows(tools_root: Path, current_id: str):
-    results=[]; authoritative=set()
+def historical_badge_rows(tools_root: Path, current_id: str, output_dir: Path):
+    results=[]; authoritative=set(); leaderboards=[]
+    if output_dir.exists(): shutil.rmtree(output_dir)
+    output_dir.mkdir(parents=True,exist_ok=True)
+
+    def save_leaderboard(month_id, start, end, rows, estimated, source):
+        ranked=[]
+        for rank,row in enumerate(rows[:50],1):
+            games=number(row.get('games'),as_int=True); wins=number(row.get('wins'),as_int=True)
+            valid_rate=games>0 and wins<=games
+            quality='source-anomaly' if games and wins>games else ('estimated' if estimated else 'exact')
+            ranked.append({'rank':rank,'player_id':row.get('player_id',row.get('id','')),'name':row.get('name',row.get('display_name',row.get('username',''))),'wins':wins,'games':games,'winrate':round(wins/games*100,2) if valid_rate else '','period_start':start,'period_end':end,'quality':quality,'source':source})
+        filename=f"{month_id} ({datetime.strptime(start,'%Y-%m-%d').strftime('%d.%m.%y')}-{datetime.strptime(end,'%Y-%m-%d').strftime('%d.%m.%y')}).csv"
+        with (output_dir/filename).open('w',encoding='utf-8-sig',newline='') as f:
+            writer=csv.DictWriter(f,fieldnames=('rank','player_id','name','wins','games','winrate','period_start','period_end','quality','source')); writer.writeheader(); writer.writerows(ranked)
+        leaderboards.append((month_id,ranked))
     # Finalized monthly leaderboard folders are the authoritative Win-Race result.
     for folder in sorted((tools_root/'Leaderboards Monthly Top100').glob('????-??')):
         month_id=folder.name
@@ -41,9 +55,10 @@ def historical_badge_rows(tools_root: Path, current_id: str):
         path=folder/'assets.csv'
         if not path.exists(): path=folder/'leaderboard.csv'
         if not path.exists(): continue
-        with path.open(encoding='utf-8-sig',newline='') as f: rows=list(csv.DictReader(f))[:10]
-        for row in rows:
-            results.append((row['player_id'],{'month':month_id,'monthLabel':datetime.strptime(month_id,'%Y-%m').strftime('%B %Y'),'rank':number(row.get('rank'),as_int=True),'wins':number(row.get('monthly_wins',row.get('wins')),as_int=True),'periodStart':f'{month_id}-01','periodEnd':row.get('source_snapshot','').split('/')[-1].removesuffix('.csv'),'estimated':False}))
+        with path.open(encoding='utf-8-sig',newline='') as f: source_rows=list(csv.DictReader(f))[:50]
+        end=source_rows[0].get('source_snapshot','').split('/')[-1].removesuffix('.csv') if source_rows else f'{month_id}-01'
+        rows=[{'player_id':r['player_id'],'name':r.get('display_name',''),'wins':r.get('monthly_wins',r.get('wins')),'games':r.get('monthly_games',r.get('games'))} for r in source_rows]
+        save_leaderboard(month_id,f'{month_id}-01',end,rows,False,str(path.relative_to(tools_root)).replace('\\','/'))
         authoritative.add(month_id)
     # Exact 2026 monthly race exports: use the latest snapshot recorded for each month.
     for path in sorted((tools_root/'exports'/'monthly').glob('????-??_race.csv')):
@@ -53,7 +68,7 @@ def historical_badge_rows(tools_root: Path, current_id: str):
         if not rows: continue
         end=max(row['date'] for row in rows); final=[row for row in rows if row['date']==end]
         final.sort(key=lambda row:(-number(row.get('wins'),as_int=True),-number(row.get('games'),as_int=True),row.get('id','')))
-        for rank,row in enumerate(final[:10],1): results.append((row['id'],{'month':month_id,'monthLabel':datetime.strptime(month_id,'%Y-%m').strftime('%B %Y'),'rank':rank,'wins':number(row.get('wins'),as_int=True),'periodStart':f'{month_id}-01','periodEnd':end,'estimated':False}))
+        save_leaderboard(month_id,f'{month_id}-01',end,final,False,str(path.relative_to(tools_root)).replace('\\','/'))
     # 2024/2025 archives contain cumulative snapshots. Use the observations nearest
     # each calendar boundary and rank monthly positive win deltas.
     for year in (2024,2025):
@@ -71,11 +86,19 @@ def historical_badge_rows(tools_root: Path, current_id: str):
             if not before or not after or after <= before: continue
             deltas=[]
             for pid,end_row in by_date[after].items():
-                start_row=by_date[before].get(pid); wins=number(end_row.get('wins'),as_int=True)-(number(start_row.get('wins'),as_int=True) if start_row else 0)
-                games=number(end_row.get('games'),as_int=True)-(number(start_row.get('games'),as_int=True) if start_row else 0)
-                if wins>0: deltas.append((wins,games,pid))
-            deltas.sort(key=lambda item:(-item[0],-item[1],item[2]))
-            for rank,(wins,games,pid) in enumerate(deltas[:10],1): results.append((pid,{'month':month_id,'monthLabel':datetime.strptime(month_id,'%Y-%m').strftime('%B %Y'),'rank':rank,'wins':wins,'periodStart':before,'periodEnd':after,'estimated':before!=start.isoformat() or after!=next_start.isoformat()}))
+                start_row=by_date[before].get(pid)
+                if not start_row: continue
+                wins=number(end_row.get('wins'),as_int=True)-number(start_row.get('wins'),as_int=True)
+                games=number(end_row.get('games'),as_int=True)-number(start_row.get('games'),as_int=True)
+                # Counter resets/corrupt snapshots can otherwise create impossible
+                # monthly records (for example more wins than games).
+                if games>0 and 0<wins<=games: deltas.append({'id':pid,'name':end_row.get('username',''),'wins':wins,'games':games})
+            deltas.sort(key=lambda item:(-item['wins'],-item['games'],item['id']))
+            estimated=before!=start.isoformat() or after!=next_start.isoformat()
+            save_leaderboard(month_id,before,after,deltas,estimated,str(path.relative_to(tools_root)).replace('\\','/'))
+    for month_id,rows in leaderboards:
+        for row in rows[:10]:
+            results.append((row['player_id'],{'month':month_id,'monthLabel':datetime.strptime(month_id,'%Y-%m').strftime('%B %Y'),'rank':row['rank'],'wins':row['wins'],'periodStart':row['period_start'],'periodEnd':row['period_end'],'estimated':row['quality']!='exact'}))
     return results
 
 def main():
@@ -178,7 +201,7 @@ def main():
     # Stable, reusable badge records. The active calendar month never awards a badge.
     badge_map=defaultdict(list)
     current_id=date.today().strftime('%Y-%m')
-    for pid,record in historical_badge_rows(tools_root,current_id): badge_map[pid].append(record)
+    for pid,record in historical_badge_rows(tools_root,current_id,out/'historical-leaderboards'): badge_map[pid].append(record)
     (out/'badges.json').write_text(json.dumps(badge_map,ensure_ascii=False,separators=(',',':')),encoding='utf-8')
     for profile_path in monthly_dir.glob('*.json'):
         doc=json.loads(profile_path.read_text(encoding='utf-8')); doc['badges']=sorted(badge_map.get(doc['id'],[]),key=lambda x:x['month'],reverse=True)

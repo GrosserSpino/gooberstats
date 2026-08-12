@@ -1,0 +1,51 @@
+﻿rank,player_id,name,wins,games,winrate,period_start,period_end,quality,source
+1,9bf02918-02f7-4c91-a4cf-6705e1b92e63,TF Siegfried,621,1270,48.9,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+2,16984496-8e4b-4bbe-b5af-57f361c7e9ca,jess,397,1066,37.24,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+3,86bf3210-2259-40e2-a5cf-06a6d9675d1f,Guest6805,382,684,55.85,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+4,c3c4ad71-3827-4db1-972f-b8b40b725173,fillettegenante,314,883,35.56,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+5,4968120a-02ae-46b5-8f08-be545953801d,Darkness7777TW,314,508,61.81,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+6,edebe8a1-aeca-4500-9d53-d6e5f9dd27c2,snow,285,1543,18.47,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+7,7f9acfd0-aa6e-4953-bb42-f0148fcedf6d,Unlimited.Blade.Work,252,601,41.93,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+8,f723fc8c-d3e4-4646-bbf7-6ffa723ffc25,POLTIGLIA,247,689,35.85,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+9,995e395e-841d-4ff3-87e8-0084084ee237,ToJ,246,949,25.92,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+10,36d8091a-ec6b-43d3-aa45-a5acb338be15,BishfaceGirl,214,461,46.42,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+11,be2c720d-7508-4822-9b15-a1f412fffd7d,Toj SiddyBaBu,205,475,43.16,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+12,2f8b404f-3cb8-425a-a599-6dbfc170b375,RoyalWarrior.oxLu,200,474,42.19,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+13,e47c6e65-f6ed-4c40-adf4-c35d3bac5bd5,AAAAA,197,504,39.09,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+14,bb32f252-6de2-49ca-a13c-80dc0151617b,lgskhd,196,1278,15.34,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+15,cdc8e724-5a3f-4365-af50-4d1e98aca441,_PROFE_,189,444,42.57,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+16,01a65e57-1432-4652-8cdb-342e28fa1609,HarvestDonkey,188,274,68.61,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+17,723a4f65-fb92-4fdc-b8e3-0d552eaf7450,Unlimited,183,382,47.91,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+18,60bf5b15-0a3e-4839-8786-47427f7e183d,LoryGaming,180,406,44.33,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+19,216a32dd-44ef-4a42-b132-c3fab926904d,_MAESTRO_,171,387,44.19,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+20,1f31589a-ff67-4788-9af4-4f877c4b45e1,Davi cardoso,164,433,37.88,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+21,2fe864b5-2534-47e3-ae85-bc8504c66ea7,Gaming Beast,162,406,39.9,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+22,2e985ef5-6666-4443-9809-202427c67ada,Galactic_Sushi_🍣🍣🍣,160,677,23.63,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+23,e28b4f9d-915c-4eb1-9932-af4f14c16ae2,IBrokeMythumb xD,158,684,23.1,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+24,118120d6-4073-467d-863e-a6a167ca2070,UNCLE IROH,155,427,36.3,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+25,ef0f1623-66b8-4e57-9f0a-08b104875b7e,GrosserSpino,148,354,41.81,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+26,bd6c639d-f798-41e1-a3ce-10201239b18c,teeheehee,139,435,31.95,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+27,10bcc0e5-9e18-407c-bbb2-79a4487494d7,SmoothBanana.NXbc,131,293,44.71,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+28,e37843f3-5e95-48de-bd9f-638bf5f4b84d,twilightphi,131,257,50.97,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+29,77dda853-2240-4706-840b-ad69994173a8,Oh Mega Omega,130,702,18.52,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+30,0ea6a1b6-09ad-4d33-989e-35b0b83fea9d,Johnie,125,327,38.23,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+31,42cbe1e1-ee66-435b-9e5e-b10e1298213b,Mochita,121,365,33.15,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+32,7f50bf63-5353-4d9d-84e5-9fe22081e517,ToJ Garohh,119,363,32.78,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+33,5c6f17e6-e650-4f7b-81fc-c2c1dd239dc7,ToJTheFireball,116,472,24.58,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+34,6bde8c85-99f9-4743-a6a6-d067b1c28b93,SPIDA,115,411,27.98,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+35,7fdef1c0-196b-405f-8786-ea06411d10b1,i GOOB 4 yr sins,113,468,24.15,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+36,af41335a-0739-4538-9da5-97de5dc218f0,Contra el Poder,110,345,31.88,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+37,2e5f5861-e9b6-42b5-8a52-6e35c144f95e,Drew Lock,108,345,31.3,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+38,8471b9c5-3541-4f9f-86a3-963697e01c70,Prodoglover,108,214,50.47,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+39,d222de15-dfd7-417c-9feb-609219380e50,HELPME,99,369,26.83,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+40,26259218-7d74-46df-8b5d-b819ab5fd667,Guest4227,98,296,33.11,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+41,4af91e0f-ef8c-45a1-81fa-84e6a91454f4,Zon67O,97,615,15.77,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+42,a34ed0ac-e9d9-4b26-9ff7-5c00e73baab0,Zozoff,94,292,32.19,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+43,ec7cac36-b473-4510-bc77-b4cd5d809c0a,matrixical,94,202,46.53,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+44,c577d0f1-3e28-421b-b31c-e987d6869a7f,GoldenHoops,93,316,29.43,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+45,997576d9-0946-466b-826b-cf99d3639ce7,SEVENTI,93,269,34.57,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+46,99a9f8aa-338a-4860-acdf-6afac7825171,FartInYourFace,93,212,43.87,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+47,a336b047-f180-460c-8d0e-d7451fa02628,Soray,92,224,41.07,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+48,c9719e1d-3afc-48fc-b12e-a029ea5dea15,SUB to PEC RBR,91,382,23.82,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+49,1518bbac-3c68-4785-ad6a-0e2c6bf95dd1,1grosQ10_20,90,403,22.33,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv
+50,e2306b13-9a4a-4800-9b46-dceeae77608d,0_0.KANS.0_0,90,199,45.23,2026-05-01,2026-06-01,exact,exports/monthly/2026-05_race.csv

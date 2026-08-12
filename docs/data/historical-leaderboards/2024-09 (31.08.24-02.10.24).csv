@@ -1,0 +1,4 @@
+﻿rank,player_id,name,wins,games,winrate,period_start,period_end,quality,source
+1,9397fe2e-dee1-48dc-b4a9-84d69b16b708,Boopsy,191,570,33.51,2024-08-31,2024-10-02,estimated,exports/yearly/2024_race.csv
+2,ef0f1623-66b8-4e57-9f0a-08b104875b7e,GrosserSpino,74,222,33.33,2024-08-31,2024-10-02,estimated,exports/yearly/2024_race.csv
+3,98aa547d-388e-4a04-9de2-498754736f49,chrixclub,34,236,14.41,2024-08-31,2024-10-02,estimated,exports/yearly/2024_race.csv

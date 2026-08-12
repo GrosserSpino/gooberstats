@@ -32,6 +32,52 @@ def month_aliases(tools_root: Path, month_id: str):
             if name and name.casefold() not in {x.casefold() for x in aliases[pid]}: aliases[pid].append(name)
     return aliases
 
+def historical_badge_rows(tools_root: Path, current_id: str):
+    results=[]; authoritative=set()
+    # Finalized monthly leaderboard folders are the authoritative Win-Race result.
+    for folder in sorted((tools_root/'Leaderboards Monthly Top100').glob('????-??')):
+        month_id=folder.name
+        if month_id >= current_id: continue
+        path=folder/'assets.csv'
+        if not path.exists(): path=folder/'leaderboard.csv'
+        if not path.exists(): continue
+        with path.open(encoding='utf-8-sig',newline='') as f: rows=list(csv.DictReader(f))[:10]
+        for row in rows:
+            results.append((row['player_id'],{'month':month_id,'monthLabel':datetime.strptime(month_id,'%Y-%m').strftime('%B %Y'),'rank':number(row.get('rank'),as_int=True),'wins':number(row.get('monthly_wins',row.get('wins')),as_int=True),'periodStart':f'{month_id}-01','periodEnd':row.get('source_snapshot','').split('/')[-1].removesuffix('.csv'),'estimated':False}))
+        authoritative.add(month_id)
+    # Exact 2026 monthly race exports: use the latest snapshot recorded for each month.
+    for path in sorted((tools_root/'exports'/'monthly').glob('????-??_race.csv')):
+        month_id=path.name[:7]
+        if month_id >= current_id or month_id in authoritative: continue
+        with path.open(encoding='utf-8-sig',newline='') as f: rows=list(csv.DictReader(f))
+        if not rows: continue
+        end=max(row['date'] for row in rows); final=[row for row in rows if row['date']==end]
+        final.sort(key=lambda row:(-number(row.get('wins'),as_int=True),-number(row.get('games'),as_int=True),row.get('id','')))
+        for rank,row in enumerate(final[:10],1): results.append((row['id'],{'month':month_id,'monthLabel':datetime.strptime(month_id,'%Y-%m').strftime('%B %Y'),'rank':rank,'wins':number(row.get('wins'),as_int=True),'periodStart':f'{month_id}-01','periodEnd':end,'estimated':False}))
+    # 2024/2025 archives contain cumulative snapshots. Use the observations nearest
+    # each calendar boundary and rank monthly positive win deltas.
+    for year in (2024,2025):
+        path=tools_root/'exports'/'yearly'/f'{year}_race.csv'
+        if not path.exists(): continue
+        with path.open(encoding='utf-8-sig',newline='') as f: rows=list(csv.DictReader(f))
+        dates=sorted({row['date'] for row in rows}); by_date=defaultdict(dict)
+        for row in rows: by_date[row['date']][row['id']]=row
+        for month in range(1,13):
+            month_id=f'{year}-{month:02d}'
+            if month_id >= current_id: continue
+            start=date(year,month,1); next_start=(start.replace(day=28)+timedelta(days=4)).replace(day=1)
+            before=min(dates,key=lambda d:abs((datetime.strptime(d,'%Y-%m-%d').date()-start).days),default=None)
+            after=min(dates,key=lambda d:abs((datetime.strptime(d,'%Y-%m-%d').date()-next_start).days),default=None)
+            if not before or not after or after <= before: continue
+            deltas=[]
+            for pid,end_row in by_date[after].items():
+                start_row=by_date[before].get(pid); wins=number(end_row.get('wins'),as_int=True)-(number(start_row.get('wins'),as_int=True) if start_row else 0)
+                games=number(end_row.get('games'),as_int=True)-(number(start_row.get('games'),as_int=True) if start_row else 0)
+                if wins>0: deltas.append((wins,games,pid))
+            deltas.sort(key=lambda item:(-item[0],-item[1],item[2]))
+            for rank,(wins,games,pid) in enumerate(deltas[:10],1): results.append((pid,{'month':month_id,'monthLabel':datetime.strptime(month_id,'%Y-%m').strftime('%B %Y'),'rank':rank,'wins':wins,'periodStart':before,'periodEnd':after,'estimated':before!=start.isoformat() or after!=next_start.isoformat()}))
+    return results
+
 def main():
     ap=argparse.ArgumentParser()
     ap.add_argument('--tools-root',type=Path,required=True)
@@ -126,19 +172,13 @@ def main():
             if games>0 and factor>0: adjusted_wins+=wins/factor; performance_games+=games
             rows.append({'hour':hour,'games':games,'wins':wins,'winrate':round(wins/games*100,2) if games else None,'gamesPerCoveredDay':round(games/days,3) if days else 0,'difficulty':round(difficulties[hour],1),'coveredDays':days})
         lobby_factor=round(player['performanceRate']/player['winrate'],3) if player['performanceRate'] is not None and player['winrate'] else None
-        profile={**player,'month':month.name,'monthLabel':label,'sourceTimeZone':'Europe/Berlin','activityScaleMax':activity_scale_max,'performanceScaleMin':performance_scale_min,'performanceScaleMax':performance_scale_max,'difficultyScaleMin':-30,'difficultyScaleMax':30,'monthlyWinrateValue':round(player['wins']/player['games']*100,2) if player['games'] else 0,'lobbyDifficulty':lobby_factor,'performanceRate':round(adjusted_wins/performance_games*100,2) if performance_games else player['performanceRate'],'performanceGames':performance_games or player['performanceGames'],'hourlyCoverageStart':min(coverage_dates) if coverage_dates else None,'hourlyCoverageEnd':max(coverage_dates) if coverage_dates else None,'coverageWindows':list(coverage_windows.values()),'hourlyWindows':player_windows[pid],'hourly':rows,'badges':[]}
+        calculated_pr=round(adjusted_wins/performance_games*100,2) if performance_games else None
+        profile={**player,'month':month.name,'monthLabel':label,'sourceTimeZone':'Europe/Berlin','activityScaleMax':activity_scale_max,'performanceScaleMin':performance_scale_min,'performanceScaleMax':performance_scale_max,'difficultyScaleMin':-30,'difficultyScaleMax':30,'monthlyWinrateValue':round(player['wins']/player['games']*100,2) if player['games'] else 0,'lobbyDifficulty':lobby_factor,'performanceRate':player['performanceRate'] if player['performanceRate'] is not None else calculated_pr,'hourlyPerformanceRate':calculated_pr,'performanceGames':performance_games or player['performanceGames'],'hourlyCoverageStart':min(coverage_dates) if coverage_dates else None,'hourlyCoverageEnd':max(coverage_dates) if coverage_dates else None,'coverageWindows':list(coverage_windows.values()),'hourlyWindows':player_windows[pid],'hourly':rows,'badges':[]}
         (monthly_dir/f'{pid}.json').write_text(json.dumps(profile,ensure_ascii=False,separators=(',',':')),encoding='utf-8')
     # Stable, reusable badge records. The active calendar month never awards a badge.
     badge_map=defaultdict(list)
     current_id=date.today().strftime('%Y-%m')
-    for badge_month in (p for p in months if p.name < current_id):
-        badge_csv=badge_month/'assets.csv'
-        if not badge_csv.exists(): badge_csv=badge_month/'leaderboard.csv'
-        if not badge_csv.exists(): continue
-        with badge_csv.open(encoding='utf-8-sig',newline='') as f: badge_rows=list(csv.DictReader(f))[:10]
-        for row in badge_rows:
-            record={'month':badge_month.name,'monthLabel':datetime.strptime(badge_month.name,'%Y-%m').strftime('%B %Y'),'rank':number(row.get('rank'),as_int=True),'wins':number(row.get('monthly_wins',row.get('wins')),as_int=True)}
-            badge_map[row['player_id']].append(record)
+    for pid,record in historical_badge_rows(tools_root,current_id): badge_map[pid].append(record)
     (out/'badges.json').write_text(json.dumps(badge_map,ensure_ascii=False,separators=(',',':')),encoding='utf-8')
     for profile_path in monthly_dir.glob('*.json'):
         doc=json.loads(profile_path.read_text(encoding='utf-8')); doc['badges']=sorted(badge_map.get(doc['id'],[]),key=lambda x:x['month'],reverse=True)

@@ -53,4 +53,18 @@ class SiteDataTests(unittest.TestCase):
         self.assertTrue(badges)
         self.assertTrue(all(badge['month']<'2026-08' for rows in badges.values() for badge in rows))
         self.assertTrue(all({'month','monthLabel','rank','wins'}<=badge.keys() for rows in badges.values() for badge in rows))
+    def test_july_top_ten_all_have_exact_badges(self):
+        root=ROOT/'docs/data/months/2026-07'
+        data=json.loads((root/'biggest-winners.json').read_text(encoding='utf-8'))
+        for expected in data['players'][:10]:
+            profile=json.loads((root/'monthly-profiles'/f"{expected['id']}.json").read_text(encoding='utf-8'))
+            badge=next((item for item in profile['badges'] if item['month']=='2026-07'),None)
+            self.assertIsNotNone(badge,expected['name'])
+            self.assertEqual((badge['rank'],badge['wins']),(expected['rank'],expected['wins']))
+            self.assertFalse(badge['estimated'])
+    def test_july_has_pr_and_visual_assets(self):
+        data=json.loads((ROOT/'docs/data/months/2026-07/biggest-winners.json').read_text(encoding='utf-8'))
+        self.assertTrue(all(player['performanceRate'] is not None for player in data['players']))
+        for player in data['players']:
+            self.assertTrue((ROOT/'docs/assets/goobers'/f"{player['id']}.png").exists())
 if __name__=='__main__': unittest.main()

@@ -14,15 +14,23 @@ jobs:
         with:
           repository: GrosserSpino/goober-dash-tools
           path: tools
+      - uses: actions/checkout@v4
+        with:
+          repository: GrosserSpino/goober-race-generator
+          path: generator
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Install visual renderer dependencies
+        run: pip install -r generator/requirements.txt
       - name: Export site data
         run: python scripts/build_site_data.py --tools-root tools
+      - name: Render changed website visuals
+        run: python scripts/build_visual_assets.py --tools-root tools --generator-root generator --output docs/assets
       - name: Commit changed data
         run: |
           git config user.name "gooberstats-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add docs/data
+          git add docs/data docs/assets
           git diff --cached --quiet || git commit -m "Update GooberStats data"
           git push

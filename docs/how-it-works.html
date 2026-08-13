@@ -33,9 +33,25 @@
     </section>
 
     <section class="score-example">
-      <div><p class="eyebrow">A SIMPLE EXAMPLE</p><h2>A harder win is worth more</h2></div>
-      <div class="win-math"><span><b>1</b> win</span><i>×</i><span><b>+20%</b> Lobby Bonus</span><i>=</i><span class="result"><b>1.20</b> boosted wins</span></div>
-      <p>Playing more does not automatically improve your score. You still need to win.</p>
+      <div><p class="eyebrow">A SIMPLE EXAMPLE</p><h2>Same score. Different hours.</h2></div>
+      <div class="hour-score-comparison">
+        <article class="hour-score-card easy-hour">
+          <h3>Easy Hour</h3>
+          <time data-local-hour="2026-08-10T02:00:00Z">04:00–05:00 local time</time>
+          <p><strong>7 wins</strong> ÷ 10 games = <b>70% WR</b></p>
+          <p><b>70% WR</b> × 1.00 = <strong>700</strong></p>
+          <span>Performance Score</span>
+        </article>
+        <div class="equal-score" aria-label="equals">=</div>
+        <article class="hour-score-card hard-hour">
+          <h3>Hard Hour</h3>
+          <time data-local-hour="2026-08-10T18:00:00Z">20:00–21:00 local time</time>
+          <p><strong>5 wins</strong> ÷ 10 games = <b>50% WR</b></p>
+          <p><b>50% WR</b> × 1.40 = <strong>700</strong></p>
+          <span>Performance Score</span>
+        </article>
+      </div>
+      <p>A 50% winrate during a hard hour can be worth the same as a 70% winrate during an easy hour. Times are shown in your local timezone.</p>
     </section>
 
     <section class="explain-panel hour-panel">

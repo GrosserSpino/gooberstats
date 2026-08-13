@@ -187,7 +187,7 @@ def build_method_data_v2(tools_root: Path, window_difficulty: dict, output_path:
             pid=(row.get('id') or row.get('player_id') or '').strip(); games=number(row.get('games'),as_int=True); wins=number(row.get('wins'),as_int=True)
             if not pid: continue
             leaders.append((wins,games,pid))
-            if start>=cutoff and games>0: window_players.append({'id':pid,'games':games})
+            if start>=cutoff and games>0: window_players.append({'id':pid,'games':games,'wins':wins})
         if start>=cutoff:
             observed_games=number(info.get('games'),as_int=True) or sum(p['games'] for p in window_players)
             hour_windows.append({'timestamp':start.astimezone(timezone.utc).isoformat().replace('+00:00','Z'),'games':observed_games,'lobbyFactor':round(1+number(info.get('lobbyBonus'))/100,4),'players':window_players})

@@ -121,6 +121,66 @@
   font-weight: 900;
 }
 
+.factor-chart {
+  max-width: 1000px;
+  margin: 24px auto 4px;
+}
+
+.factor-chart svg {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+.factor-line {
+  fill: none;
+  stroke: url(#factorStroke);
+  stroke-width: 7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 7px rgba(255, 126, 74, .35));
+}
+
+.selected-hour {
+  fill: rgba(255, 180, 93, .13);
+  stroke: rgba(255, 180, 93, .5);
+  stroke-width: 2;
+}
+
+.factor-point {
+  fill: #fff;
+  stroke: #ff9e52;
+  stroke-width: 6;
+}
+
+.factor-value {
+  fill: #ffcf70;
+  font-size: 25px;
+  font-weight: 950;
+  text-anchor: middle;
+}
+
+.factor-hour {
+  fill: #9fb1a6;
+  font-size: 14px;
+  text-anchor: middle;
+}
+
+.strongest-label {
+  margin: 8px 0 18px;
+  text-align: center;
+  color: #fff !important;
+  font-weight: 950;
+}
+
+.strongest-label small {
+  display: block;
+  margin-top: 4px;
+  color: #aebca7;
+  font-weight: 800;
+  text-transform: none;
+}
+
 .average-factor strong {
   color: #ffb45d;
   font-size: 36px;

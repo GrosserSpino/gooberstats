@@ -62,8 +62,9 @@ def main():
         hourly={hour:{} for hour in range(24)}
         for window in method.get('hourWindows',[]):
             hour=datetime.fromisoformat(window['timestamp'].replace('Z','+00:00')).hour
-            for p in window.get('players',[]): hourly[hour][p['id']]=hourly[hour].get(p['id'],0)+p['games']
-        method_ids={pid for totals in hourly.values() for pid,_ in sorted(totals.items(),key=lambda item:(-item[1],item[0]))[:5]}
+            for p in window.get('players',[]):
+                stats=hourly[hour].setdefault(p['id'],{'games':0,'wins':0}); stats['games']+=p['games']; stats['wins']+=p.get('wins',0)
+        method_ids={pid for totals in hourly.values() for pid,stats in sorted(((pid,s) for pid,s in totals.items() if s['games']>=20),key=lambda item:(-item[1]['wins']/item[1]['games'],-item[1]['games'],item[0]))[:5]}
     except (FileNotFoundError,json.JSONDecodeError,KeyError): method_ids=set()
     snapshots=sorted((tools_root/'daily_snapshots').glob('*.csv'))
     if snapshots and method_ids:

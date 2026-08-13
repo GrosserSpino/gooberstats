@@ -1,9 +1,5 @@
 {
   "flags": {
-    "AR": [
-      96,
-      96
-    ],
     "AU": [
       96,
       96
@@ -12,11 +8,11 @@
       96,
       96
     ],
-    "CL": [
+    "DE": [
       96,
       96
     ],
-    "DE": [
+    "FR": [
       96,
       96
     ],
@@ -24,7 +20,11 @@
       96,
       96
     ],
-    "HU": [
+    "HK": [
+      96,
+      96
+    ],
+    "JM": [
       96,
       96
     ],
@@ -32,11 +32,11 @@
       96,
       96
     ],
-    "NL": [
+    "LV": [
       96,
       96
     ],
-    "NZ": [
+    "NL": [
       96,
       96
     ],
@@ -48,15 +48,15 @@
       96,
       96
     ],
-    "RU": [
+    "PT": [
       96,
       96
     ],
-    "SE": [
+    "SN": [
       96,
       96
     ],
-    "TH": [
+    "TW": [
       96,
       96
     ],
@@ -67,15 +67,13 @@
     "VN": [
       96,
       96
+    ],
+    "ZA": [
+      96,
+      96
     ]
   },
   "goobers": {
-    "0031bfa8-220a-49b2-9a5b-146ead5dbaa2": [
-      "hat_robot",
-      "suit_sherlock",
-      "hand_staff",
-      "color_dots_pink_cyan"
-    ],
     "076f8dad-6016-4224-af2c-ad2c182c1a15": [
       "hat_scientist",
       "suit_painter",
@@ -100,12 +98,6 @@
       "hand_staff",
       "color_red"
     ],
-    "0b78971a-ed64-48cf-9165-ee054d6a502f": [
-      "hat_default",
-      "suit_fairy",
-      "hand_fairy",
-      "color_stripes_cyan_pink"
-    ],
     "0cd0b31e-110c-4a73-924a-213f3acd24d0": [
       "hat_unicorn",
       "suit_dark_knight",
@@ -117,6 +109,12 @@
       "suit_royalrobes",
       "hand_pickaxe",
       "color_dots_purple_gold"
+    ],
+    "10bcc0e5-9e18-407c-bbb2-79a4487494d7": [
+      "hat_default",
+      "suit_default",
+      "hand_banana",
+      "color_yellow"
     ],
     "144aeeba-e524-4f20-8244-651fe0338eba": [
       "hat_alien",
@@ -136,6 +134,12 @@
       "hand_lollipop",
       "color_pink"
     ],
+    "1895d4a7-da17-46cd-a613-fe8a9a633bdf": [
+      "hat_chicken",
+      "suit_space",
+      "hand_maracas",
+      "color_stripes_purple_teal"
+    ],
     "1f31589a-ff67-4788-9af4-4f877c4b45e1": [
       "hat_headband",
       "suit_scientist",
@@ -154,23 +158,11 @@
       "hand_scythe",
       "color_red"
     ],
-    "2647909c-130b-43c2-8d11-c9da1b6f4bad": [
-      "hat_hockey",
-      "suit_hockey",
-      "hand_hockeystick",
-      "color_stripes_lemon_lime"
-    ],
     "29eeb03c-d3f1-42fc-b6cb-a75aa1280883": [
       "hat_dark_knight",
       "suit_dark_knight",
       "hand_pirate",
       "color_red"
-    ],
-    "2dcaa1a4-9bf4-43a0-a3f7-4a70e17e31f5": [
-      "hat_pharaoh",
-      "suit_baby",
-      "hand_sceptre",
-      "color_stripes_lime_lemon"
     ],
     "2e985ef5-6666-4443-9809-202427c67ada": [
       "hat_chef",
@@ -208,6 +200,12 @@
       "hand_plunger",
       "color_yellow"
     ],
+    "36d8091a-ec6b-43d3-aa45-a5acb338be15": [
+      "hat_skullhood",
+      "suit_fairy",
+      "hand_scythe",
+      "color_skelly"
+    ],
     "373126e2-e473-4082-92c2-b4c6f648bc5b": [
       "hat_crown",
       "suit_royalrobes",
@@ -238,23 +236,11 @@
       "hand_lollipop",
       "color_dots_cyan_pink"
     ],
-    "434ea245-6505-47b9-91db-434f987a8ee9": [
-      "hat_headband",
-      "suit_banana",
-      "hand_default",
-      "color_yellow"
-    ],
-    "454f0133-869b-4636-9e0b-7921403120cb": [
-      "hat_headband",
-      "suit_default",
-      "hand_sai",
-      "color_navy"
-    ],
-    "49bc7614-b0dd-445f-a3f9-f2b97adc573a": [
-      "hat_pompadour",
-      "suit_jumpsuit",
-      "hand_rose",
-      "color_beige"
+    "4968120a-02ae-46b5-8f08-be545953801d": [
+      "hat_crown",
+      "suit_cloak",
+      "hand_scythe",
+      "color_skelly"
     ],
     "50feb3f8-8879-4956-9bd6-2647fecb164f": [
       "hat_flower",
@@ -262,17 +248,11 @@
       "hand_scientist",
       "color_dots_lemon_lime"
     ],
-    "573a037b-9782-4dea-a3f3-33102072c0ff": [
-      "hat_antennae",
-      "suit_fairy",
-      "hand_fairy",
-      "color_pink_cyan"
-    ],
-    "5a8ca4e8-998e-4ef5-a891-de61408c0c70": [
-      "hat_default",
-      "suit_fairy",
-      "hand_light_knight",
-      "color_default"
+    "5d3f7a3f-8656-4e41-817c-84f8071f1557": [
+      "hat_angel",
+      "suit_angel",
+      "hand_scythe",
+      "color_skelly"
     ],
     "5df2f5d2-eb61-42f1-8dd3-ec3921827a55": [
       "hat_scientist",
@@ -292,23 +272,11 @@
       "hand_pickaxe",
       "color_red_bone"
     ],
-    "65417f08-8697-4adf-aff8-e86b985c4b04": [
-      "hat_robot",
-      "suit_space",
-      "hand_briefcase",
-      "color_green"
-    ],
-    "6c0d8038-e691-4688-be8b-cb5aab111262": [
-      "hat_hardhat",
-      "suit_construction",
-      "hand_plunger",
-      "color_stripes_blue_pink"
-    ],
-    "6fe2468d-2f1b-4f8d-b8d2-ae981df33e7d": [
-      "hat_sherlock",
-      "suit_sherlock",
-      "hand_magnifier",
-      "color_red_yellow"
+    "6be24c24-10cd-46cd-8f92-e3b529942a72": [
+      "hat_dog",
+      "suit_frank",
+      "hand_bamboo",
+      "color_brown"
     ],
     "723a4f65-fb92-4fdc-b8e3-0d552eaf7450": [
       "hat_crown",
@@ -322,29 +290,11 @@
       "hand_light_knight",
       "color_stripes_lemon_lime"
     ],
-    "72f31282-020a-41a6-a167-772faaaa405f": [
-      "hat_fairy",
-      "suit_fairy",
-      "hand_fairy",
-      "color_default"
-    ],
     "7341ce78-2973-49c5-b667-25f4dd99b2a3": [
       "hat_chef",
       "suit_default",
       "hand_sceptre",
       "color_pink_cyan"
-    ],
-    "73edd201-5222-42f6-9ae0-5cc3d9af0bed": [
-      "hat_scuba",
-      "suit_default",
-      "hand_maracas",
-      "color_stripes_cyan_yellow"
-    ],
-    "73fbe20c-62e3-48b6-8570-24c5fea93481": [
-      "hat_robot",
-      "suit_robot",
-      "hand_light_knight",
-      "color_purple_teal"
     ],
     "76cfeb2a-b005-4d2b-811d-7e1c696c42ff": [
       "hat_default",
@@ -357,12 +307,6 @@
       "suit_royalrobes",
       "hand_sai",
       "color_dots_indigo_green"
-    ],
-    "7ad28cf9-b19e-41b2-a680-edec16188e96": [
-      "hat_antennae",
-      "suit_poncho",
-      "hand_pirate",
-      "color_white"
     ],
     "7f9acfd0-aa6e-4953-bb42-f0148fcedf6d": [
       "hat_default",
@@ -382,12 +326,6 @@
       "hand_scientist",
       "color_dots_lime_lemon"
     ],
-    "9057b45b-b534-4ed0-8669-7c49283d2134": [
-      "hat_headband",
-      "suit_default",
-      "hand_pirate",
-      "color_stripes_lime_lemon"
-    ],
     "9148ee77-b5a6-4a89-a33c-6820e106a507": [
       "hat_scientist",
       "suit_baby",
@@ -399,6 +337,12 @@
       "suit_default",
       "hand_carrot",
       "color_dots_lime_lemon"
+    ],
+    "923afcd9-a8ff-4fc8-8665-80b44e7aacd7": [
+      "hat_robot",
+      "suit_angel",
+      "hand_pickaxe",
+      "color_yellow_bone"
     ],
     "995e395e-841d-4ff3-87e8-0084084ee237": [
       "hat_pirate",
@@ -412,23 +356,23 @@
       "hand_stick",
       "color_dots_indigo_green"
     ],
+    "9ad09416-c22b-4e01-bc1a-d41922eee84e": [
+      "hat_headband",
+      "suit_cowboy",
+      "hand_pirate",
+      "color_purple_teal"
+    ],
     "9bf02918-02f7-4c91-a4cf-6705e1b92e63": [
       "hat_perm",
       "suit_sherlock",
       "hand_banana",
       "color_dots_lime_lemon"
     ],
-    "9c86b941-3126-4851-9f2e-5f647169fd2c": [
-      "hat_lumberjack",
-      "suit_fairy",
-      "hand_woodaxe",
-      "color_cyan_pink"
-    ],
-    "9ce6d67a-9851-47cf-b8b8-b240f296342b": [
-      "hat_cat",
-      "suit_cat",
+    "9caa6046-50ed-4513-99bc-173013ae7e03": [
+      "hat_default",
+      "suit_default",
       "hand_default",
-      "color_beige"
+      "color_yellow"
     ],
     "a285b7b7-d4f7-4b13-98dc-45ad89b36e5b": [
       "hat_polar",
@@ -460,11 +404,11 @@
       "hand_sai",
       "color_yellow"
     ],
-    "a8a89498-3e55-4834-8b1e-cb0fdf6d9b3c": [
-      "hat_police",
-      "suit_cowboy",
-      "hand_light_knight",
-      "color_cyan_yellow"
+    "aa4cb8fb-8bef-4602-8f99-74ea63f2c6b0": [
+      "hat_flower",
+      "suit_default",
+      "hand_default",
+      "color_green"
     ],
     "ab3d4a40-5685-4374-9714-66e0790e3971": [
       "hat_robot",
@@ -472,35 +416,11 @@
       "hand_sai",
       "color_stripes_purple_gold"
     ],
-    "ac1b924d-fc19-4f53-b2c5-80f0c2a6a474": [
-      "hat_police",
-      "suit_dark_knight",
-      "hand_bamboo",
-      "color_pink_cyan"
-    ],
     "ac956403-96ee-4025-a3c6-0c0a84480cca": [
       "hat_bunny",
       "suit_bunny",
       "hand_carrot",
       "color_stripes_purple_teal"
-    ],
-    "af41335a-0739-4538-9da5-97de5dc218f0": [
-      "hat_pirate",
-      "suit_baby",
-      "hand_rose",
-      "color_stripes_purple_teal"
-    ],
-    "b2c5834f-4aa4-4a77-b3ee-c23610389489": [
-      "hat_fairy",
-      "suit_scuba",
-      "hand_rose",
-      "color_stripes_lime_lemon"
-    ],
-    "b2cba1cb-2020-412e-9441-c7ef7153ee84": [
-      "hat_robot",
-      "suit_space",
-      "hand_briefcase",
-      "color_red"
     ],
     "b36f404b-c5f0-40b8-b70e-ef45cf916817": [
       "hat_flyhead",
@@ -531,18 +451,6 @@
       "suit_jumpsuit",
       "hand_carrot",
       "color_dots_lime_lemon"
-    ],
-    "c71d394e-3f51-4626-8c0e-a03c9268f0e5": [
-      "hat_scuba",
-      "suit_scuba",
-      "hand_magnifier",
-      "color_yellow_pink"
-    ],
-    "c9169f9d-67d8-4f50-bd19-2959c9106611": [
-      "hat_firefighter",
-      "suit_default",
-      "hand_woodaxe",
-      "color_beige"
     ],
     "caf37944-81c9-44d9-96d1-9fecc98d7b37": [
       "hat_aviator",
@@ -580,12 +488,6 @@
       "hand_yarn",
       "color_green"
     ],
-    "d431784a-ce7a-41bc-ba49-37cfe784b3af": [
-      "hat_cowboyhat",
-      "suit_scuba",
-      "hand_default",
-      "color_white"
-    ],
     "d793923a-3a7e-418c-89d8-96fc6342aec7": [
       "hat_lumberjack",
       "suit_apron",
@@ -603,12 +505,6 @@
       "suit_default",
       "hand_hockeystick",
       "color_purple_teal"
-    ],
-    "dc869076-88f8-425e-97a1-794602969b4f": [
-      "hat_moustache",
-      "suit_sherlock",
-      "hand_fairy",
-      "color_yellow_pink"
     ],
     "e2306b13-9a4a-4800-9b46-dceeae77608d": [
       "hat_cowboyhat",
@@ -646,12 +542,6 @@
       "hand_plunger",
       "color_red"
     ],
-    "e666061b-6c0b-42cb-b709-c8578f6fe51c": [
-      "hat_glasses",
-      "suit_default",
-      "hand_default",
-      "color_dots_indigo_green"
-    ],
     "ec7cac36-b473-4510-bc77-b4cd5d809c0a": [
       "hat_flower",
       "suit_polar",
@@ -675,12 +565,6 @@
       "suit_angel",
       "hand_viking",
       "color_yellow_bone"
-    ],
-    "f3b12d81-bbf4-49d4-939b-54bdb45c8912": [
-      "hat_police",
-      "suit_police",
-      "hand_default",
-      "color_navy"
     ],
     "f723fc8c-d3e4-4646-bbf7-6ffa723ffc25": [
       "hat_glasses",

@@ -15,6 +15,15 @@ def crop(image):
     box=image.getbbox()
     return image.crop(box) if box else image
 
+def normalize_goober(image):
+    """Keep the generator's shared foot baseline instead of scaling by accessories."""
+    viewport_height=min(460,image.height)
+    viewport=image.crop((0,0,image.width,viewport_height))
+    viewport.thumbnail((360,360),Image.Resampling.LANCZOS)
+    canvas=Image.new('RGBA',(360,360),(0,0,0,0))
+    canvas.alpha_composite(viewport,((360-viewport.width)//2,360-viewport.height))
+    return canvas
+
 def render_race_text(font_path,text,max_width):
     size=100
     measure=ImageDraw.Draw(Image.new('RGBA',(10,10),(0,0,0,0)))
@@ -74,9 +83,10 @@ def main():
                 if pid in method_ids: players[pid]=row
     for pid,row in players.items():
         signature=[row.get('hat',''),row.get('suit',''),row.get('hand',''),row.get('color','')]
-        target=goober_dir/f'{pid}.png'; manifest['goobers'][pid]=signature
-        if old_manifest.get('goobers',{}).get(pid)==signature and target.exists(): continue
-        image=crop(race.generate_goober(*signature)); image.thumbnail((360,360),Image.Resampling.LANCZOS); image.save(target,optimize=True); rendered_goobers+=1
+        cache_signature=signature+['fixed-foot-baseline-v1']
+        target=goober_dir/f'{pid}.png'; manifest['goobers'][pid]=cache_signature
+        if old_manifest.get('goobers',{}).get(pid)==cache_signature and target.exists(): continue
+        normalize_goober(race.generate_goober(*signature)).save(target,optimize=True); rendered_goobers+=1
     countries={row.get('country','').upper() for row in players.values() if row.get('country')}
     for country in countries:
         target=flag_dir/f'{country}.png'; manifest['flags'][country]=[96,96]

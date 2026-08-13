@@ -158,6 +158,58 @@ def build_method_data(tools_root: Path, window_difficulty: dict, output_path: Pa
     doc={'generatedAt':datetime.now(timezone.utc).isoformat(timespec='seconds'),'coveragePct':coverage,'examples':examples,'hourTop':hour_top}
     output_path.write_text(json.dumps(doc,ensure_ascii=False,separators=(',',':')),encoding='utf-8')
 
+def build_method_data_v2(tools_root: Path, window_difficulty: dict, output_path: Path):
+    """Build examples plus raw rolling windows for precise local-time grouping."""
+    snapshots=sorted((tools_root/'daily_snapshots').glob('*.csv'))
+    latest={}
+    if snapshots:
+        with snapshots[-1].open(encoding='utf-8-sig',newline='') as f:
+            latest={row.get('player_id',row.get('id','')):row for row in csv.DictReader(f)}
+    countries={}
+    for asset in sorted((tools_root/'Leaderboards Monthly Top100').glob('????-??/assets.csv')):
+        with asset.open(encoding='utf-8-sig',newline='') as f:
+            for row in csv.DictReader(f):
+                pid=row.get('player_id') or row.get('id'); country=row.get('country','')
+                if pid and country: countries[pid]=country
+    dated=[]; clean_times=[]
+    for delta in sorted((tools_root/'hourly_deltas').glob('????-??-??/*.csv')):
+        key=str(delta.relative_to(tools_root)).replace('\\','/'); info=window_difficulty.get(key)
+        if not info: continue
+        try: start=datetime.fromisoformat(info['windowStart'])
+        except (KeyError,ValueError): continue
+        dated.append((delta,info,start)); clean_times.append(start)
+    newest=max(clean_times,default=datetime.now(timezone.utc)); cutoff=newest-timedelta(days=30)
+    hour_windows=[]; exact_noon={}
+    for delta,info,start in dated:
+        with delta.open(encoding='utf-8-sig',newline='') as f: rows=list(csv.DictReader(f))
+        leaders=[]; window_players=[]
+        for row in rows:
+            pid=(row.get('id') or row.get('player_id') or '').strip(); games=number(row.get('games'),as_int=True); wins=number(row.get('wins'),as_int=True)
+            if not pid: continue
+            leaders.append((wins,games,pid))
+            if start>=cutoff and games>0: window_players.append({'id':pid,'games':games})
+        if start>=cutoff:
+            observed_games=number(info.get('games'),as_int=True) or sum(p['games'] for p in window_players)
+            hour_windows.append({'timestamp':start.astimezone(timezone.utc).isoformat().replace('+00:00','Z'),'games':observed_games,'lobbyFactor':round(1+number(info.get('lobbyBonus'))/100,4),'players':window_players})
+        if start.hour==12: exact_noon[start.date().isoformat()]={'start':start,'info':info,'leaders':leaders}
+    def player(pid,wins,games):
+        row=latest.get(pid,{})
+        return {'id':pid,'name':row.get('display_name') or row.get('username') or pid[:8],'country':row.get('country',''),'wins':wins,'games':games,'winrate':round(wins/games*100,1) if games else 0}
+    examples=[]
+    for day in sorted(exact_noon):
+        start=exact_noon[day]['start']; monday=(start.date()+timedelta(days=1)).isoformat()
+        if start.weekday()!=6 or monday not in exact_noon: continue
+        examples=[]
+        for date_id,label in ((day,'Sunday'),(monday,'Monday')):
+            item=exact_noon[date_id]; top=sorted(item['leaders'],reverse=True)[:3]
+            examples.append({'day':label,'date':date_id,'time':'12:00–13:00','lobbyBonus':round(item['info']['lobbyBonus'],1),'players':number(item['info'].get('players'),as_int=True),'games':number(item['info'].get('games'),as_int=True),'topPlayers':[player(pid,w,g) for w,g,pid in top]})
+    current_players={pid:{'id':pid,'name':row.get('display_name') or row.get('username') or pid[:8],'country':countries.get(pid,row.get('country',''))} for pid,row in latest.items()}
+    coverage=0
+    if clean_times:
+        possible=max(1,int((max(clean_times)-min(clean_times)).total_seconds()/3600)+1); coverage=round(100*len(set(clean_times))/possible)
+    doc={'generatedAt':datetime.now(timezone.utc).isoformat(timespec='seconds'),'coveragePct':coverage,'periodDays':30,'players':current_players,'hourWindows':hour_windows,'examples':examples}
+    output_path.write_text(json.dumps(doc,ensure_ascii=False,separators=(',',':')),encoding='utf-8')
+
 def main():
     ap=argparse.ArgumentParser()
     ap.add_argument('--tools-root',type=Path,required=True)
@@ -191,7 +243,7 @@ def main():
     if window_path.exists():
         with window_path.open(encoding='utf-8-sig',newline='') as f:
             window_difficulty={row['delta_file'].replace('\\','/'):{'lobbyBonus':number(row.get('lobby_bonus')),'confidence':row.get('confidence',''),'windowEffect':number(row.get('smoothed_window_effect')),'windowStart':row.get('window_start',''),'players':row.get('players',''),'games':row.get('games','')} for row in csv.DictReader(f)}
-    build_method_data(tools_root,window_difficulty,out/'method.json')
+    build_method_data_v2(tools_root,window_difficulty,out/'method.json')
     difficulties={h:0.0 for h in range(24)}
     difficulty_path=tools_root/'Hourly Difficulty'/'global.json'
     if difficulty_path.exists():

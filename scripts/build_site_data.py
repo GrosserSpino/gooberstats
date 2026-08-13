@@ -56,7 +56,9 @@ def historical_badge_rows(tools_root: Path, current_id: str, output_dir: Path):
         if not path.exists(): path=folder/'leaderboard.csv'
         if not path.exists(): continue
         with path.open(encoding='utf-8-sig',newline='') as f: source_rows=list(csv.DictReader(f))[:50]
-        end=source_rows[0].get('source_snapshot','').split('/')[-1].removesuffix('.csv') if source_rows else f'{month_id}-01'
+        snapshot_end=source_rows[0].get('source_snapshot','').split('/')[-1].removesuffix('.csv') if source_rows else f'{month_id}-01'
+        next_month=(datetime.strptime(f'{month_id}-01','%Y-%m-%d')+timedelta(days=32)).replace(day=1).date()
+        end=min(snapshot_end,(next_month-timedelta(days=1)).isoformat())
         rows=[{'player_id':r['player_id'],'name':r.get('display_name',''),'wins':r.get('monthly_wins',r.get('wins')),'games':r.get('monthly_games',r.get('games'))} for r in source_rows]
         save_leaderboard(month_id,f'{month_id}-01',end,rows,False,str(path.relative_to(tools_root)).replace('\\','/'))
         authoritative.add(month_id)
@@ -124,10 +126,16 @@ def main():
     for r in rows:
         pid=r['player_id']; name=r['display_name']
         aka=[x for x in aliases[pid] if x.casefold()!=name.casefold()]
-        players.append({'rank':int(r['rank']),'id':pid,'name':name,'aliases':aka,'country':r.get('country',''),'wins':number(r.get('monthly_wins',r.get('wins')),as_int=True),'games':number(r.get('monthly_games',r.get('games')),as_int=True),'deaths':number(r.get('monthly_deaths'),as_int=True),'winrate':number(r.get('monthly_winrate',r.get('winrate'))),'deathrate':number(r.get('monthly_deathrate')),'performanceRate':number(r.get('skillrate'),default=None),'performanceGames':number(r.get('skill_games'),as_int=True),'alltime':{'level':number(r.get('level'),default=None,as_int=True),'games':number(r.get('total_games'),default=None,as_int=True),'wins':number(r.get('total_wins'),default=None,as_int=True),'deaths':number(r.get('total_deaths'),default=None,as_int=True),'winstreak':None},'cosmetics':{key:r.get(key,'') for key in ('hat','suit','body','hand','color')}})
+        monthly_wr=number(r.get('monthly_winrate',r.get('winrate')))
+        players.append({'rank':int(r['rank']),'id':pid,'name':name,'aliases':aka,'country':r.get('country',''),'wins':number(r.get('monthly_wins',r.get('wins')),as_int=True),'games':number(r.get('monthly_games',r.get('games')),as_int=True),'deaths':number(r.get('monthly_deaths'),as_int=True),'winrate':monthly_wr,'monthlyWinrate':monthly_wr,'cleanWinrate':number(r.get('clean_winrate'),default=None),'expectedWinrate':number(r.get('expected_winrate'),default=None),'lobbyBonus':number(r.get('lobby_bonus'),default=None),'performanceScore':number(r.get('performance_score'),default=None),'deathrate':number(r.get('monthly_deathrate')),'ratedGames':number(r.get('skill_games'),as_int=True),'alltime':{'level':number(r.get('level'),default=None,as_int=True),'games':number(r.get('total_games'),default=None,as_int=True),'wins':number(r.get('total_wins'),default=None,as_int=True),'deaths':number(r.get('total_deaths'),default=None,as_int=True),'winstreak':None},'cosmetics':{key:r.get(key,'') for key in ('hat','suit','body','hand','color')}})
     label=datetime.strptime(month.name,'%Y-%m').strftime('%B %Y')
     payload={'generatedAt':datetime.now(timezone.utc).isoformat(timespec='seconds'),'month':month.name,'monthLabel':label,'current':month.name==date.today().strftime('%Y-%m'),'source':str(csv_path.relative_to(tools_root)).replace('\\','/'),'players':players}
     top_ids={p['id'] for p in players}
+    window_difficulty={}
+    window_path=tools_root/'output'/'window_lobby_difficulty.csv'
+    if window_path.exists():
+        with window_path.open(encoding='utf-8-sig',newline='') as f:
+            window_difficulty={row['delta_file'].replace('\\','/'):{'lobbyBonus':number(row.get('lobby_bonus')),'confidence':row.get('confidence',''),'windowEffect':number(row.get('smoothed_window_effect'))} for row in csv.DictReader(f)}
     difficulties={h:0.0 for h in range(24)}
     difficulty_path=tools_root/'Hourly Difficulty'/'global.json'
     if difficulty_path.exists():
@@ -156,7 +164,10 @@ def main():
             if not (50<=minutes<=70 and start_dt.minute<=15 and end_dt.minute<=20): continue
             hour=start_dt.hour; coverage_dates.add(day_dir.name); coverage_by_hour[hour].add(day_dir.name)
             timestamp=start_dt.replace(tzinfo=BERLIN).astimezone(timezone.utc).isoformat().replace('+00:00','Z')
-            coverage_windows[timestamp]={'timestamp':timestamp,'difficulty':round(difficulties[hour],1)}
+            delta_key=str(delta.relative_to(tools_root)).replace('\\','/')
+            window_info=window_difficulty.get(delta_key,{})
+            lobby_bonus=window_info.get('lobbyBonus',0)
+            coverage_windows[timestamp]={'timestamp':timestamp,'difficulty':round(difficulties[hour],1),'lobbyBonus':round(lobby_bonus,2),'confidence':window_info.get('confidence','')}
             for row in delta_rows:
                 pid=(row.get('id') or row.get('player_id') or '').strip()
                 if pid not in top_ids: continue
@@ -164,7 +175,7 @@ def main():
                 hourly[pid][hour]['games']+=games; hourly[pid][hour]['wins']+=wins
                 hourly[pid][hour]['dates'].add(day_dir.name)
                 if games>0:
-                    player_windows[pid].append({'timestamp':timestamp,'games':games,'wins':wins,'difficulty':round(difficulties[hour],1)})
+                    player_windows[pid].append({'timestamp':timestamp,'games':games,'wins':wins,'difficulty':round(difficulties[hour],1),'lobbyBonus':round(lobby_bonus,2)})
                     top50_windows[timestamp]['games']+=games
                     top50_windows[timestamp]['wins']+=wins
     monthly_dir=out/'monthly-profiles'; monthly_dir.mkdir(exist_ok=True)
@@ -188,15 +199,11 @@ def main():
     payload['top50Windows']=[{'timestamp':timestamp,**values} for timestamp,values in sorted(top50_windows.items())]
     (out/'biggest-winners.json').write_text(json.dumps(payload,ensure_ascii=False,separators=(',',':')),encoding='utf-8')
     for player in players:
-        pid=player['id']; rows=[]; adjusted_wins=0.0; performance_games=0
+        pid=player['id']; rows=[]
         for hour in range(24):
             item=hourly[pid][hour]; games=item['games']; wins=item['wins']; days=len(coverage_by_hour[hour])
-            factor=1+difficulties[hour]/100
-            if games>0 and factor>0: adjusted_wins+=wins/factor; performance_games+=games
             rows.append({'hour':hour,'games':games,'wins':wins,'winrate':round(wins/games*100,2) if games else None,'gamesPerCoveredDay':round(games/days,3) if days else 0,'difficulty':round(difficulties[hour],1),'coveredDays':days})
-        lobby_factor=round(player['performanceRate']/player['winrate'],3) if player['performanceRate'] is not None and player['winrate'] else None
-        calculated_pr=round(adjusted_wins/performance_games*100,2) if performance_games else None
-        profile={**player,'month':month.name,'monthLabel':label,'sourceTimeZone':'Europe/Berlin','activityScaleMax':activity_scale_max,'performanceScaleMin':performance_scale_min,'performanceScaleMax':performance_scale_max,'difficultyScaleMin':-30,'difficultyScaleMax':30,'monthlyWinrateValue':round(player['wins']/player['games']*100,2) if player['games'] else 0,'lobbyDifficulty':lobby_factor,'performanceRate':player['performanceRate'] if player['performanceRate'] is not None else calculated_pr,'hourlyPerformanceRate':calculated_pr,'performanceGames':performance_games or player['performanceGames'],'hourlyCoverageStart':min(coverage_dates) if coverage_dates else None,'hourlyCoverageEnd':max(coverage_dates) if coverage_dates else None,'coverageWindows':list(coverage_windows.values()),'hourlyWindows':player_windows[pid],'hourly':rows,'badges':[]}
+        profile={**player,'month':month.name,'monthLabel':label,'sourceTimeZone':'Europe/Berlin','activityScaleMax':activity_scale_max,'performanceScaleMin':performance_scale_min,'performanceScaleMax':performance_scale_max,'monthlyWinrateValue':player['monthlyWinrate'],'cleanGames':sum(window['games'] for window in player_windows[pid]),'hourlyCoverageStart':min(coverage_dates) if coverage_dates else None,'hourlyCoverageEnd':max(coverage_dates) if coverage_dates else None,'coverageWindows':list(coverage_windows.values()),'hourlyWindows':player_windows[pid],'hourly':rows,'badges':[]}
         (monthly_dir/f'{pid}.json').write_text(json.dumps(profile,ensure_ascii=False,separators=(',',':')),encoding='utf-8')
     # Stable, reusable badge records. The active calendar month never awards a badge.
     badge_map=defaultdict(list)

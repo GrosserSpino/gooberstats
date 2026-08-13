@@ -19,7 +19,9 @@ class SiteDataTests(unittest.TestCase):
         self.assertEqual(data['players'][0]['name'],'Davi cardoso')
         self.assertGreater(data['players'][0]['wins'],0)
         self.assertEqual([p['rank'] for p in data['players']],list(range(1,51)))
-        self.assertIn('performanceRate',data['players'][0])
+        self.assertIn('performanceScore',data['players'][0])
+        self.assertIn('expectedWinrate',data['players'][0])
+        self.assertIn('lobbyBonus',data['players'][0])
         self.assertIn('alltime',data['players'][0])
     def test_monthly_profile_links(self):
         data=json.loads((ROOT/'docs/data/biggest-winners.json').read_text(encoding='utf-8'))
@@ -32,15 +34,15 @@ class SiteDataTests(unittest.TestCase):
             self.assertEqual(profile['month'],'2026-08')
             self.assertEqual(profile['games'],p['games'])
             self.assertEqual(len(profile['hourly']),24)
-            self.assertLessEqual(profile['performanceGames'],profile['games'])
+            self.assertLessEqual(profile['cleanGames'],profile['games'])
             self.assertEqual(profile['sourceTimeZone'],'Europe/Berlin')
             self.assertTrue(profile['coverageWindows'])
-            self.assertEqual(sum(w['games'] for w in profile['hourlyWindows']),profile['performanceGames'])
+            self.assertEqual(sum(w['games'] for w in profile['hourlyWindows']),profile['cleanGames'])
             self.assertGreaterEqual(profile['activityScaleMax'],25)
             self.assertEqual(profile['performanceScaleMin'],data['performanceScaleMin'])
             self.assertEqual(profile['performanceScaleMax'],data['performanceScaleMax'])
-            self.assertEqual((profile['difficultyScaleMin'],profile['difficultyScaleMax']),(-30,30))
-            total_profile_games+=profile['performanceGames']
+            self.assertTrue(all(w['lobbyBonus']>=0 for w in profile['coverageWindows']))
+            total_profile_games+=profile['cleanGames']
         self.assertEqual(sum(w['games'] for w in data['top50Windows']),total_profile_games)
         self.assertGreaterEqual(data['performanceScaleMax'],data['performanceScaleMin']+40)
     def test_activity_uses_scanner_coverage_not_active_days(self):
@@ -62,9 +64,9 @@ class SiteDataTests(unittest.TestCase):
             self.assertIsNotNone(badge,expected['name'])
             self.assertEqual((badge['rank'],badge['wins']),(expected['rank'],expected['wins']))
             self.assertFalse(badge['estimated'])
-    def test_july_has_pr_and_visual_assets(self):
+    def test_july_has_scores_and_visual_assets(self):
         data=json.loads((ROOT/'docs/data/months/2026-07/biggest-winners.json').read_text(encoding='utf-8'))
-        self.assertTrue(all(player['performanceRate'] is not None for player in data['players']))
+        self.assertTrue(all(player['performanceScore'] is not None for player in data['players']))
         for player in data['players']:
             self.assertTrue((ROOT/'docs/assets/goobers'/f"{player['id']}.png").exists())
     def test_historical_leaderboards_are_auditable_and_drive_badges(self):

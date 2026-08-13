@@ -141,6 +141,10 @@
   filter: drop-shadow(0 0 7px rgba(255, 126, 74, .35));
 }
 
+.factor-area {
+  fill: url(#factorArea);
+}
+
 .selected-hour {
   fill: rgba(255, 180, 93, .13);
   stroke: rgba(255, 180, 93, .5);

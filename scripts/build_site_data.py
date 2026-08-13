@@ -103,6 +103,61 @@ def historical_badge_rows(tools_root: Path, current_id: str, output_dir: Path):
             results.append((row['player_id'],{'month':month_id,'monthLabel':datetime.strptime(month_id,'%Y-%m').strftime('%B %Y'),'rank':row['rank'],'wins':row['wins'],'periodStart':row['period_start'],'periodEnd':row['period_end'],'estimated':row['quality']!='exact'}))
     return results
 
+def build_method_data(tools_root: Path, window_difficulty: dict, output_path: Path):
+    """Build the public explanation examples and all-hour winner podiums."""
+    latest={}
+    snapshots=sorted((tools_root/'daily_snapshots').glob('*.csv'))
+    if snapshots:
+        with snapshots[-1].open(encoding='utf-8-sig',newline='') as f:
+            latest={row.get('player_id',row.get('id','')):row for row in csv.DictReader(f)}
+    all_hours=defaultdict(lambda:defaultdict(lambda:{'games':0,'wins':0}))
+    exact_noon={}
+    clean_times=[]
+    for key,info in window_difficulty.items():
+        try: clean_times.append(datetime.fromisoformat(info['windowStart']))
+        except (KeyError,ValueError): pass
+    for delta in sorted((tools_root/'hourly_deltas').glob('????-??-??/*.csv')):
+        key=str(delta.relative_to(tools_root)).replace('\\','/')
+        info=window_difficulty.get(key)
+        if not info: continue
+        with delta.open(encoding='utf-8-sig',newline='') as f: rows=list(csv.DictReader(f))
+        if not rows: continue
+        start=datetime.fromisoformat(info['windowStart']); hour=start.hour
+        leaders=[]
+        for row in rows:
+            pid=(row.get('id') or row.get('player_id') or '').strip()
+            games=number(row.get('games'),as_int=True); wins=number(row.get('wins'),as_int=True)
+            if not pid: continue
+            all_hours[hour][pid]['games']+=games; all_hours[hour][pid]['wins']+=wins
+            leaders.append((wins,games,pid))
+        if hour==12: exact_noon[start.date().isoformat()]={'start':start,'info':info,'leaders':leaders}
+    def player(pid,wins,games):
+        row=latest.get(pid,{})
+        return {'id':pid,'name':row.get('display_name') or row.get('username') or pid[:8],'country':row.get('country',''),'wins':wins,'games':games,'winrate':round(wins/games*100,1) if games else 0}
+    examples=[]
+    dates=sorted(exact_noon)
+    for day in dates:
+        start=exact_noon[day]['start']
+        if start.weekday()!=6 or start.hour!=12: continue
+        monday=(start.date()+timedelta(days=1)).isoformat()
+        if monday not in exact_noon: continue
+        examples=[]
+        for date_id,label in ((day,'Sunday'),(monday,'Monday')):
+            item=exact_noon[date_id]
+            top=sorted(item['leaders'],reverse=True)[:3]
+            examples.append({'day':label,'date':date_id,'time':'12:00–13:00','lobbyBonus':round(item['info']['lobbyBonus'],1),'players':number(item['info'].get('players'),as_int=True),'games':number(item['info'].get('games'),as_int=True),'topPlayers':[player(pid,w,g) for w,g,pid in top]})
+        # Prefer the newest complete Sunday/Monday pair.
+    hour_top=[]
+    for hour in range(24):
+        top=sorted(((v['wins'],v['games'],pid) for pid,v in all_hours[hour].items()),reverse=True)[:3]
+        hour_top.append({'hour':hour,'label':f'{hour:02d}:00–{(hour+1)%24:02d}:00','players':[player(pid,w,g) for w,g,pid in top]})
+    coverage=0
+    if clean_times:
+        possible=max(1,int((max(clean_times)-min(clean_times)).total_seconds()/3600)+1)
+        coverage=round(100*len(set(clean_times))/possible)
+    doc={'generatedAt':datetime.now(timezone.utc).isoformat(timespec='seconds'),'coveragePct':coverage,'examples':examples,'hourTop':hour_top}
+    output_path.write_text(json.dumps(doc,ensure_ascii=False,separators=(',',':')),encoding='utf-8')
+
 def main():
     ap=argparse.ArgumentParser()
     ap.add_argument('--tools-root',type=Path,required=True)
@@ -135,7 +190,8 @@ def main():
     window_path=tools_root/'output'/'window_lobby_difficulty.csv'
     if window_path.exists():
         with window_path.open(encoding='utf-8-sig',newline='') as f:
-            window_difficulty={row['delta_file'].replace('\\','/'):{'lobbyBonus':number(row.get('lobby_bonus')),'confidence':row.get('confidence',''),'windowEffect':number(row.get('smoothed_window_effect'))} for row in csv.DictReader(f)}
+            window_difficulty={row['delta_file'].replace('\\','/'):{'lobbyBonus':number(row.get('lobby_bonus')),'confidence':row.get('confidence',''),'windowEffect':number(row.get('smoothed_window_effect')),'windowStart':row.get('window_start',''),'players':row.get('players',''),'games':row.get('games','')} for row in csv.DictReader(f)}
+    build_method_data(tools_root,window_difficulty,out/'method.json')
     difficulties={h:0.0 for h in range(24)}
     difficulty_path=tools_root/'Hourly Difficulty'/'global.json'
     if difficulty_path.exists():

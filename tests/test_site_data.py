@@ -84,4 +84,13 @@ class SiteDataTests(unittest.TestCase):
                 badge=next((item for item in badges.get(row['player_id'],[]) if item['month']==month),None)
                 self.assertIsNotNone(badge,f"{month} rank {row['rank']} {row['name']}")
                 self.assertEqual((badge['rank'],badge['wins']),(int(row['rank']),int(row['wins'])))
+    def test_method_page_uses_real_window_and_hour_data(self):
+        data=json.loads((ROOT/'docs/data/method.json').read_text(encoding='utf-8'))
+        self.assertEqual([row['day'] for row in data['examples']],['Sunday','Monday'])
+        self.assertTrue(all(row['time']=='12:00–13:00' for row in data['examples']))
+        self.assertEqual(len(data['hourTop']),24)
+        self.assertTrue(0 < data['coveragePct'] <= 100)
+        late=data['hourTop'][23]
+        self.assertEqual(late['label'],'23:00–00:00')
+        self.assertEqual(late['players'][0]['name'],'GrosserSpino')
 if __name__=='__main__': unittest.main()

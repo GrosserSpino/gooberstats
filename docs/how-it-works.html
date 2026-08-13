@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="How the GooberStats Performance Score and Lobby Bonus work.">
+  <title>How the Performance Score Works · GooberStats</title>
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./theme.css?v=20260813-1">
+  <link rel="stylesheet" href="./how-it-works.css?v=20260813-1">
+</head>
+<body class="method-page">
+  <main class="method-shell">
+    <a class="back-link" href="./">← Back to Biggest Winners</a>
+    <header class="method-hero">
+      <img src="./assets/goober-dash-logo.png" alt="Goober Dash">
+      <p class="eyebrow">GOOBERSTATS EXPLAINED</p>
+      <h1>How does the<br><span>Performance Score</span> work?</h1>
+      <p>Every win counts. Wins against a stronger field count a little more.</p>
+    </header>
+
+    <section class="steps" aria-label="Performance Score steps">
+      <article><b>1</b><h2>Monthly WR</h2><p>Your wins divided by your games played during the month.</p></article>
+      <article><b>2</b><h2>Expected WR</h2><p>Before an hour starts, previous games help us estimate each player’s current strength.</p></article>
+      <article><b>3</b><h2>Lobby Bonus</h2><p>The easiest lobbies receive no bonus. Harder lobbies receive a bigger bonus.</p></article>
+      <article><b>4</b><h2>Performance Score</h2><p>Wins and their Lobby Bonuses are combined into one easy-to-compare score.</p></article>
+    </section>
+
+    <section class="explain-panel">
+      <div class="section-copy"><p class="eyebrow">SAME TIME · DIFFERENT LOBBY</p><h2>Every hour is different</h2><p>Sunday at 12:00 can feel completely different from Monday at 12:00. We rate each observed hour separately.</p></div>
+      <div id="day-comparison" class="day-comparison"><div class="loading">Loading real lobby data…</div></div>
+      <p class="comparison-caption">Same time. Different players. Different difficulty.</p>
+    </section>
+
+    <section class="score-example">
+      <div><p class="eyebrow">A SIMPLE EXAMPLE</p><h2>A harder win is worth more</h2></div>
+      <div class="win-math"><span><b>1</b> win</span><i>×</i><span><b>+20%</b> Lobby Bonus</span><i>=</i><span class="result"><b>1.20</b> boosted wins</span></div>
+      <p>Playing more does not automatically improve your score. You still need to win.</p>
+    </section>
+
+    <section class="explain-panel hour-panel">
+      <div class="section-copy"><p class="eyebrow">WHO PLAYS WHEN?</p><h2>Top winners by time of day</h2><p>Choose an hour to see who collected the most wins during that time across all observed days.</p></div>
+      <label class="hour-control"><span id="hour-label">23:00–00:00</span><input id="hour-slider" type="range" min="0" max="23" value="23"></label>
+      <div id="hour-podium" class="hour-podium"></div>
+    </section>
+
+    <section class="coverage-note">
+      <h2>About the data</h2>
+      <p>Our observations currently cover approximately <strong id="coverage-value">—</strong> of the available hourly period. Some player profiles are not known, so Lobby Bonus and Performance Score are estimates based on the players we can observe.</p>
+    </section>
+  </main>
+  <footer>Independent Goober Dash statistics</footer>
+  <script src="./how-it-works.js?v=20260813-1" defer></script>
+</body>
+</html>

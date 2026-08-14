@@ -17,8 +17,8 @@ h2,
 /* Monthly navigation hero */
 .winner-hero {
   max-width: none;
-  min-height: 335px;
-  margin-top: -27px;
+  min-height: 365px;
+  margin-top: -37px;
   padding: 0 24px 25px;
   flex-direction: column;
   gap: 15px;
@@ -33,7 +33,7 @@ h2,
   position: static;
   z-index: 2;
   width: auto;
-  height: 150px;
+  height: 180px;
   transform: none;
   filter: drop-shadow(0 14px 18px rgba(0,0,0,.42));
 }
@@ -105,8 +105,8 @@ h2,
 }
 
 @media(max-width:700px) {
-  .winner-hero { min-height: 243px; margin-top: -13px; padding: 0 0 18px; gap:10px; }
-  .winner-logo { width: auto; height: 100px; }
+  .winner-hero { min-height: 245px; margin-top: -23px; padding: 0 0 18px; gap:10px; }
+  .winner-logo { width: auto; height: 120px; }
   .winner-title-image { width: auto; height: 40px; max-width: 88vw; }
   .month-switcher { grid-template-columns:48px minmax(0,248px) 48px; gap:5px; max-width:100%; margin-top:17px; }
   .winner-heading p { width:100%; }

@@ -7,7 +7,7 @@
   <title>How the Performance Score Works · GooberStats</title>
   <link rel="stylesheet" href="./styles.css">
   <link rel="stylesheet" href="./theme.css?v=20260813-1">
-  <link rel="stylesheet" href="./how-it-works.css?v=20260813-1">
+  <link rel="stylesheet" href="./how-it-works.css?v=20260814-2">
   <link rel="stylesheet" href="./how-it-works-hero.css?v=20260813-4">
 </head>
 <body class="method-page">
@@ -67,8 +67,26 @@
       <h2>About the data</h2>
       <p>Our observations currently cover approximately <strong id="coverage-value">—</strong> of the available hourly period. Some player profiles are not known, so Lobby Bonus and Performance Score are estimates based on the players we can observe.</p>
     </section>
+
+    <section id="player-score-explanation" class="player-score-explanation" hidden>
+      <div class="section-copy">
+        <p class="eyebrow">YOUR MONTHLY SCORE</p>
+        <h2 id="player-score-title">How this score was earned</h2>
+        <p id="player-score-summary"></p>
+      </div>
+      <label class="explanation-timezone">Your time zone <select id="explanation-timezone"></select></label>
+      <div class="personal-chart-card">
+        <div class="personal-chart-title"><h3>Win rate by time of day</h3><span id="performance-chart-note"></span></div>
+        <div id="player-performance-chart"></div>
+      </div>
+      <div class="personal-chart-card">
+        <div class="personal-chart-title"><h3>Activity &amp; Lobby Bonus</h3><span id="activity-chart-note"></span></div>
+        <div id="player-activity-chart"></div>
+      </div>
+    </section>
   </main>
   <footer>Independent Goober Dash statistics</footer>
   <script src="./how-it-works.js?v=20260813-6" defer></script>
+  <script src="./player-explanation.js?v=20260814-1" defer></script>
 </body>
 </html>

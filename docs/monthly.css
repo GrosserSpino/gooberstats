@@ -29,3 +29,40 @@ body{position:relative;background-image:none}body:before{content:"";position:fix
 .metal-panel{position:relative;margin-top:7px;padding:18px;border:2px solid color-mix(in srgb,var(--score-light) 72%,white 10%);border-radius:19px;background:linear-gradient(155deg,color-mix(in srgb,var(--score-base) 76%,#0a2028),var(--score-dark) 62%,color-mix(in srgb,var(--score-base) 68%,#07141a));box-shadow:inset 0 2px 0 rgba(255,255,255,.2),inset 0 -8px 20px rgba(0,0,0,.2),0 6px 12px #0006}.metal-panel:before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(115deg,rgba(255,255,255,.13),transparent 24%,transparent 65%,rgba(255,255,255,.06));pointer-events:none}.metal-panel h3{position:relative;margin:0 0 12px;text-align:center;font:clamp(19px,3.5vw,27px)/1.1 "Luckiest Guy",sans-serif;text-shadow:0 3px 0 #07171c}.player-stats-panel dl{position:relative;margin:0}.player-stats-panel dl>div{display:flex;justify-content:space-between;gap:20px;padding:9px 15px;border-bottom:1px solid rgba(255,255,255,.09);border-radius:9px;background:rgba(2,11,16,.18)}.player-stats-panel dl>div:last-child{border-bottom:0}.player-stats-panel dt,.player-stats-panel dd{font-size:18px;font-weight:900}.player-stats-panel dd{margin:0;color:color-mix(in srgb,var(--score-light) 78%,white);font-variant-numeric:tabular-nums}.profile-badges{padding-bottom:22px}.profile-badges .badge-shelf{position:relative;justify-content:center;min-height:76px;padding:0;background:none}.score-elite,.score-legend,.score-godlike{box-shadow:0 0 48px color-mix(in srgb,var(--score-hot) 65%,transparent),0 28px 90px #000b}.score-elite .score-flame svg,.score-legend .score-flame svg,.score-godlike .score-flame svg{animation:flame-breathe 2.8s ease-in-out infinite}.score-godlike{overflow:visible;animation:godlike-glow 2.4s ease-in-out infinite}.score-godlike:before{content:"";position:absolute;z-index:-2;inset:-24px;border-radius:42px;background:radial-gradient(ellipse at 8% 20%,#ff6b24 0 4%,transparent 12%),radial-gradient(ellipse at 27% 0,#ffb126 0 5%,transparent 14%),radial-gradient(ellipse at 50% 3%,#ff441c 0 6%,transparent 16%),radial-gradient(ellipse at 74% 0,#ffb126 0 5%,transparent 15%),radial-gradient(ellipse at 95% 22%,#ff441c 0 5%,transparent 13%);filter:blur(3px);animation:profile-fire 1.8s ease-in-out infinite alternate}.score-godlike .profile-stage{border-radius:25px 25px 12px 12px}@keyframes flame-breathe{50%{transform:scale(1.035) translateY(-2px)}}@keyframes godlike-glow{50%{box-shadow:0 0 72px #ff481d99,0 28px 90px #000b}}@keyframes profile-fire{to{transform:translateY(-8px) scaleX(1.02);filter:blur(5px)}}
 @media(max-width:700px){.profile-modal{padding:0}.profile-dialog{width:100%;max-height:100dvh;border-radius:0;padding:8px}.profile-close{top:8px;margin:8px 8px -56px 0;width:44px;height:44px}.game-profile{border-radius:25px}.profile-stage{min-height:200px;padding:18px 58px 10px 14px;grid-template-columns:minmax(0,1fr) 92px;gap:4px}.profile-goober{width:135px;height:126px}.profile-name-row{align-items:center}.profile-name-row h2{margin-left:10px;font-size:clamp(20px,7vw,30px)}.level-country{width:49px;height:49px;flex-basis:49px}.level-number{font-size:21px}.flag-tab{right:-14px;width:27px;height:19px}.profile-person>.aka{margin-left:59px;font-size:9px}.score-flame{width:88px;height:116px}.score-flame strong{margin-top:35px;font-size:36px}.metal-panel{padding:14px 10px}.metal-panel h3{font-size:19px}.player-stats-panel dl>div{padding:8px 10px}.player-stats-panel dt,.player-stats-panel dd{font-size:15px}.profile-badges .badge-shelf{justify-content:flex-start}.player-badge{width:59px;height:59px;flex-basis:59px}.score-godlike:before{inset:-10px}}
 @media(prefers-reduced-motion:reduce){.profile-modal,.profile-dialog,.score-flame,.score-elite .score-flame svg,.score-legend .score-flame svg,.score-godlike,.score-godlike:before{animation:none!important;transition:none!important}}
+
+/* Raster-master profile composition. Dynamic content sits between the character and frame layers. */
+.profile-dialog{width:min(620px,100%)}
+.game-profile{position:relative;width:100%;min-height:0;aspect-ratio:941/1670;padding:0;border-radius:4.8%;background:transparent;box-shadow:0 28px 90px #000b;overflow:hidden}
+.game-profile:after,.game-profile:before{display:none}
+.game-profile:has(.player-badge:nth-child(n+6)){aspect-ratio:941/1950}
+.game-profile:has(.player-badge:nth-child(n+11)){aspect-ratio:941/2130}
+.profile-card-master{position:absolute;z-index:1;inset:0;width:100%;height:100%;object-fit:fill;pointer-events:none}
+.profile-window{position:absolute;z-index:2;top:3.4%;left:3.7%;right:3.7%;height:39.5%;overflow:hidden}
+.profile-window .profile-goober{position:absolute;z-index:0;top:-2%;left:-2%;width:61%;height:91%;margin:0;object-fit:contain;object-position:center bottom;filter:drop-shadow(0 12px 10px #0008)}
+.profile-name-row{position:absolute;z-index:3;left:5.2%;right:5%;bottom:2.4%;display:flex;align-items:center;min-width:0;margin:0}
+.profile-name-copy{min-width:0;margin-left:7%}
+.profile-name-row h2{margin:0;max-width:100%;font-size:clamp(21px,4.7vw,34px);line-height:.95;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:0 4px 0 #07171c,0 0 8px #000}
+.profile-name-copy .aka{max-width:100%;margin:4px 0 0;color:#d8dedc;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.level-country{width:18%;height:auto;aspect-ratio:1;flex:0 0 18%;border:0;background:transparent;box-shadow:none}
+.level-number{font-size:clamp(20px,4.3vw,31px);transform:translateY(-8%)}
+.level-label{font-size:clamp(6px,1.25vw,9px);margin-top:-19%}
+.flag-tab{right:-48%;bottom:5%;width:46%;height:auto;aspect-ratio:1;padding:7%;border:0;border-radius:0;background:transparent}
+.flag-tab .gel-flag{object-fit:cover}
+.score-flame{position:absolute;z-index:3;top:4%;right:4.5%;width:31%;height:auto;aspect-ratio:1;display:grid;place-items:center;filter:drop-shadow(0 5px 8px #0009);color:#fff}
+.score-flame img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.score-flame strong{z-index:1;margin-top:31%;font-size:clamp(37px,8vw,58px);text-shadow:0 5px 0 var(--score-dark),3px 0 0 var(--score-dark),-3px 0 0 var(--score-dark),0 0 12px var(--score-hot)}
+.player-stats-panel,.profile-badges{position:absolute;z-index:3;left:8.9%;right:8.9%;background:transparent;border:0;box-shadow:none}
+.player-stats-panel{top:46.6%;height:30.6%;padding:1.8% 2.1%}
+.player-stats-panel h3,.profile-badges h3{margin:0;text-align:center;font:clamp(17px,4vw,27px)/1 "Luckiest Guy",sans-serif;text-shadow:0 3px 0 #07171c}
+.player-stats-panel dl{display:grid;height:88%;margin:2.5% 0 0;grid-template-rows:repeat(6,1fr)}
+.player-stats-panel dl>div{display:flex;align-items:center;justify-content:space-between;padding:0 3%;background:transparent;border:0}
+.player-stats-panel dt,.player-stats-panel dd{font-size:clamp(14px,3vw,20px);font-weight:900}
+.player-stats-panel dd{margin:0;color:#fff;font-variant-numeric:tabular-nums}
+.profile-badges{top:80.7%;bottom:4.7%;padding:2.2% 2%}
+.profile-badges .badge-shelf{display:flex;align-content:center;align-items:center;justify-content:center;flex-wrap:wrap;gap:12px;min-height:70%;padding:2% 0 0;overflow:visible;background:transparent}
+.profile-close{position:absolute;z-index:6;top:2.2%;right:3.4%;width:13%;height:auto;aspect-ratio:1;margin:0;border:0;border-radius:25%;background:transparent;box-shadow:none;color:transparent;font-size:0}
+.profile-close:focus{outline:0}
+.profile-close:hover{background:#ffffff12;transform:scale(1.03)}
+.score-godlike{overflow:hidden;animation:none}
+.score-godlike:before{display:none}
+@media(max-width:700px){.profile-dialog{padding:4px}.game-profile{border-radius:4.8%}.profile-window .profile-goober{width:64%;left:-4%}.profile-name-row h2{font-size:clamp(19px,6vw,29px)}.score-flame{width:30%;right:4%}.player-stats-panel,.profile-badges{padding-left:2%;padding-right:2%}.profile-badges .badge-shelf{gap:7px}.player-badge{width:52px;height:52px;flex-basis:52px}}

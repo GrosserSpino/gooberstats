@@ -105,12 +105,12 @@ h2,
 }
 
 @media(max-width:700px) {
-  .winner-hero { min-height: 245px; margin-top: -23px; padding: 0 0 18px; gap:10px; }
-  .winner-logo { width: auto; height: 120px; }
-  .winner-title-image { width: auto; height: 40px; max-width: 88vw; }
+  .winner-hero { --mobile-title-height:clamp(24px,calc(13.089vw - 17.54px),40px); min-height:0; margin-top:-23px; padding:0 0 18px; gap:10px; }
+  .winner-logo { width:auto; height:calc(var(--mobile-title-height) + var(--mobile-title-height) + var(--mobile-title-height)); }
+  .winner-title-image { width:auto; height:var(--mobile-title-height); max-width:88vw; }
   .month-switcher { grid-template-columns:48px minmax(0,248px) 48px; gap:5px; max-width:100%; margin-top:17px; }
   .winner-heading p { width:100%; }
-  .winner-month-image { width:auto; height:40px; max-width:248px; }
+  .winner-month-image { width:auto; height:var(--mobile-title-height); max-width:100%; }
   .month-arrow { width:48px; height:38px; }
   .site-time-control { align-items: stretch; flex-direction: column; gap: 7px; }
   .site-time-control label { justify-content: space-between; }

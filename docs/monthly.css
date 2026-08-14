@@ -66,3 +66,32 @@ body{position:relative;background-image:none}body:before{content:"";position:fix
 .score-godlike{overflow:hidden;animation:none}
 .score-godlike:before{display:none}
 @media(max-width:700px){.profile-dialog{padding:4px}.game-profile{border-radius:4.8%}.profile-window .profile-goober{width:64%;left:-4%}.profile-name-row h2{font-size:clamp(19px,6vw,29px)}.score-flame{width:30%;right:4%}.player-stats-panel,.profile-badges{padding-left:2%;padding-right:2%}.profile-badges .badge-shelf{gap:7px}.player-badge{width:52px;height:52px;flex-basis:52px}}
+
+/* Three independent card modules: badges may grow without scaling the profile or stats. */
+.game-profile,.game-profile:has(.player-badge:nth-child(n+6)),.game-profile:has(.player-badge:nth-child(n+11)){display:block;aspect-ratio:auto;border-radius:0;background:transparent;box-shadow:0 28px 90px #000b;overflow:visible}
+.profile-top-module,.player-stats-panel,.profile-badges{position:relative;inset:auto;left:auto;right:auto;top:auto;bottom:auto;width:100%;height:auto;margin:0;padding:0;border:0;background:transparent;box-shadow:none;overflow:hidden}
+.profile-top-module{aspect-ratio:941/735;z-index:2}
+.player-stats-panel{aspect-ratio:941/590;z-index:1;margin-top:-1.1%}
+.profile-badges{z-index:0;margin-top:-1.1%;aspect-ratio:941/365}
+.profile-badges.badge-rows-2{aspect-ratio:941/500}
+.profile-badges.badge-rows-3{aspect-ratio:941/635}
+.profile-module-art{position:absolute;z-index:1;inset:0;width:100%;height:100%;object-fit:fill;pointer-events:none}
+.profile-top-module>.profile-goober{position:absolute;z-index:0;left:4%;top:5%;width:55%;height:75%;margin:0;object-fit:contain;object-position:center 54%;transform-origin:50% 54%;filter:drop-shadow(0 12px 10px #0008)}
+.profile-top-module .score-flame{z-index:3;top:6%;right:5%;width:29%}
+.profile-top-module .profile-name-row{z-index:3;left:5.3%;right:5%;bottom:3.1%}
+.profile-top-module .profile-name-copy{margin-left:7%}
+.profile-top-module .level-country{width:18%;flex-basis:18%}
+.stats-content,.badges-content{position:absolute;z-index:2;inset:0}
+.stats-content{padding:7.5% 10.5% 5.5%}
+.stats-content h3,.badges-content h3{margin:0;text-align:center;font:clamp(17px,4vw,27px)/1 "Luckiest Guy",sans-serif;text-shadow:0 3px 0 #07171c}
+.stats-content dl{display:grid;height:82%;margin:3% 0 0;grid-template-rows:repeat(6,1fr)}
+.stats-content dl>div{display:flex;align-items:center;justify-content:space-between;padding:0 2%;background:transparent;border:0}
+.stats-content dt,.stats-content dd{font-size:clamp(14px,3vw,20px);font-weight:900}
+.stats-content dd{margin:0;color:#fff;font-variant-numeric:tabular-nums}
+.badges-content{display:flex;flex-direction:column;padding:9% 10% 7%}
+.profile-badges.badge-rows-2 .badges-content,.profile-badges.badge-rows-3 .badges-content{padding-top:7%}
+.badges-content .badge-shelf{flex:1;display:grid;grid-template-columns:repeat(5,minmax(0,66px));place-content:center;align-items:center;gap:16px 10px;min-height:0;padding:3% 0 0;overflow:visible;background:transparent}
+.badges-content .no-badges{justify-self:center;grid-column:1/-1}
+.profile-close{top:1.3%;right:3.4%;width:13%;z-index:8}
+.score-godlike{overflow:visible}
+@media(max-width:700px){.profile-top-module>.profile-goober{left:1%;width:60%}.profile-top-module .profile-name-row h2{font-size:clamp(19px,6vw,29px)}.badges-content .badge-shelf{grid-template-columns:repeat(5,minmax(0,52px));gap:13px 5px}.profile-badges.badge-rows-2{aspect-ratio:941/520}.profile-badges.badge-rows-3{aspect-ratio:941/675}}

@@ -16,13 +16,26 @@ def crop(image):
     return image.crop(box) if box else image
 
 def normalize_goober(image):
-    """Keep the generator's shared foot baseline instead of scaling by accessories."""
-    viewport_height=min(460,image.height)
-    viewport=image.crop((0,0,image.width,viewport_height))
-    viewport.thumbnail((360,360),Image.Resampling.LANCZOS)
+    """Normalize from the generator canvas so its shared eye anchor never moves."""
+    source_width,source_height=380,460
+    viewport=image.crop((0,0,min(source_width,image.width),min(source_height,image.height)))
+    target_width=round(source_width*360/source_height)
+    viewport=viewport.resize((target_width,360),Image.Resampling.LANCZOS)
     canvas=Image.new('RGBA',(360,360),(0,0,0,0))
     canvas.alpha_composite(viewport,((360-viewport.width)//2,360-viewport.height))
     return canvas
+
+def render_profile_card_modules(output):
+    """Split the neutral master so badge growth cannot distort the profile or stats."""
+    source=output/'profile-card-master-silver.png'
+    if not source.exists(): return
+    image=Image.open(source).convert('RGBA')
+    cuts={
+        'profile-card-top.png':(0,0,image.width,735),
+        'profile-card-stats.png':(0,725,image.width,1315),
+        'profile-card-badges.png':(0,1305,image.width,image.height),
+    }
+    for name,box in cuts.items(): image.crop(box).save(output/name,optimize=True)
 
 def render_race_text(font_path,text,max_width):
     size=100
@@ -54,6 +67,7 @@ def main():
     ap=argparse.ArgumentParser(); ap.add_argument('--tools-root',type=Path,required=True); ap.add_argument('--generator-root',type=Path); ap.add_argument('--output',type=Path,required=True); ap.add_argument('--hero-only',action='store_true'); args=ap.parse_args()
     tools_root=args.tools_root.resolve(); output=args.output.resolve(); output.mkdir(parents=True,exist_ok=True)
     render_hero_assets(tools_root,output,output/'LuckiestGuy-Regular.ttf')
+    render_profile_card_modules(output)
     if args.hero_only: return
     if not args.generator_root: ap.error('--generator-root is required unless --hero-only is used')
     race=load_race(args.generator_root.resolve()); goober_dir=output/'goobers'; flag_dir=output/'flags'; goober_dir.mkdir(parents=True,exist_ok=True); flag_dir.mkdir(parents=True,exist_ok=True)
@@ -83,7 +97,7 @@ def main():
                 if pid in method_ids: players[pid]=row
     for pid,row in players.items():
         signature=[row.get('hat',''),row.get('suit',''),row.get('hand',''),row.get('color','')]
-        cache_signature=signature+['fixed-foot-baseline-v1']
+        cache_signature=signature+['fixed-eye-anchor-v2']
         target=goober_dir/f'{pid}.png'; manifest['goobers'][pid]=cache_signature
         if old_manifest.get('goobers',{}).get(pid)==cache_signature and target.exists(): continue
         normalize_goober(race.generate_goober(*signature)).save(target,optimize=True); rendered_goobers+=1

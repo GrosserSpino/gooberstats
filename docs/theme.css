@@ -30,10 +30,10 @@ h2,
 .winner-logo {
   position: absolute;
   z-index: 2;
-  top: -174px;
+  top: -100px;
   left: 50%;
-  width: min(660px, 70vw);
-  height: auto;
+  width: auto;
+  height: 150px;
   transform: translateX(-50%);
   filter: drop-shadow(0 14px 18px rgba(0,0,0,.42));
 }
@@ -48,9 +48,10 @@ h2,
   width:430px;
   margin: 0;
 }
-.winner-title-image { display: block; width: min(720px,62vw); height: auto; }
+.winner-title-image { display: block; width: auto; height: 60px; max-width: 90vw; object-fit: contain; }
 .month-switcher { display:grid; grid-template-columns:72px 430px 72px; align-items:center; gap:14px; margin-top:18px; }
-.winner-month-image { display: block; width: auto; height: 56px; max-width: 430px; object-fit: contain; margin: 0 auto; }
+.winner-month-image { display: block; width: auto; height: 60px; max-width: 430px; object-fit: contain; margin: 0 auto; }
+.winner-hero:after { display: none; }
 .month-arrow {
   display: flex;
   align-items: center;
@@ -105,11 +106,11 @@ h2,
 
 @media(max-width:700px) {
   .winner-hero { min-height: 245px; margin-top: 70px; padding: 88px 0 18px; }
-  .winner-logo { top: -110px; width: min(520px, 90vw); }
-  .winner-title-image { width: min(500px,72vw); }
+  .winner-logo { top: -68px; width: auto; height: 100px; }
+  .winner-title-image { width: auto; height: 40px; max-width: 88vw; }
   .month-switcher { grid-template-columns:48px minmax(0,248px) 48px; gap:5px; max-width:100%; margin-top:15px; }
   .winner-heading p { width:100%; }
-  .winner-month-image { width:auto; height:32px; max-width:248px; }
+  .winner-month-image { width:auto; height:40px; max-width:248px; }
   .month-arrow { width:48px; height:38px; }
   .site-time-control { align-items: stretch; flex-direction: column; gap: 7px; }
   .site-time-control label { justify-content: space-between; }

@@ -17,9 +17,11 @@ h2,
 /* Monthly navigation hero */
 .winner-hero {
   max-width: none;
-  min-height: 270px;
-  margin-top: 92px;
-  padding: 105px 24px 25px;
+  min-height: 335px;
+  margin-top: -27px;
+  padding: 0 24px 25px;
+  flex-direction: column;
+  gap: 15px;
   align-items: center;
   justify-content: center;
   text-align: center;
@@ -28,13 +30,11 @@ h2,
   border-radius: 0;
 }
 .winner-logo {
-  position: absolute;
+  position: static;
   z-index: 2;
-  top: -100px;
-  left: 50%;
   width: auto;
   height: 150px;
-  transform: translateX(-50%);
+  transform: none;
   filter: drop-shadow(0 14px 18px rgba(0,0,0,.42));
 }
 .winner-heading { position: relative; z-index: 1; display:flex; flex-direction:column; align-items:center; }
@@ -49,7 +49,7 @@ h2,
   margin: 0;
 }
 .winner-title-image { display: block; width: auto; height: 60px; max-width: 90vw; object-fit: contain; }
-.month-switcher { display:grid; grid-template-columns:72px 430px 72px; align-items:center; gap:14px; margin-top:18px; }
+.month-switcher { display:grid; grid-template-columns:72px 430px 72px; align-items:center; gap:14px; margin-top:25px; }
 .winner-month-image { display: block; width: auto; height: 60px; max-width: 430px; object-fit: contain; margin: 0 auto; }
 .winner-hero:after { display: none; }
 .month-arrow {
@@ -105,10 +105,10 @@ h2,
 }
 
 @media(max-width:700px) {
-  .winner-hero { min-height: 245px; margin-top: 70px; padding: 88px 0 18px; }
-  .winner-logo { top: -68px; width: auto; height: 100px; }
+  .winner-hero { min-height: 243px; margin-top: -13px; padding: 0 0 18px; gap:10px; }
+  .winner-logo { width: auto; height: 100px; }
   .winner-title-image { width: auto; height: 40px; max-width: 88vw; }
-  .month-switcher { grid-template-columns:48px minmax(0,248px) 48px; gap:5px; max-width:100%; margin-top:15px; }
+  .month-switcher { grid-template-columns:48px minmax(0,248px) 48px; gap:5px; max-width:100%; margin-top:17px; }
   .winner-heading p { width:100%; }
   .winner-month-image { width:auto; height:40px; max-width:248px; }
   .month-arrow { width:48px; height:38px; }

@@ -110,8 +110,15 @@ body{position:relative;background-image:none}body:before{content:"";position:fix
   z-index:1;
   overflow:visible;
 }
-.profile-top-module>.profile-goober{
+.profile-goober-clip{
+  position:absolute;
   z-index:0;
+  inset:0;
+  overflow:visible;
+  clip-path:polygon(3.7% 6%,96.3% 6%,96.3% 180%,3.7% 180%);
+}
+.profile-goober-clip>.profile-goober{
+  position:absolute;
   left:-23.5%;
   top:-32.5%;
   width:110%;
@@ -119,8 +126,10 @@ body{position:relative;background-image:none}body:before{content:"";position:fix
   object-position:center 54%;
 }
 .profile-top-module>.profile-module-art{z-index:1}
-.profile-top-module .profile-name-row,
-.profile-top-module .score-flame{z-index:3}
+.profile-top-module .profile-name-row{z-index:3;right:2%}
+.profile-top-module .profile-name-copy{margin-left:11%}
+.profile-top-module .profile-name-row h2{font-size:clamp(19px,4.2vw,31px)}
+.profile-top-module .flag-tab{right:-60%;bottom:1%;width:60%;padding:5%}
 .player-stats-panel{z-index:4}
 .profile-badges{z-index:5}
 .stats-content,.badges-content{z-index:2}
@@ -131,11 +140,13 @@ body{position:relative;background-image:none}body:before{content:"";position:fix
 }
 
 @media(max-width:700px){
-  .profile-top-module>.profile-goober{
+  .profile-goober-clip>.profile-goober{
     left:-23.5%;
     top:-32.5%;
     width:110%;
     height:150%;
   }
+  .profile-top-module .profile-name-copy{margin-left:11%}
+  .profile-top-module .profile-name-row h2{font-size:clamp(17px,5.3vw,27px)}
   .badges-content .badge-shelf{grid-template-columns:repeat(auto-fit,52px)}
 }

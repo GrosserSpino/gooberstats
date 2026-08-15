@@ -7,7 +7,8 @@
   <title>GooberStats</title>
   <link rel="stylesheet" href="./styles.css">
   <link rel="stylesheet" href="./profile.css">
-  <link rel="stylesheet" href="./monthly.css?v=20260815-1">
+  <link rel="stylesheet" href="./monthly.css?v=20260815-2">
+  <link rel="stylesheet" href="./dashboard-restore.css?v=20260815-1">
   <link rel="stylesheet" href="./theme.css?v=20260814-4">
 </head>
 <body>
@@ -30,17 +31,12 @@
       </div>
       <div class="monthly-layout">
         <aside class="panel monthly-leaderboard"><div id="winner-list" class="monthly-rank-list"></div></aside>
+        <section id="monthly-profile" class="panel profile-panel"><div class="loading">Select a Top 50 player.</div></section>
       </div>
     </section>
   </main>
-  <div id="profile-modal" class="profile-modal" hidden>
-    <button class="profile-backdrop" type="button" aria-label="Close player profile"></button>
-    <div class="profile-dialog" role="dialog" aria-modal="true" aria-label="Player profile">
-      <button id="profile-close" class="profile-close" type="button" aria-label="Close player profile">×</button>
-      <section id="monthly-profile" class="profile-panel"><div class="loading">Loading profile...</div></section>
-    </div>
-  </div>
   <footer>Independent Goober Dash statistics · Tracking coverage and confidence vary by player.</footer>
-  <script src="./app.js?v=20260815-1" defer></script>
+  <script src="./dashboard-restore.js?v=20260815-1" defer></script>
+  <script src="./app.js?v=20260815-3" defer></script>
 </body>
 </html>

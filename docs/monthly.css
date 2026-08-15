@@ -95,3 +95,47 @@ body{position:relative;background-image:none}body:before{content:"";position:fix
 .profile-close{top:1.3%;right:3.4%;width:13%;z-index:8}
 .score-godlike{overflow:visible}
 @media(max-width:700px){.profile-top-module>.profile-goober{left:1%;width:60%}.profile-top-module .profile-name-row h2{font-size:clamp(19px,6vw,29px)}.badges-content .badge-shelf{grid-template-columns:repeat(5,minmax(0,52px));gap:13px 5px}.profile-badges.badge-rows-2{aspect-ratio:941/520}.profile-badges.badge-rows-3{aspect-ratio:941/675}}
+
+/* Final responsive card composition.
+   Every overlay uses the module's 941px design coordinate system. The character
+   may cross module boundaries, while the card itself remains the clipping mask. */
+.game-profile,
+.game-profile:has(.player-badge:nth-child(n+6)),
+.game-profile:has(.player-badge:nth-child(n+11)){
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+}
+.profile-top-module{
+  z-index:1;
+  overflow:visible;
+}
+.profile-top-module>.profile-goober{
+  z-index:0;
+  left:-23.5%;
+  top:-32.5%;
+  width:110%;
+  height:150%;
+  object-position:center 54%;
+}
+.profile-top-module>.profile-module-art{z-index:1}
+.profile-top-module .profile-name-row,
+.profile-top-module .score-flame{z-index:3}
+.player-stats-panel{z-index:4}
+.profile-badges{z-index:5}
+.stats-content,.badges-content{z-index:2}
+.badges-content .badge-shelf{
+  grid-template-columns:repeat(auto-fit,66px);
+  justify-content:center;
+  align-content:center;
+}
+
+@media(max-width:700px){
+  .profile-top-module>.profile-goober{
+    left:-23.5%;
+    top:-32.5%;
+    width:110%;
+    height:150%;
+  }
+  .badges-content .badge-shelf{grid-template-columns:repeat(auto-fit,52px)}
+}

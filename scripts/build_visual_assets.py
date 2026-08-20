@@ -88,6 +88,7 @@ def main():
             players[row['id']]={**row,**cosmetics}
     except (FileNotFoundError,json.JSONDecodeError,KeyError):
         pass
+    method_countries={}
     try:
         method=json.loads((output.parent/'data'/'method.json').read_text(encoding='utf-8'))
         hourly={hour:{} for hour in range(24)}
@@ -96,13 +97,19 @@ def main():
             for p in window.get('players',[]):
                 stats=hourly[hour].setdefault(p['id'],{'games':0,'wins':0}); stats['games']+=p['games']; stats['wins']+=p.get('wins',0)
         method_ids={pid for totals in hourly.values() for pid,stats in sorted(totals.items(),key=lambda item:(-item[1]['wins'],-item[1]['games'],-item[1]['wins']/item[1]['games'],item[0]))[:5]}
+        method_ids.update(p['id'] for record in method.get('hardestRecords',[]) for p in record.get('participants',[]) if p.get('id'))
+        method_countries={p['id']:p.get('country','') for record in method.get('hardestRecords',[]) for p in record.get('participants',[]) if p.get('id')}
     except (FileNotFoundError,json.JSONDecodeError,KeyError): method_ids=set()
     snapshots=sorted((tools_root/'daily_snapshots').glob('*.csv'))
     if snapshots and method_ids:
-        with snapshots[-1].open(encoding='utf-8-sig',newline='') as f:
-            for row in csv.DictReader(f):
-                pid=row.get('player_id') or row.get('id')
-                if pid in method_ids: players[pid]=row
+        unresolved=set(method_ids)
+        for snapshot in reversed(snapshots):
+            if not unresolved: break
+            with snapshot.open(encoding='utf-8-sig',newline='') as f:
+                for row in csv.DictReader(f):
+                    pid=row.get('player_id') or row.get('id')
+                    if pid in unresolved:
+                        players[pid]={**row,'country':row.get('country') or method_countries.get(pid,'')}; unresolved.remove(pid)
     for pid,row in players.items():
         signature=[row.get('hat',''),row.get('suit',''),row.get('hand',''),row.get('color','')]
         cache_signature=signature+['fixed-eye-anchor-v2']
@@ -115,6 +122,11 @@ def main():
         if old_manifest.get('flags',{}).get(country)==[96,96] and target.exists(): continue
         image=race.load_flag_image(country,(96,96))
         if image is not None: image.save(target,optimize=True); rendered_flags+=1
+    unknown_target=flag_dir/'UNKNOWN.png'
+    unknown_source=args.generator_root.resolve()/'assets'/'kenny-flags'/'special_unavailable.png'
+    if unknown_source.exists():
+        Image.open(unknown_source).convert('RGBA').resize((96,96),Image.Resampling.LANCZOS).save(unknown_target,optimize=True)
+        manifest['flags']['UNKNOWN']=[96,96]
     manifest_path.write_text(json.dumps(manifest,indent=2,sort_keys=True)+'\n',encoding='utf-8')
     print(f'Rendered {rendered_goobers} changed goobers and {rendered_flags} changed flags; reused the rest.')
 if __name__=='__main__': main()

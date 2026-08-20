@@ -179,10 +179,19 @@ def build_alltime_data(tools_root: Path, window_difficulty: dict, output_path: P
             'body':row.get('body',''),'hand':row.get('hand',''),'color':row.get('color',''),
         }
     countries={}
+    for source_name in ('players_master_identity.csv','players_registry.csv'):
+        source_path=tools_root/source_name
+        if not source_path.exists(): continue
+        with source_path.open(encoding='utf-8-sig',newline='') as f:
+            for row in csv.DictReader(f):
+                pid=row.get('player_id') or row.get('id'); country=row.get('country','').upper()
+                if country=='UK': country='GB'
+                if pid and country: countries[pid]=country
     for asset in sorted((tools_root/'Leaderboards Monthly Top100').glob('????-??/assets.csv')):
         with asset.open(encoding='utf-8-sig',newline='') as f:
             for row in csv.DictReader(f):
-                pid=row.get('player_id') or row.get('id'); country=row.get('country','')
+                pid=row.get('player_id') or row.get('id'); country=row.get('country','').upper()
+                if country=='UK': country='GB'
                 if pid and country: countries[pid]=country
     identity_path=tools_root/'players_master_identity.csv'
     if identity_path.exists():
@@ -309,10 +318,19 @@ def build_method_data(tools_root: Path, window_difficulty: dict, output_path: Pa
         with snapshots[-1].open(encoding='utf-8-sig',newline='') as f:
             latest={row.get('player_id',row.get('id','')):row for row in csv.DictReader(f)}
     countries={}
+    for source_name in ('players_master_identity.csv','players_registry.csv'):
+        source_path=tools_root/source_name
+        if not source_path.exists(): continue
+        with source_path.open(encoding='utf-8-sig',newline='') as f:
+            for row in csv.DictReader(f):
+                pid=row.get('player_id') or row.get('id'); country=row.get('country','').upper()
+                if country=='UK': country='GB'
+                if pid and country: countries[pid]=country
     for asset in sorted((tools_root/'Leaderboards Monthly Top100').glob('????-??/assets.csv')):
         with asset.open(encoding='utf-8-sig',newline='') as f:
             for row in csv.DictReader(f):
-                pid=row.get('player_id') or row.get('id'); country=row.get('country','')
+                pid=row.get('player_id') or row.get('id'); country=row.get('country','').upper()
+                if country=='UK': country='GB'
                 if pid and country: countries[pid]=country
     dated=[]; clean_times=[]; all_hours={hour:defaultdict(lambda:{'wins':0,'games':0}) for hour in range(24)}
     for delta in sorted((tools_root/'hourly_deltas').glob('????-??-??/*.csv')):
@@ -358,6 +376,12 @@ def build_method_data(tools_root: Path, window_difficulty: dict, output_path: Pa
     if clean_times:
         possible=max(1,int((max(clean_times)-min(clean_times)).total_seconds()/3600)+1); coverage=round(100*len(set(clean_times))/possible)
     numeric=lambda info,key: (float(info.get(key)) if info.get(key) not in ('',None) else None)
+    window_expected={}
+    window_expected_path=tools_root/'output'/'window_player_expected_winrate.csv'
+    if window_expected_path.exists():
+        with window_expected_path.open(encoding='utf-8-sig',newline='') as handle:
+            for row in csv.DictReader(handle):
+                window_expected[(row.get('delta_file','').replace('\\','/'),row.get('player_id',''))]=number(row.get('expected_winrate'),default=None)
     def extreme_snapshot(info):
         source=snapshots_by_key.get(info.get('deltaFile',''),{}); rows=source.get('rows',[])
         participants=[]
@@ -365,8 +389,9 @@ def build_method_data(tools_root: Path, window_difficulty: dict, output_path: Pa
             pid=(row.get('id') or row.get('player_id') or '').strip(); games=number(row.get('games'),as_int=True); wins=number(row.get('wins'),as_int=True)
             if not pid or games<=0: continue
             meta=current_players.get(pid,{'id':pid,'name':row.get('displayname') or pid[:8],'country':''})
-            participants.append({**meta,'games':games,'wins':wins,'winrate':round(100*wins/games,1)})
-        participants.sort(key=lambda p:(-p['games'],-p['wins'],p['name'].casefold()))
+            expected=window_expected.get((info.get('deltaFile','').replace('\\','/'),pid))
+            participants.append({**meta,'games':games,'wins':wins,'winrate':round(100*wins/games,1),'expectedWinrate':round(expected,1) if expected is not None else None})
+        participants.sort(key=lambda p:(-(p['expectedWinrate'] if p['expectedWinrate'] is not None else -1),-p['wins'],-p['games'],p['name'].casefold()))
         return {
             'timestamp':datetime.fromisoformat(info['windowStart']).replace(tzinfo=BERLIN).astimezone(timezone.utc).isoformat().replace('+00:00','Z'),
             'windowStart':info['windowStart'],'windowEnd':info.get('windowEnd',''),'deltaFile':info.get('deltaFile',''),
@@ -390,7 +415,11 @@ def build_method_data(tools_root: Path, window_difficulty: dict, output_path: Pa
         'populationPriorWinrate':report.get('population_prior_winrate'),'betweenWindowVariance':report.get('estimated_between_window_variance'),
         'easiestReferenceEffect':easiest_reference,'minimumPublishedGames':30,'expectedWrFloor':2,'expectedWrCeiling':98,
     }
-    doc={'generatedAt':datetime.now(timezone.utc).isoformat(timespec='seconds'),'coveragePct':coverage,'periodDays':30,'players':current_players,'hourWindows':hour_windows,'examples':examples,'hourTop':hour_top,'methodConstants':method_constants,'extremes':{'hardest':extreme_snapshot(hardest) if hardest else None,'easiest':extreme_snapshot(easiest) if easiest else None}}
+    # Public records require enough information for at least medium confidence.
+    # The source report already excludes dirty/missing hourly imports.
+    record_candidates=[info for info in valid if info.get('confidence') in ('medium','high') and number(info.get('games'),as_int=True)>0]
+    hardest_records=[extreme_snapshot(info) for info in sorted(record_candidates,key=lambda x:number(x.get('lobbyBonus')),reverse=True)[:10]]
+    doc={'generatedAt':datetime.now(timezone.utc).isoformat(timespec='seconds'),'coveragePct':coverage,'periodDays':30,'players':current_players,'hourWindows':hour_windows,'examples':examples,'hourTop':hour_top,'methodConstants':method_constants,'hardestRecords':hardest_records,'extremes':{'hardest':extreme_snapshot(hardest) if hardest else None,'easiest':extreme_snapshot(easiest) if easiest else None}}
     output_path.write_text(json.dumps(doc,ensure_ascii=False,separators=(',',':')),encoding='utf-8')
 
 def main():

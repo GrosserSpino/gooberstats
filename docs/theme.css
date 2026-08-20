@@ -156,3 +156,4 @@ body { padding-bottom:64px; }
   .site-footer .site-time-control select { width:auto; min-width:0; max-width:68vw; }
   body { padding-bottom:74px; }
 }
+.feature-nav{display:flex;justify-content:center;gap:10px;margin:0 auto 20px;padding:0 14px}.feature-nav a{padding:10px 15px;border:1px solid rgba(255,255,255,.22);border-radius:12px;background:rgba(7,25,27,.82);color:#d9e6dc;text-decoration:none;font-weight:900}.feature-nav a:hover,.feature-nav a.active{border-color:#ffcf70;color:#ffcf70;background:rgba(7,25,27,.95)}@media(max-width:560px){.feature-nav{display:grid;grid-template-columns:1fr 1fr}.feature-nav a{text-align:center}.feature-nav a:first-child{grid-column:1/-1}}

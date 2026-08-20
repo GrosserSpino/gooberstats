@@ -8,8 +8,8 @@
   <link rel="stylesheet" href="./styles.css">
   <link rel="stylesheet" href="./profile.css">
   <link rel="stylesheet" href="./monthly.css?v=20260820-alltime-theme1">
-  <link rel="stylesheet" href="./dashboard-restore.css?v=20260820-alltime-theme1">
-  <link rel="stylesheet" href="./theme.css?v=20260814-4">
+  <link rel="stylesheet" href="./dashboard-restore.css?v=20260820-month-layout1">
+  <link rel="stylesheet" href="./theme.css?v=20260820-month-layout1">
 </head>
 <body>
   <main>
@@ -18,25 +18,28 @@
         <img class="winner-logo" src="./assets/goober-dash-logo.png" alt="Goober Dash">
         <div class="winner-heading">
           <h1><img class="winner-title-image" src="./assets/hero-biggest-winners.png" alt="Biggest Winners"></h1>
-          <div class="month-switcher">
+        </div>
+      </div>
+      <div class="monthly-layout">
+        <div class="leaderboard-column">
+          <div class="month-switcher leaderboard-month-switcher">
             <button class="month-arrow month-arrow-left" id="month-previous" type="button" aria-label="Newer month"><img src="./assets/month-arrow-left.png" alt=""></button>
             <p><img class="winner-month-image" id="winner-month" src="./assets/hero-2026-08.png" alt="August 2026"></p>
             <button class="month-arrow month-arrow-right" id="month-next" type="button" aria-label="Older month"><img src="./assets/month-arrow-right.png" alt=""></button>
           </div>
+          <aside class="panel monthly-leaderboard"><div id="winner-list" class="monthly-rank-list"></div></aside>
         </div>
-      </div>
-      <div class="site-time-control">
-        <span id="updated-at">Updated —</span>
-        <label for="site-timezone"><span>Time zone</span><select id="site-timezone"></select></label>
-      </div>
-      <div class="monthly-layout">
-        <aside class="panel monthly-leaderboard"><div id="winner-list" class="monthly-rank-list"></div></aside>
         <section id="monthly-profile" class="panel profile-panel"><div class="loading">Select a Top 50 player.</div></section>
       </div>
     </section>
   </main>
-  <footer>Independent Goober Dash statistics · Tracking coverage and confidence vary by player.</footer>
-  <script src="./dashboard-restore.js?v=20260820-pps-placeholder1" defer></script>
-  <script src="./app.js?v=20260820-pps-placeholder1" defer></script>
+  <footer class="site-footer">
+    <div class="site-time-control">
+      <span id="updated-at">Updated —</span>
+      <label for="site-timezone"><span>Time zone</span><select id="site-timezone"></select></label>
+    </div>
+  </footer>
+  <script src="./dashboard-restore.js?v=20260820-month-layout1" defer></script>
+  <script src="./app.js?v=20260820-local-time1" defer></script>
 </body>
 </html>

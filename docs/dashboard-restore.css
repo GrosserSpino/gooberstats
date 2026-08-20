@@ -52,3 +52,23 @@ body[class^="month-"] .monthly-leaderboard{background-color:#173544;background-i
 .dashboard-profile .big-rate strong{font-size:64px;-webkit-text-stroke:1.5px #000;text-shadow:0 0 9px var(--pps-light),0 0 calc(17px + 22px * var(--pps-power)) var(--pps-color)}
 .dashboard-profile .stat,.dashboard-profile .chart-card{border-color:var(--line);box-shadow:none}
 @media(max-width:700px){.dashboard-profile .big-rate strong{font-size:42px;-webkit-text-stroke:1px #000}}
+
+/* Match each profile surface to its leaderboard background. */
+.dashboard-profile{background-color:#f58aee;background-image:url('./assets/pattern-pink.png');background-position:0 0;background-repeat:repeat;background-size:55px 55px}
+body[class^="month-"] .dashboard-profile{background-color:#173544;background-image:var(--leaderboard-month-background);background-position:center;background-repeat:no-repeat;background-size:cover}
+.dashboard-profile .profile-head,.dashboard-profile .profile-tab-body{background:transparent}
+
+/* Large profile Goober anchored to the top edge. */
+.dashboard-profile .profile-head{align-items:flex-start;min-height:355px;padding:0 28px 18px}
+.dashboard-profile .profile-identity{flex-direction:column;align-items:flex-start}
+.dashboard-profile .profile-identity>div{width:100%;margin-top:-10px;text-align:left}
+.dashboard-profile .profile-identity h2{justify-content:flex-start;margin:0}
+.dashboard-profile .profile-identity h2{font-family:"Fredoka",sans-serif;font-size:36px;font-weight:650;letter-spacing:.005em;color:#fff;-webkit-text-stroke:1px #092f62;paint-order:stroke fill;text-shadow:0 2px 0 #092f62,0 3px 5px rgba(9,47,98,.72)}
+.dashboard-profile .profile-identity h2 .gel-flag{width:70px;height:70px;margin-right:10px}
+.dashboard-profile .pps-stat{text-decoration:none;color:inherit}
+.dashboard-profile .pps-stat b{color:var(--pps-light);text-shadow:0 0 8px var(--pps-light),0 0 18px var(--pps-color)}
+.dashboard-profile::before{background:none}
+.dashboard-profile .profile-tab-body>.stats{padding:12px;background:rgba(4,14,19,.58);border:1px solid rgba(255,255,255,.15);border-radius:16px;box-shadow:inset 0 1px rgba(255,255,255,.08),0 10px 24px rgba(0,0,0,.16)}
+.profile-goober-glow{width:300px;height:300px;flex-basis:300px;margin-top:-2px;transform:translateX(-50px)}
+.dashboard-profile .profile-goober{width:300px;height:300px;flex-basis:300px;object-position:center top}
+@media(max-width:700px){.dashboard-profile .profile-head{min-height:235px;padding:0 12px 12px}.profile-goober-glow{width:175px;height:185px;flex-basis:175px;margin-top:-2px;transform:translateX(-32px)}.dashboard-profile .profile-goober{width:175px;height:185px;flex-basis:175px;object-position:center top}.dashboard-profile .profile-identity>div{margin-top:-7px}.dashboard-profile .profile-identity h2{font-size:28px}.dashboard-profile .profile-identity h2 .gel-flag{width:56px;height:56px;margin-right:8px}}

@@ -173,6 +173,8 @@ def build_alltime_data(tools_root: Path, window_difficulty: dict, output_path: P
         totals[pid]={
             'id':pid,'name':row.get('display_name') or row.get('username') or pid[:8],
             'games':number(row.get('games'),as_int=True),'wins':number(row.get('wins'),as_int=True),
+            'deaths':number(row.get('deaths'),as_int=True),'level':number(row.get('level'),default=None,as_int=True),
+            'winstreak':number(row.get('winstreak'),default=None,as_int=True),
             'country':'','hat':row.get('hat',''),'suit':row.get('suit',''),
             'body':row.get('body',''),'hand':row.get('hand',''),'color':row.get('color',''),
         }
@@ -207,11 +209,61 @@ def build_alltime_data(tools_root: Path, window_difficulty: dict, output_path: P
             observations[pid].append((start,games,wins,number(info.get('lobbyBonus'))))
             if start>=next_full_hour:
                 if pid not in totals:
-                    totals[pid]={'id':pid,'name':row.get('displayname') or pid[:8],'games':0,'wins':0,'country':'','hat':'','suit':'','body':'','hand':'','color':''}
+                    totals[pid]={'id':pid,'name':row.get('displayname') or pid[:8],'games':0,'wins':0,'deaths':0,'level':None,'winstreak':None,'country':'','hat':'','suit':'','body':'','hand':'','color':''}
                 totals[pid]['games']+=games; totals[pid]['wins']+=wins
+                totals[pid]['deaths']+=number(row.get('deaths'),as_int=True)
 
     top=sorted(totals.values(),key=lambda row:(-row['wins'],-row['games'],row['id']))[:50]
-    players=[]
+    history_points=defaultdict(list)
+    history_path=tools_root/'daily_snapshots_history.csv'
+    top_ids={row['id'] for row in top}
+    if history_path.exists():
+        with history_path.open(encoding='utf-8-sig',newline='') as f:
+            for item in csv.DictReader(f):
+                pid=item.get('player_id','')
+                if pid not in top_ids: continue
+                stamp=item.get('snapshot_time','').strip()
+                try: moment=datetime.fromisoformat(stamp.replace('Z','+00:00'))
+                except ValueError:
+                    try: moment=datetime.strptime(stamp,'%d.%m.%Y').replace(tzinfo=timezone.utc)
+                    except ValueError: continue
+                if moment.tzinfo is None: moment=moment.replace(tzinfo=timezone.utc)
+                history_points[pid].append((moment,number(item.get('games'),as_int=True),number(item.get('wins'),as_int=True)))
+
+    def rolling_history(pid):
+        raw=sorted(history_points.get(pid,[]))
+        clean=[]
+        for moment,games,wins in raw:
+            if clean and games<clean[-1][1]: continue
+            if clean and games==clean[-1][1]: clean[-1]=(moment,games,wins)
+            else: clean.append((moment,games,wins))
+        if len(clean)<2: return []
+        def point_at(target):
+            for index in range(1,len(clean)):
+                before,after=clean[index-1],clean[index]
+                if before[1]<=target<=after[1] and after[1]>before[1]:
+                    fraction=(target-before[1])/(after[1]-before[1])
+                    moment=before[0]+(after[0]-before[0])*fraction
+                    wins=before[2]+(after[2]-before[2])*fraction
+                    return moment,wins
+            return None
+        first_game=clean[0][1]; last_game=clean[-1][1]
+        start=first_game
+        spans=[]
+        while start+100<=last_game:
+            left=point_at(start); right=point_at(start+100)
+            if left and right:
+                days=max(1/24,(right[0]-left[0]).total_seconds()/86400)
+                spans.append({'start':left[0].date().isoformat(),'end':right[0].date().isoformat(),'games':100,'winrate':round(max(0,min(100,right[1]-left[1])),2),'gamesPerDay':round(min(100,100/days),2)})
+            start+=100
+        for index,span in enumerate(spans):
+            neighborhood=spans[max(0,index-2):min(len(spans),index+3)]
+            span['smoothedWinrate']=round(sum(item['winrate'] for item in neighborhood)/len(neighborhood),2)
+        return spans
+
+    players=[]; profiles_dir=output_path.parent/'alltime-profiles'
+    if profiles_dir.exists(): shutil.rmtree(profiles_dir)
+    profiles_dir.mkdir(parents=True)
     for rank,row in enumerate(top,1):
         remaining=300.0; weighted_wins=0.0; used_games=0.0; last_activity=None
         for start,games,wins,bonus in sorted(observations.get(row['id'],[]),reverse=True):
@@ -227,6 +279,14 @@ def build_alltime_data(tools_root: Path, window_difficulty: dict, output_path: P
             'lastActivity':last_activity.astimezone(timezone.utc).isoformat().replace('+00:00','Z') if last_activity else None,
             'cosmetics':{key:row.get(key,'') for key in ('hat','suit','body','hand','color')},
         })
+        profile={**players[-1],
+            'view':'alltime','month':'alltime','monthLabel':'Alltime','level':row.get('level'),
+            'deaths':row.get('deaths',0),'winstreak':row.get('winstreak'),
+            'winrate':round(100*row['wins']/row['games'],2) if row['games'] else None,
+            'deathrate':round(100*row.get('deaths',0)/row['games'],2) if row['games'] else None,
+            'history':rolling_history(row['id']),'badges':[],
+        }
+        (profiles_dir/f"{row['id']}.json").write_text(json.dumps(profile,ensure_ascii=False,separators=(',',':')),encoding='utf-8')
     doc={'generatedAt':datetime.now(timezone.utc).isoformat(timespec='seconds'),'view':'alltime','label':'ALLTIME','players':players}
     output_path.write_text(json.dumps(doc,ensure_ascii=False,separators=(',',':')),encoding='utf-8')
 
@@ -398,6 +458,10 @@ def main():
     for pid,record in historical_badge_rows(tools_root,current_id,out/'historical-leaderboards'): badge_map[pid].append(record)
     (out/'badges.json').write_text(json.dumps(badge_map,ensure_ascii=False,separators=(',',':')),encoding='utf-8')
     for profile_path in monthly_dir.glob('*.json'):
+        doc=json.loads(profile_path.read_text(encoding='utf-8')); doc['badges']=sorted(badge_map.get(doc['id'],[]),key=lambda x:x['month'],reverse=True)
+        profile_path.write_text(json.dumps(doc,ensure_ascii=False,separators=(',',':')),encoding='utf-8')
+    alltime_profiles=out/'alltime-profiles'
+    for profile_path in alltime_profiles.glob('*.json'):
         doc=json.loads(profile_path.read_text(encoding='utf-8')); doc['badges']=sorted(badge_map.get(doc['id'],[]),key=lambda x:x['month'],reverse=True)
         profile_path.write_text(json.dumps(doc,ensure_ascii=False,separators=(',',':')),encoding='utf-8')
     archive=out/'months'/month.name

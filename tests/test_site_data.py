@@ -34,6 +34,11 @@ class SiteDataTests(unittest.TestCase):
             self.assertLessEqual(player['ppsGames'],300)
             self.assertEqual(player['pps'] is not None,player['ppsGames']==300)
             self.assertTrue((ROOT/'docs/assets/goobers'/f"{player['id']}.png").exists())
+            profile=json.loads((ROOT/'docs/data/alltime-profiles'/f"{player['id']}.json").read_text(encoding='utf-8'))
+            self.assertEqual(profile['view'],'alltime')
+            self.assertEqual((profile['games'],profile['wins']),(player['games'],player['wins']))
+            self.assertEqual(profile['pps'],player['pps'])
+            self.assertTrue(all(span['games']==100 and 0<=span['winrate']<=100 and 0<span['gamesPerDay']<=100 for span in profile['history']))
     def test_monthly_profile_links(self):
         data=json.loads((ROOT/'docs/data/biggest-winners.json').read_text(encoding='utf-8'))
         self.assertEqual(len(data['players']),50)

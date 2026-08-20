@@ -58,6 +58,7 @@ def render_race_text(font_path,text,max_width):
 
 def render_hero_assets(tools_root,output,font_path):
     render_race_text(font_path,'BIGGEST WINNERS',2000).save(output/'hero-biggest-winners.png',optimize=True)
+    render_race_text(font_path,'ALLTIME',1200).save(output/'hero-alltime.png',optimize=True)
     for month in sorted((tools_root/'Leaderboards Monthly Top100').glob('????-??')):
         try: label=datetime.strptime(month.name,'%Y-%m').strftime('%B %Y')
         except ValueError: label=month.name

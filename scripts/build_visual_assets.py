@@ -81,6 +81,13 @@ def main():
         with path.open(encoding='utf-8-sig',newline='') as f:
             for row in list(csv.DictReader(f))[:50]: players[row['player_id']]=row
     try:
+        alltime=json.loads((output.parent/'data'/'alltime.json').read_text(encoding='utf-8'))
+        for row in alltime.get('players',[]):
+            cosmetics=row.get('cosmetics',{})
+            players[row['id']]={**row,**cosmetics}
+    except (FileNotFoundError,json.JSONDecodeError,KeyError):
+        pass
+    try:
         method=json.loads((output.parent/'data'/'method.json').read_text(encoding='utf-8'))
         hourly={hour:{} for hour in range(24)}
         for window in method.get('hourWindows',[]):

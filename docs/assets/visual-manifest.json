@@ -1,6 +1,14 @@
 {
   "flags": {
+    "AR": [
+      96,
+      96
+    ],
     "AU": [
+      96,
+      96
+    ],
+    "BR": [
       96,
       96
     ],
@@ -8,7 +16,7 @@
       96,
       96
     ],
-    "CL": [
+    "CZ": [
       96,
       96
     ],
@@ -16,7 +24,19 @@
       96,
       96
     ],
+    "EC": [
+      96,
+      96
+    ],
+    "FR": [
+      96,
+      96
+    ],
     "GB": [
+      96,
+      96
+    ],
+    "GR": [
       96,
       96
     ],
@@ -24,7 +44,11 @@
       96,
       96
     ],
-    "HU": [
+    "IT": [
+      96,
+      96
+    ],
+    "JM": [
       96,
       96
     ],
@@ -32,7 +56,11 @@
       96,
       96
     ],
-    "LV": [
+    "MA": [
+      96,
+      96
+    ],
+    "MX": [
       96,
       96
     ],
@@ -40,11 +68,27 @@
       96,
       96
     ],
-    "PK": [
+    "NZ": [
       96,
       96
     ],
     "PL": [
+      96,
+      96
+    ],
+    "PT": [
+      96,
+      96
+    ],
+    "RU": [
+      96,
+      96
+    ],
+    "SE": [
+      96,
+      96
+    ],
+    "SG": [
       96,
       96
     ],
@@ -56,7 +100,15 @@
       96,
       96
     ],
+    "TW": [
+      96,
+      96
+    ],
     "US": [
+      96,
+      96
+    ],
+    "VN": [
       96,
       96
     ],
@@ -66,579 +118,810 @@
     ]
   },
   "goobers": {
-    "076f8dad-6016-4224-af2c-ad2c182c1a15": [
-      "hat_scientist",
-      "suit_painter",
-      "hand_magnifier",
-      "color_dots_navy_peach",
-      "fixed-foot-baseline-v1"
-    ],
-    "08a41b4c-5170-419c-8ef9-8448a9d2eea3": [
-      "hat_showercap",
-      "suit_towel",
-      "hand_soap",
-      "color_yellow",
-      "fixed-foot-baseline-v1"
-    ],
-    "093ddd36-ff70-4b5c-b5ca-8a5e40f5489b": [
+    "000437d7-06e6-4c4a-8ea9-0ffc0e19eab3": [
       "hat_default",
       "suit_default",
+      "hand_default",
+      "color_purple_gold",
+      "fixed-eye-anchor-v2"
+    ],
+    "076f8dad-6016-4224-af2c-ad2c182c1a15": [
+      "hat_glasses",
+      "suit_painter",
+      "hand_paintbrush",
+      "color_dots_navy_peach",
+      "fixed-eye-anchor-v2"
+    ],
+    "093ddd36-ff70-4b5c-b5ca-8a5e40f5489b": [
+      "hat_pirate",
+      "suit_pirate",
       "hand_pirate",
-      "color_navy_peach",
-      "fixed-foot-baseline-v1"
+      "color_yellow",
+      "fixed-eye-anchor-v2"
     ],
     "09dd99ec-5694-481d-848f-ad48c273a566": [
       "hat_wizard",
       "suit_wizard",
       "hand_staff",
       "color_red",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
     ],
-    "0b78971a-ed64-48cf-9165-ee054d6a502f": [
-      "hat_default",
+    "0ac8bcaa-06a6-4f59-9a7a-5bcf730dd9d0": [
+      "hat_scuba",
+      "suit_default",
+      "hand_knife",
+      "color_navy",
+      "fixed-eye-anchor-v2"
+    ],
+    "0c106935-7f93-4047-a66f-bf53ef779208": [
+      "hat_flower",
       "suit_fairy",
-      "hand_fairy",
-      "color_stripes_cyan_pink",
-      "fixed-foot-baseline-v1"
+      "hand_banana",
+      "color_pink",
+      "fixed-eye-anchor-v2"
     ],
     "0cd0b31e-110c-4a73-924a-213f3acd24d0": [
       "hat_unicorn",
       "suit_dark_knight",
       "hand_hockeystick",
       "color_stripes_cyan_pink",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
     ],
     "0ea6a1b6-09ad-4d33-989e-35b0b83fea9d": [
       "hat_pirate",
       "suit_royalrobes",
       "hand_pickaxe",
       "color_dots_purple_gold",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
+    ],
+    "10bcc0e5-9e18-407c-bbb2-79a4487494d7": [
+      "hat_default",
+      "suit_default",
+      "hand_banana",
+      "color_yellow",
+      "fixed-eye-anchor-v2"
+    ],
+    "10d34f85-c112-4c88-8413-181b4d988c98": [
+      "hat_bunny",
+      "suit_dark_knight",
+      "hand_sai",
+      "color_white",
+      "fixed-eye-anchor-v2"
+    ],
+    "118120d6-4073-467d-863e-a6a167ca2070": [
+      "hat_scientist",
+      "suit_royalrobes",
+      "hand_yarn",
+      "color_beige",
+      "fixed-eye-anchor-v2"
+    ],
+    "12f5249a-a391-4f6e-9003-ed023cf3ed88": [
+      "hat_scuba",
+      "suit_bee",
+      "hand_knife",
+      "color_stripes_cyan_pink",
+      "fixed-eye-anchor-v2"
     ],
     "144aeeba-e524-4f20-8244-651fe0338eba": [
       "hat_alien",
-      "suit_banana",
+      "suit_corn",
       "hand_banana",
       "color_navy",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
     ],
     "1608b8e8-fcb1-4bcd-8608-5d087a882d70": [
       "hat_lumberjack",
       "suit_ninja",
       "hand_scythe",
       "color_purple_gold",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
     ],
     "16984496-8e4b-4bbe-b5af-57f361c7e9ca": [
       "hat_flower",
       "suit_fairy",
       "hand_lollipop",
       "color_pink",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
+    ],
+    "17f68f54-a052-4a94-bc46-46d92c8c5046": [
+      "hat_moustache",
+      "suit_light_knight",
+      "hand_spatula",
+      "color_navy",
+      "fixed-eye-anchor-v2"
     ],
     "1f31589a-ff67-4788-9af4-4f877c4b45e1": [
       "hat_headband",
       "suit_scientist",
       "hand_pickaxe",
       "color_yellow_bone",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
     ],
     "216a32dd-44ef-4a42-b132-c3fab926904d": [
       "hat_pompadour",
       "suit_tux",
       "hand_goldstatue",
       "color_red_yellow",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
     ],
     "23293f0d-faa5-406c-82fd-7d9298b8d41c": [
       "hat_cowboyhat",
       "suit_angel",
       "hand_scythe",
       "color_red",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
     ],
     "2647909c-130b-43c2-8d11-c9da1b6f4bad": [
-      "hat_hockey",
-      "suit_hockey",
-      "hand_hockeystick",
-      "color_stripes_lemon_lime",
-      "fixed-foot-baseline-v1"
+      "hat_angel",
+      "suit_angel",
+      "hand_phone",
+      "color_stripes_navy_peach",
+      "fixed-eye-anchor-v2"
     ],
     "29eeb03c-d3f1-42fc-b6cb-a75aa1280883": [
       "hat_dark_knight",
       "suit_dark_knight",
       "hand_pirate",
       "color_red",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
+    ],
+    "2b6447a8-44de-485d-91fa-a9633b4a66af": [
+      "hat_glasses",
+      "suit_wizard",
+      "hand_pickaxe",
+      "color_yellow_bone",
+      "fixed-eye-anchor-v2"
+    ],
+    "2e5f5861-e9b6-42b5-8a52-6e35c144f95e": [
+      "hat_headband",
+      "suit_default",
+      "hand_sai",
+      "color_white",
+      "fixed-eye-anchor-v2"
     ],
     "2e985ef5-6666-4443-9809-202427c67ada": [
       "hat_chef",
       "suit_apron",
       "hand_staff",
       "color_stripes_indigo_green",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
     ],
     "2ef461d0-bf67-4cc2-b7c4-b31579fa6c57": [
       "hat_antennae",
       "suit_bee",
       "hand_default",
       "color_yellow",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
     ],
     "2f8b404f-3cb8-425a-a599-6dbfc170b375": [
       "hat_glasses",
       "suit_wizard",
       "hand_sai",
       "color_red_bone",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
     ],
     "2fe864b5-2534-47e3-ae85-bc8504c66ea7": [
-      "hat_crown",
-      "suit_polar",
-      "hand_sceptre",
-      "color_white",
-      "fixed-foot-baseline-v1"
+      "hat_glasses",
+      "suit_default",
+      "hand_default",
+      "color_default",
+      "fixed-eye-anchor-v2"
     ],
     "310a150e-3304-4e36-8328-97bbfe0a28f6": [
       "hat_glasses",
       "suit_wizard",
       "hand_scythe",
       "color_yellow_bone",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
+    ],
+    "313f4c0f-e782-4d19-a71b-a1ddf01cc8a2": [
+      "hat_robot",
+      "suit_space",
+      "hand_scythe",
+      "color_skelly",
+      "fixed-eye-anchor-v2"
     ],
     "32938fda-a824-4209-8d44-ed38c083ee3f": [
       "hat_scuba",
       "suit_banana",
       "hand_plunger",
       "color_yellow",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
     ],
     "373126e2-e473-4082-92c2-b4c6f648bc5b": [
       "hat_crown",
       "suit_royalrobes",
       "hand_royalsceptre",
       "color_pink_cyan",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
+    ],
+    "3b0bd662-9578-4b77-82b4-5ff8ae74dfb8": [
+      "hat_dark_knight",
+      "suit_light_knight",
+      "hand_dark_knight",
+      "color_navy",
+      "fixed-eye-anchor-v2"
     ],
     "3c3c1383-1a79-426c-b219-5ab5868dbe7c": [
-      "hat_light_knight",
-      "suit_light_knight",
-      "hand_light_knight",
-      "color_pink_cyan",
-      "fixed-foot-baseline-v1"
+      "hat_angel",
+      "suit_jumpsuit",
+      "hand_sceptre",
+      "color_stripes_purple_gold",
+      "fixed-eye-anchor-v2"
     ],
     "3dfad18b-134c-4142-a495-24defadddc00": [
       "hat_beaver",
-      "suit_angel",
+      "suit_monkey",
       "hand_royalsceptre",
       "color_brown",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
     ],
     "3f40c657-86b3-4a70-ba76-951d246306fc": [
       "hat_bunny",
       "suit_bunny",
       "hand_carrot",
       "color_dots_cyan_pink",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
     ],
     "42cbe1e1-ee66-435b-9e5e-b10e1298213b": [
-      "hat_dino",
-      "suit_viking",
-      "hand_lollipop",
-      "color_dots_cyan_pink",
-      "fixed-foot-baseline-v1"
+      "hat_police",
+      "suit_suit",
+      "hand_scuba",
+      "color_dots_purple_teal",
+      "fixed-eye-anchor-v2"
+    ],
+    "454f0133-869b-4636-9e0b-7921403120cb": [
+      "hat_lumberjack",
+      "suit_devil",
+      "hand_devil",
+      "color_stripes_pink_cyan",
+      "fixed-eye-anchor-v2"
     ],
     "4968120a-02ae-46b5-8f08-be545953801d": [
       "hat_crown",
       "suit_cloak",
       "hand_scythe",
       "color_skelly",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
+    ],
+    "4ca0c409-472b-4423-9001-d0e0d0ef1840": [
+      "hat_flower",
+      "suit_bee",
+      "hand_phone",
+      "color_white",
+      "fixed-eye-anchor-v2"
     ],
     "50feb3f8-8879-4956-9bd6-2647fecb164f": [
-      "hat_flower",
+      "hat_baby",
       "suit_ninja",
-      "hand_scientist",
-      "color_dots_lemon_lime",
-      "fixed-foot-baseline-v1"
+      "hand_soap",
+      "color_dots_cyan_yellow",
+      "fixed-eye-anchor-v2"
+    ],
+    "5d3f7a3f-8656-4e41-817c-84f8071f1557": [
+      "hat_angel",
+      "suit_angel",
+      "hand_scythe",
+      "color_skelly",
+      "fixed-eye-anchor-v2"
     ],
     "5df2f5d2-eb61-42f1-8dd3-ec3921827a55": [
-      "hat_scientist",
-      "suit_sherlock",
-      "hand_sai",
+      "hat_robot",
+      "suit_scientist",
+      "hand_phone",
       "color_dots_purple_teal",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
     ],
     "60bf5b15-0a3e-4839-8786-47427f7e183d": [
       "hat_scientist",
       "suit_baby",
       "hand_light_knight",
       "color_blue_bone",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
     ],
     "63b3930c-56fa-4cec-ad8a-2c87320f6930": [
-      "hat_glasses",
-      "suit_wizard",
+      "hat_toucan",
+      "suit_toucan",
       "hand_pickaxe",
-      "color_red_bone",
-      "fixed-foot-baseline-v1"
+      "color_yellow_bone",
+      "fixed-eye-anchor-v2"
+    ],
+    "654f3eeb-f2f5-4792-83bc-3a7785068268": [
+      "hat_fedora",
+      "suit_suit",
+      "hand_briefcase",
+      "color_dots_blue_pink",
+      "fixed-eye-anchor-v2"
     ],
     "723a4f65-fb92-4fdc-b8e3-0d552eaf7450": [
-      "hat_crown",
-      "suit_dino",
-      "hand_scythe",
-      "color_green",
-      "fixed-foot-baseline-v1"
+      "hat_space",
+      "suit_default",
+      "hand_default",
+      "color_red",
+      "fixed-eye-anchor-v2"
     ],
     "72ebda9d-b960-4572-9f97-ef60448c114c": [
       "hat_light_knight",
       "suit_light_knight",
       "hand_light_knight",
       "color_stripes_lemon_lime",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
     ],
     "7341ce78-2973-49c5-b667-25f4dd99b2a3": [
       "hat_chef",
       "suit_default",
       "hand_sceptre",
       "color_pink_cyan",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
+    ],
+    "73cbf9dd-086e-4768-8e41-960c54d5feb5": [
+      "hat_dog",
+      "suit_dog",
+      "hand_bone",
+      "color_blue_pink",
+      "fixed-eye-anchor-v2"
+    ],
+    "73fbe20c-62e3-48b6-8570-24c5fea93481": [
+      "hat_dark_knight",
+      "suit_dark_knight",
+      "hand_dark_knight",
+      "color_navy",
+      "fixed-eye-anchor-v2"
     ],
     "76cfeb2a-b005-4d2b-811d-7e1c696c42ff": [
       "hat_default",
       "suit_default",
       "hand_default",
-      "color_dots_lemon_lime",
-      "fixed-foot-baseline-v1"
+      "color_red",
+      "fixed-eye-anchor-v2"
     ],
     "77dda853-2240-4706-840b-ad69994173a8": [
-      "hat_glasses",
-      "suit_royalrobes",
-      "hand_sai",
-      "color_dots_indigo_green",
-      "fixed-foot-baseline-v1"
+      "hat_fedora",
+      "suit_tux",
+      "hand_bat",
+      "color_skelly",
+      "fixed-eye-anchor-v2"
     ],
     "7ad28cf9-b19e-41b2-a680-edec16188e96": [
-      "hat_antennae",
-      "suit_poncho",
-      "hand_pirate",
-      "color_white",
-      "fixed-foot-baseline-v1"
+      "hat_showercap",
+      "suit_towel",
+      "hand_soap",
+      "color_stripes_cyan_yellow",
+      "fixed-eye-anchor-v2"
     ],
     "7f9acfd0-aa6e-4953-bb42-f0148fcedf6d": [
       "hat_default",
       "suit_default",
       "hand_pirate",
       "color_navy_peach",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
+    ],
+    "81165876-ce4e-4e3c-a3a7-237720a31d4e": [
+      "hat_glasses",
+      "suit_default",
+      "hand_driver",
+      "color_dots_red_yellow",
+      "fixed-eye-anchor-v2"
     ],
     "8243fd33-b267-440e-a5e9-f695eafea411": [
       "hat_dino",
       "suit_clownpants",
       "hand_royalsceptre",
       "color_stripes_purple_teal",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
     ],
     "8854014a-0cc4-4940-9fb8-002f09dad4e3": [
-      "hat_glasses",
-      "suit_hockey",
-      "hand_scientist",
-      "color_dots_lime_lemon",
-      "fixed-foot-baseline-v1"
+      "hat_scuba",
+      "suit_suit",
+      "hand_briefcase",
+      "color_dots_purple_teal",
+      "fixed-eye-anchor-v2"
     ],
     "9057b45b-b534-4ed0-8669-7c49283d2134": [
-      "hat_headband",
+      "hat_default",
       "suit_default",
-      "hand_pirate",
-      "color_stripes_lime_lemon",
-      "fixed-foot-baseline-v1"
+      "hand_default",
+      "color_pink",
+      "fixed-eye-anchor-v2"
     ],
     "9148ee77-b5a6-4a89-a33c-6820e106a507": [
-      "hat_scientist",
-      "suit_baby",
+      "hat_moustache",
+      "suit_viking",
       "hand_light_knight",
       "color_blue_bone",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
     ],
     "91fe7c41-1ff1-4b31-af97-70dd1549d5b2": [
-      "hat_dark_knight",
+      "hat_default",
       "suit_default",
-      "hand_carrot",
-      "color_dots_lime_lemon",
-      "fixed-foot-baseline-v1"
+      "hand_default",
+      "color_default",
+      "fixed-eye-anchor-v2"
+    ],
+    "923afcd9-a8ff-4fc8-8665-80b44e7aacd7": [
+      "hat_scuba",
+      "suit_angel",
+      "hand_pickaxe",
+      "color_yellow_bone",
+      "fixed-eye-anchor-v2"
     ],
     "995e395e-841d-4ff3-87e8-0084084ee237": [
       "hat_pirate",
       "suit_royalrobes",
       "hand_pickaxe",
       "color_dots_purple_gold",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
     ],
     "997576d9-0946-466b-826b-cf99d3639ce7": [
       "hat_crown",
       "suit_wizard",
       "hand_stick",
       "color_dots_indigo_green",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
     ],
     "9bf02918-02f7-4c91-a4cf-6705e1b92e63": [
-      "hat_perm",
-      "suit_sherlock",
-      "hand_banana",
-      "color_dots_lime_lemon",
-      "fixed-foot-baseline-v1"
+      "hat_pompadour",
+      "suit_royalrobes",
+      "hand_bamboo",
+      "color_dots_cyan_yellow",
+      "fixed-eye-anchor-v2"
+    ],
+    "9eefcecd-202f-41b2-bbae-4652b267e752": [
+      "hat_headband",
+      "suit_mummy",
+      "hand_sai",
+      "color_lemon_lime",
+      "fixed-eye-anchor-v2"
     ],
     "a285b7b7-d4f7-4b13-98dc-45ad89b36e5b": [
       "hat_polar",
       "suit_polar",
       "hand_fish",
       "color_white",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
+    ],
+    "a336b047-f180-460c-8d0e-d7451fa02628": [
+      "hat_panda",
+      "suit_toucan",
+      "hand_knife",
+      "color_skelly",
+      "fixed-eye-anchor-v2"
     ],
     "a40802e9-4402-481a-b46b-1ffd172bb4cc": [
-      "hat_lion",
-      "suit_wizard",
-      "hand_sceptre",
-      "color_stripes_lemon_lime",
-      "fixed-foot-baseline-v1"
+      "hat_perm",
+      "suit_sherlock",
+      "hand_staff",
+      "color_dots_lime_lemon",
+      "fixed-eye-anchor-v2"
     ],
     "a42179a6-b0a3-492c-861e-6cfcd65429c3": [
       "hat_default",
       "suit_default",
       "hand_default",
       "color_yellow",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
     ],
-    "a6ca21e9-5795-4c94-9c4e-78cb55f0c86b": [
-      "hat_robot",
-      "suit_cowboy",
-      "hand_waterbottle",
-      "color_lime_lemon",
-      "fixed-foot-baseline-v1"
+    "a6de5f3c-447c-423d-af2e-49ecd3bf328d": [
+      "hat_space",
+      "suit_space",
+      "hand_dark_knight",
+      "color_navy",
+      "fixed-eye-anchor-v2"
     ],
     "a8001f3c-a01b-4634-a728-55b82f65a21e": [
       "hat_glasses",
       "suit_wizard",
       "hand_sai",
       "color_yellow",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
     ],
     "ab3d4a40-5685-4374-9714-66e0790e3971": [
-      "hat_robot",
-      "suit_space",
+      "hat_cowboyhat",
+      "suit_angel",
       "hand_sai",
-      "color_stripes_purple_gold",
-      "fixed-foot-baseline-v1"
+      "color_yellow_pink",
+      "fixed-eye-anchor-v2"
     ],
     "ac956403-96ee-4025-a3c6-0c0a84480cca": [
       "hat_bunny",
       "suit_bunny",
       "hand_carrot",
-      "color_stripes_purple_teal",
-      "fixed-foot-baseline-v1"
+      "color_purple_teal",
+      "fixed-eye-anchor-v2"
     ],
     "af41335a-0739-4538-9da5-97de5dc218f0": [
       "hat_pirate",
       "suit_baby",
       "hand_rose",
       "color_stripes_purple_teal",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
     ],
     "b36f404b-c5f0-40b8-b70e-ef45cf916817": [
       "hat_flyhead",
       "suit_scaryclown",
       "hand_scythe",
       "color_dots_navy_peach",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
+    ],
+    "b886a191-8850-4632-a8b3-b2b2f03cba88": [
+      "hat_bunny",
+      "suit_default",
+      "hand_rose",
+      "color_navy",
+      "fixed-eye-anchor-v2"
+    ],
+    "bb4c6de8-31ad-4982-8998-1046ee4c2db2": [
+      "hat_headband",
+      "suit_wizard",
+      "hand_scythe",
+      "color_skelly",
+      "fixed-eye-anchor-v2"
+    ],
+    "bcd8e308-c220-413d-9b7d-8753ce7c5929": [
+      "hat_tophat",
+      "suit_tux",
+      "hand_lollipop",
+      "color_red_bone",
+      "fixed-eye-anchor-v2"
     ],
     "be8faa3f-6d6f-4f40-b163-c4508d6e7817": [
       "hat_lumberjack",
       "suit_devil",
       "hand_devil",
       "color_stripes_purple_gold",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
     ],
     "bedc23e4-2c3f-4bce-9b88-36b6e59308f8": [
       "hat_alien",
       "suit_default",
       "hand_scientist",
       "color_lemon_lime",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
     ],
     "bff469c7-8dd7-4e3f-80bd-1f27fd11c691": [
       "hat_angel",
-      "suit_hockey",
-      "hand_light_knight",
+      "suit_alien",
+      "hand_default",
       "color_indigo_green",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
+    ],
+    "c01c6a1f-3d78-4289-b6a6-5f05ae69f295": [
+      "hat_crown",
+      "suit_royalrobes",
+      "hand_scythe",
+      "color_dots_indigo_green",
+      "fixed-eye-anchor-v2"
+    ],
+    "c0c12d21-49af-4b55-aef0-57c42094d63f": [
+      "hat_crown",
+      "suit_wizard",
+      "hand_lollipop",
+      "color_red_bone",
+      "fixed-eye-anchor-v2"
+    ],
+    "c2836c77-5439-4cd2-8207-eeb5807f30f7": [
+      "hat_flyhead",
+      "suit_default",
+      "hand_knife",
+      "color_skelly",
+      "fixed-eye-anchor-v2"
+    ],
+    "c33a47f8-7c32-4197-a497-6335171a926e": [
+      "hat_fedora",
+      "suit_default",
+      "hand_default",
+      "color_stripes_purple_teal",
+      "fixed-eye-anchor-v2"
+    ],
+    "c3d3bdc3-c4c4-4331-a606-ae016339734a": [
+      "hat_pharaoh",
+      "suit_poncho",
+      "hand_royalsceptre",
+      "color_cyan_yellow",
+      "fixed-eye-anchor-v2"
     ],
     "c6971072-6af3-4a6a-bff8-1fafde84fbad": [
       "hat_rainbow",
       "suit_jumpsuit",
       "hand_carrot",
       "color_dots_lime_lemon",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
     ],
     "c9169f9d-67d8-4f50-bd19-2959c9106611": [
-      "hat_firefighter",
+      "hat_sombrero",
       "suit_default",
-      "hand_woodaxe",
-      "color_beige",
-      "fixed-foot-baseline-v1"
+      "hand_maracas",
+      "color_lime_lemon",
+      "fixed-eye-anchor-v2"
     ],
     "caf37944-81c9-44d9-96d1-9fecc98d7b37": [
-      "hat_aviator",
-      "suit_greenjacket",
-      "hand_banana",
-      "color_brown",
-      "fixed-foot-baseline-v1"
+      "hat_scaryclown",
+      "suit_space",
+      "hand_carrot",
+      "color_orange",
+      "fixed-eye-anchor-v2"
     ],
     "caf4e45f-81de-4c20-927e-f1a5820cf3cb": [
       "hat_alien",
       "suit_scarecrow",
       "hand_chainsaw",
       "color_green_bone",
-      "fixed-foot-baseline-v1"
-    ],
-    "cb1062ad-0816-4a3f-b217-f092a1a32808": [
-      "hat_police",
-      "suit_space",
-      "hand_default",
-      "color_green",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
     ],
     "cdc8e724-5a3f-4365-af50-4d1e98aca441": [
       "hat_pompadour",
       "suit_tux",
       "hand_rose",
       "color_red_yellow",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
+    ],
+    "cddebd95-c8b7-46d6-b1b2-573cfee568b7": [
+      "hat_default",
+      "suit_default",
+      "hand_rose",
+      "color_green",
+      "fixed-eye-anchor-v2"
     ],
     "cf1c8ed8-1a77-49f7-b06b-07c80ac0ade3": [
       "hat_default",
       "suit_default",
       "hand_default",
       "color_yellow",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
     ],
     "d0f38886-ef94-47f3-8654-7051923005b3": [
-      "hat_flower",
-      "suit_default",
-      "hand_yarn",
-      "color_green",
-      "fixed-foot-baseline-v1"
+      "hat_dark_knight",
+      "suit_dark_knight",
+      "hand_woodaxe",
+      "color_red",
+      "fixed-eye-anchor-v2"
     ],
     "d793923a-3a7e-418c-89d8-96fc6342aec7": [
       "hat_lumberjack",
       "suit_apron",
       "hand_spatula",
       "color_navy",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
     ],
     "d9464395-7054-4a33-bf0d-9b42e5a8aa29": [
       "hat_fedora",
       "suit_wizard",
       "hand_staff",
       "color_dots_cyan_pink",
-      "fixed-foot-baseline-v1"
-    ],
-    "da8128e7-1309-4da9-b241-9bbf56f54500": [
-      "hat_firefighter",
-      "suit_default",
-      "hand_hockeystick",
-      "color_purple_teal",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
     ],
     "e2306b13-9a4a-4800-9b46-dceeae77608d": [
-      "hat_cowboyhat",
-      "suit_cowboy",
-      "hand_default",
-      "color_yellow_bone",
-      "fixed-foot-baseline-v1"
+      "hat_crown",
+      "suit_default",
+      "hand_bone",
+      "color_red",
+      "fixed-eye-anchor-v2"
     ],
     "e28b4f9d-915c-4eb1-9932-af4f14c16ae2": [
       "hat_scuba",
       "suit_dino",
       "hand_fish",
       "color_green_bone",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
     ],
     "e37843f3-5e95-48de-bd9f-638bf5f4b84d": [
       "hat_antennae",
       "suit_suit",
       "hand_scythe",
       "color_dots_blue_pink",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
     ],
     "e38447fe-aeb3-485f-8179-2e1bd1341d57": [
-      "hat_firefighter",
-      "suit_lumberjack",
-      "hand_yarn",
-      "color_navy_peach",
-      "fixed-foot-baseline-v1"
+      "hat_robot",
+      "suit_bee",
+      "hand_default",
+      "color_stripes_red_yellow",
+      "fixed-eye-anchor-v2"
     ],
     "e41e3f34-a78c-4b0c-a175-b45c203956b9": [
-      "hat_crown",
-      "suit_royalrobes",
+      "hat_chicken",
+      "suit_dino",
       "hand_royalsceptre",
       "color_dots_lemon_lime",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
     ],
     "e47c6e65-f6ed-4c40-adf4-c35d3bac5bd5": [
       "hat_default",
       "suit_default",
       "hand_plunger",
       "color_red",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
     ],
     "e666061b-6c0b-42cb-b709-c8578f6fe51c": [
       "hat_glasses",
       "suit_default",
       "hand_default",
       "color_dots_indigo_green",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
+    ],
+    "e96d89d4-10c3-4739-9f23-5a30e2da362e": [
+      "hat_sherlock",
+      "suit_default",
+      "hand_scythe",
+      "color_orange",
+      "fixed-eye-anchor-v2"
+    ],
+    "eb098dd4-e4c1-40ed-837a-1d7d7ecd0517": [
+      "hat_crown",
+      "suit_wizard",
+      "hand_royalsceptre",
+      "color_dots_red_yellow",
+      "fixed-eye-anchor-v2"
     ],
     "ec7cac36-b473-4510-bc77-b4cd5d809c0a": [
       "hat_flower",
-      "suit_polar",
+      "suit_default",
       "hand_default",
-      "color_green",
-      "fixed-foot-baseline-v1"
+      "color_blue_bone",
+      "fixed-eye-anchor-v2"
+    ],
+    "ede8b0c4-421f-4fb9-b0b2-7d2896d56585": [
+      "hat_scientist",
+      "suit_towel",
+      "hand_bat",
+      "color_purple_teal",
+      "fixed-eye-anchor-v2"
     ],
     "ef0f1623-66b8-4e57-9f0a-08b104875b7e": [
       "hat_scientist",
       "suit_fairy",
       "hand_gavel",
       "color_green",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
     ],
     "f20042cf-c82d-4341-a084-03ea2395321e": [
-      "hat_pirate",
-      "suit_construction",
+      "hat_light_knight",
+      "suit_light_knight",
       "hand_light_knight",
-      "color_pink_cyan",
-      "fixed-foot-baseline-v1"
+      "color_lemon_lime",
+      "fixed-eye-anchor-v2"
     ],
     "f2167709-9017-43dc-b6f1-628c8eaadb62": [
       "hat_glasses",
       "suit_angel",
       "hand_viking",
       "color_yellow_bone",
-      "fixed-foot-baseline-v1"
+      "fixed-eye-anchor-v2"
+    ],
+    "f45172ef-58c6-4054-a97b-aafa5dc492fb": [
+      "hat_horse",
+      "suit_wizard",
+      "hand_pickaxe",
+      "color_brown",
+      "fixed-eye-anchor-v2"
     ],
     "f723fc8c-d3e4-4646-bbf7-6ffa723ffc25": [
-      "hat_glasses",
-      "suit_suit",
+      "hat_koala",
+      "suit_default",
       "hand_rose",
-      "color_green_bone",
-      "fixed-foot-baseline-v1"
+      "color_purple",
+      "fixed-eye-anchor-v2"
+    ],
+    "f825b3fb-65a7-4b9a-b639-cd1a590121d4": [
+      "hat_moustache",
+      "suit_default",
+      "hand_default",
+      "color_purple",
+      "fixed-eye-anchor-v2"
+    ],
+    "f9ed08e1-0353-4f99-a5b9-0f388a07c3eb": [
+      "hat_devil",
+      "suit_suit",
+      "hand_goldstatue",
+      "color_red_bone",
+      "fixed-eye-anchor-v2"
     ],
     "fab02ff6-67ad-484d-849d-c0e43ade1348": [
-      "hat_dark_knight",
-      "suit_dark_knight",
+      "hat_hardhat",
+      "suit_pirate",
       "hand_sai",
-      "color_stripes_blue_pink",
-      "fixed-foot-baseline-v1"
+      "color_stripes_pink_cyan",
+      "fixed-eye-anchor-v2"
     ]
   }
 }

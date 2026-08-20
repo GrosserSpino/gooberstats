@@ -23,6 +23,17 @@ class SiteDataTests(unittest.TestCase):
         self.assertIn('expectedWinrate',data['players'][0])
         self.assertIn('lobbyBonus',data['players'][0])
         self.assertIn('alltime',data['players'][0])
+    def test_alltime_top_50_and_pps_eligibility(self):
+        data=json.loads((ROOT/'docs/data/alltime.json').read_text(encoding='utf-8'))
+        players=data['players']
+        self.assertEqual(data['view'],'alltime')
+        self.assertEqual(len(players),50)
+        self.assertEqual([p['rank'] for p in players],list(range(1,51)))
+        self.assertEqual([p['wins'] for p in players],sorted((p['wins'] for p in players),reverse=True))
+        for player in players:
+            self.assertLessEqual(player['ppsGames'],300)
+            self.assertEqual(player['pps'] is not None,player['ppsGames']==300)
+            self.assertTrue((ROOT/'docs/assets/goobers'/f"{player['id']}.png").exists())
     def test_monthly_profile_links(self):
         data=json.loads((ROOT/'docs/data/biggest-winners.json').read_text(encoding='utf-8'))
         self.assertEqual(len(data['players']),50)

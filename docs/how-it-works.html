@@ -83,10 +83,60 @@
         <div class="personal-chart-title"><h3>Activity &amp; Lobby Bonus</h3><span id="activity-chart-note"></span></div>
         <div id="player-activity-chart"></div>
       </div>
+      <div id="player-pps-calculation" class="player-calculation"></div>
+    </section>
+
+    <section class="method-reference">
+      <div class="section-copy">
+        <p class="eyebrow">THE COMPLETE METHOD</p>
+        <h2>Every formula, step by step</h2>
+        <p>This is the exact method used by GooberStats. You can follow the symbols, insert the published numbers, and check our calculation yourself.</p>
+      </div>
+
+      <article class="formula-topic">
+        <span class="topic-number">1</span><div><h3>Monthly Winrate</h3><p>This is the simple monthly result. It includes every game we know for the selected month.</p><div class="formula">Monthly WR = 100 × Monthly Wins / Monthly Games</div><p class="symbol-line"><code>Monthly Wins</code> = wins during the month · <code>Monthly Games</code> = games during the month.</p></div>
+      </article>
+
+      <article class="formula-topic">
+        <span class="topic-number">2</span><div><h3>Expected Winrate before an hour</h3><p>Expected WR is our estimate of a player’s strength <em>before</em> that hour is played. The hour being rated can never change its own expectation.</p><div class="formula formula-stack"><span>Historical weight = min(300 − G<sub>recent</sub>, G<sub>history</sub>) × 2<sup>−age / 365</sup></span><span>Expected WR = (W<sub>recent</sub> + Historical weight × WR<sub>history</sub> + Prior games × WR<sub>population</sub>) / (G<sub>recent</sub> + Historical weight + Prior games)</span><span>Expected WR is limited to the range 2%–98%.</span></div><ul><li><code>Grecent / Wrecent</code>: up to the previous 300 observed games and wins.</li><li><code>Ghistory / WRhistory</code>: older profile evidence for returning players.</li><li><code>age</code>: days since that historical profile. Its weight halves every 365 days.</li><li><code>Prior games</code>: 40 for a known returning player, otherwise 100.</li><li><code>WRpopulation</code>: the median historical winrate of established observed players.</li></ul></div>
+      </article>
+
+      <article class="formula-topic">
+        <span class="topic-number">3</span><div><h3>Raw Hourly Lobby Effect</h3><p>Each player is weighted by how many games they actually played. Five strong players playing once do not have the same influence as five strong players playing ten games each.</p><div class="formula formula-stack"><span>q<sub>i</sub>(δ) = logistic(logit(Expected WR<sub>i</sub>) + δ)</span><span>Choose δ so that: Σ Games<sub>i</sub> × q<sub>i</sub>(δ) = Actual Wins in the hour</span><span>Information I = Σ Games<sub>i</sub> × q<sub>i</sub>(δ) × (1 − q<sub>i</sub>(δ))</span></div><p>A negative <code>δ</code> means the observed players won less often than their baselines predicted: the hour appears harder. A positive value means it appears easier.</p></div>
+      </article>
+
+      <article class="formula-topic">
+        <span class="topic-number">4</span><div><h3>Confidence and smoothing</h3><p>A single noisy hour should not be trusted as much as a well-observed hour. We pull it toward the stable hour-of-day prior. More games and useful information give the real snapshot more influence.</p><div class="formula formula-stack"><span>Weight λ = τ² / (τ² + 1 / (8 × I))</span><span>Smoothed effect s = Hour prior + λ × (Raw effect δ − Hour prior)</span></div><p><code>τ²</code> is the estimated real variance between hours. The multiplier <code>8</code> controls PPS smoothing. Confidence labels use I: very low below 10, low from 10, medium from 25, and high from 50.</p></div>
+      </article>
+
+      <article class="formula-topic">
+        <span class="topic-number">5</span><div><h3>Lobby Bonus</h3><p>The easiest stable hour-of-day is the zero-bonus reference. A harder smoothed effect produces an exponential bonus.</p><div class="formula formula-stack"><span>Lobby Bonus% = max(0, (e<sup>Easiest reference − s</sup> − 1) × 100)</span><span>Lobby Factor = 1 + Lobby Bonus% / 100</span></div><p>This is why an exceptional event hour can receive a very large bonus. It still affects a player only through the wins actually earned during that hour.</p></div>
+      </article>
+
+      <article class="formula-topic pps-final-topic">
+        <span class="topic-number">6</span><div><h3>Public Performance Score (PPS)</h3><p>Every observed win is multiplied by its hour’s Lobby Factor. The result is divided by all of that player’s observed games.</p><div class="formula formula-stack"><span>Weighted Wins<sub>t</sub> = Wins<sub>t</sub> × Lobby Factor<sub>t</sub></span><span>PPS = 1000 × Σ Weighted Wins<sub>t</sub> / Σ Games<sub>t</sub></span></div><p><strong>Important:</strong> PPS is not always exactly <code>Monthly WR × average Lobby Factor × 10</code>. The precise formula knows in which hours the wins happened. A player needs at least 30 rated games before a monthly PPS is published.</p></div>
+      </article>
+    </section>
+
+    <section class="explain-panel extremes-panel">
+      <div class="section-copy"><p class="eyebrow">REAL OBSERVED HOURS</p><h2>The hardest and easiest hour we found</h2><p>These snapshots use the same formula shown above. Times are converted to your selected local timezone.</p></div>
+      <div id="extreme-hours" class="extreme-hours"><div class="loading">Loading hourly snapshots…</div></div>
+    </section>
+
+    <section class="limitations-panel">
+      <p class="eyebrow">READ THIS BEFORE COMPARING PLAYERS</p>
+      <h2>PPS is an estimate, not a skill detector</h2>
+      <p>We could measure performance perfectly only if we had every individual lobby and every player in it. We do not. GooberStats sees public profile changes during the hours we successfully observe, with approximately <strong id="coverage-value-bottom">—</strong> coverage. Unknown profiles and missing hours create uncertainty.</p>
+      <div class="limits-grid">
+        <article><h3>Play styles are different</h3><p>Some Goobers maximize safe wins. Others experiment, joke around, help friends, or take risks. A lower PPS player can still have more mechanical skill than a higher PPS player.</p></article>
+        <article><h3>Fair play cannot be measured</h3><p>Friends can help someone win. Alt accounts can smurf or sabotage another player. Public profile totals do not tell us why a win or loss happened, so PPS cannot reliably detect or correct this.</p></article>
+        <article><h3>Observed does not mean complete</h3><p>We do not know every profile, every bot, or the exact players sharing each real lobby. “Hourly Lobby Factor” rates the public field observed during that hour—not one specific in-game lobby.</p></article>
+        <article><h3>Performance is not permanent skill</h3><p>PPS answers: “How valuable were the wins we observed in this period?” It does not answer: “Who would always win a fair match?” Treat it as a useful approximation, never as proof.</p></article>
+      </div>
     </section>
   </main>
   <footer>Independent Goober Dash statistics</footer>
-  <script src="./how-it-works.js?v=20260813-6" defer></script>
-  <script src="./player-explanation.js?v=20260814-1" defer></script>
+  <script src="./how-it-works.js?v=20260820-full-method1" defer></script>
+  <script src="./player-explanation.js?v=20260820-full-method1" defer></script>
 </body>
 </html>

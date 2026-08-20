@@ -322,7 +322,7 @@ def build_method_data(tools_root: Path, window_difficulty: dict, output_path: Pa
         except (KeyError,ValueError): continue
         dated.append((delta,info,start)); clean_times.append(start)
     newest=max(clean_times,default=datetime.now(timezone.utc)); cutoff=newest-timedelta(days=30)
-    hour_windows=[]; exact_noon={}
+    hour_windows=[]; exact_noon={}; snapshots_by_key={}
     for delta,info,start in dated:
         with delta.open(encoding='utf-8-sig',newline='') as f: rows=list(csv.DictReader(f))
         leaders=[]; window_players=[]
@@ -333,6 +333,7 @@ def build_method_data(tools_root: Path, window_difficulty: dict, output_path: Pa
             all_hours[start.hour][pid]['wins']+=wins
             all_hours[start.hour][pid]['games']+=games
             if start>=cutoff and games>0: window_players.append({'id':pid,'games':games,'wins':wins})
+        snapshots_by_key[str(delta.relative_to(tools_root)).replace('\\','/')]={'rows':rows,'start':start}
         if start>=cutoff:
             observed_games=number(info.get('games'),as_int=True) or sum(p['games'] for p in window_players)
             hour_windows.append({'timestamp':start.astimezone(timezone.utc).isoformat().replace('+00:00','Z'),'games':observed_games,'lobbyFactor':round(1+number(info.get('lobbyBonus'))/100,4),'players':window_players})
@@ -356,7 +357,40 @@ def build_method_data(tools_root: Path, window_difficulty: dict, output_path: Pa
     coverage=0
     if clean_times:
         possible=max(1,int((max(clean_times)-min(clean_times)).total_seconds()/3600)+1); coverage=round(100*len(set(clean_times))/possible)
-    doc={'generatedAt':datetime.now(timezone.utc).isoformat(timespec='seconds'),'coveragePct':coverage,'periodDays':30,'players':current_players,'hourWindows':hour_windows,'examples':examples,'hourTop':hour_top}
+    numeric=lambda info,key: (float(info.get(key)) if info.get(key) not in ('',None) else None)
+    def extreme_snapshot(info):
+        source=snapshots_by_key.get(info.get('deltaFile',''),{}); rows=source.get('rows',[])
+        participants=[]
+        for row in rows:
+            pid=(row.get('id') or row.get('player_id') or '').strip(); games=number(row.get('games'),as_int=True); wins=number(row.get('wins'),as_int=True)
+            if not pid or games<=0: continue
+            meta=current_players.get(pid,{'id':pid,'name':row.get('displayname') or pid[:8],'country':''})
+            participants.append({**meta,'games':games,'wins':wins,'winrate':round(100*wins/games,1)})
+        participants.sort(key=lambda p:(-p['games'],-p['wins'],p['name'].casefold()))
+        return {
+            'timestamp':datetime.fromisoformat(info['windowStart']).replace(tzinfo=BERLIN).astimezone(timezone.utc).isoformat().replace('+00:00','Z'),
+            'windowStart':info['windowStart'],'windowEnd':info.get('windowEnd',''),'deltaFile':info.get('deltaFile',''),
+            'games':number(info.get('games'),as_int=True),'wins':number(info.get('wins'),as_int=True),'players':number(info.get('players'),as_int=True),
+            'expectedWins':numeric(info,'expectedWins'),'averageExpectedWr':numeric(info,'averageExpectedWr'),'informationWeight':numeric(info,'informationWeight'),
+            'rawWindowEffect':numeric(info,'rawWindowEffect'),'hourPriorEffect':numeric(info,'hourPriorEffect'),'smoothedWindowEffect':numeric(info,'windowEffect'),
+            'shrinkageWeight':numeric(info,'shrinkageWeight'),'lobbyBonus':numeric(info,'lobbyBonus'),'confidence':info.get('confidence',''),
+            'participants':participants,
+        }
+    valid=list(window_difficulty.values())
+    hardest=max(valid,key=lambda x:number(x.get('lobbyBonus'))) if valid else None
+    easiest=max((x for x in valid if number(x.get('lobbyBonus'))<=0.0001),key=lambda x:number(x.get('windowEffect')),default=None)
+    positive=next((x for x in valid if number(x.get('lobbyBonus'))>0 and x.get('windowEffect') not in ('',None)),None)
+    easiest_reference=(number(positive.get('windowEffect'))+math.log1p(number(positive.get('lobbyBonus'))/100)) if positive else 0
+    report_path=tools_root/'output'/'window_lobby_difficulty_report.json'
+    report=json.loads(report_path.read_text(encoding='utf-8')) if report_path.exists() else {}
+    method_constants={
+        'recentGameLimit':report.get('recent_game_limit',300),'populationPriorGames':report.get('population_prior_games',100),
+        'knownPlayerPriorGames':report.get('known_player_prior_games',40),'skillHalfLifeDays':report.get('skill_half_life_days',365),
+        'shrinkageInformationMultiplier':report.get('pps_shrinkage_information_multiplier',8),
+        'populationPriorWinrate':report.get('population_prior_winrate'),'betweenWindowVariance':report.get('estimated_between_window_variance'),
+        'easiestReferenceEffect':easiest_reference,'minimumPublishedGames':30,'expectedWrFloor':2,'expectedWrCeiling':98,
+    }
+    doc={'generatedAt':datetime.now(timezone.utc).isoformat(timespec='seconds'),'coveragePct':coverage,'periodDays':30,'players':current_players,'hourWindows':hour_windows,'examples':examples,'hourTop':hour_top,'methodConstants':method_constants,'extremes':{'hardest':extreme_snapshot(hardest) if hardest else None,'easiest':extreme_snapshot(easiest) if easiest else None}}
     output_path.write_text(json.dumps(doc,ensure_ascii=False,separators=(',',':')),encoding='utf-8')
 
 def main():
@@ -391,7 +425,7 @@ def main():
     window_path=tools_root/'output'/'window_lobby_difficulty.csv'
     if window_path.exists():
         with window_path.open(encoding='utf-8-sig',newline='') as f:
-            window_difficulty={row['delta_file'].replace('\\','/'):{'lobbyBonus':number(row.get('lobby_bonus')),'confidence':row.get('confidence',''),'windowEffect':number(row.get('smoothed_window_effect')),'windowStart':row.get('window_start',''),'players':row.get('players',''),'games':row.get('games','')} for row in csv.DictReader(f)}
+            window_difficulty={row['delta_file'].replace('\\','/'):{'deltaFile':row.get('delta_file','').replace('\\','/'),'lobbyBonus':number(row.get('lobby_bonus')),'confidence':row.get('confidence',''),'windowEffect':number(row.get('smoothed_window_effect')),'windowStart':row.get('window_start',''),'windowEnd':row.get('window_end',''),'players':row.get('players',''),'games':row.get('games',''),'wins':row.get('wins',''),'expectedWins':row.get('expected_wins',''),'averageExpectedWr':row.get('average_expected_wr',''),'informationWeight':row.get('information_weight',''),'rawWindowEffect':row.get('raw_window_effect',''),'hourPriorEffect':row.get('hour_prior_effect',''),'shrinkageWeight':row.get('shrinkage_weight','')} for row in csv.DictReader(f)}
     build_alltime_data(tools_root,window_difficulty,out/'alltime.json')
     build_method_data(tools_root,window_difficulty,out/'method.json')
     difficulties={h:0.0 for h in range(24)}
@@ -405,6 +439,8 @@ def main():
     coverage_windows={}
     coverage_dates=set()
     coverage_by_hour=defaultdict(set)
+    month_start_utc=datetime.fromisoformat(f'{month.name}-01T00:00:00+00:00')
+    next_month_utc=(month_start_utc.replace(year=month_start_utc.year+1,month=1) if month_start_utc.month==12 else month_start_utc.replace(month=month_start_utc.month+1))
     delta_root=args.tools_root.resolve()/'hourly_deltas'
     for day_dir in sorted(delta_root.glob(f'{month.name}-*')):
         for delta in sorted(day_dir.glob('*.csv')):
@@ -417,15 +453,18 @@ def main():
                 start_dt=datetime.fromisoformat(f'{day_dir.name}T{start_text}:00')
                 end_dt=datetime.fromisoformat(f'{day_dir.name}T{end_text}:00')
             except ValueError: continue
-            if end_dt<=start_dt: end_dt+=timedelta(days=1)
+            if end_dt<=start_dt: start_dt-=timedelta(days=1)
             minutes=(end_dt-start_dt).total_seconds()/60
             if not (50<=minutes<=70 and start_dt.minute<=15 and end_dt.minute<=20): continue
-            hour=start_dt.hour; coverage_dates.add(day_dir.name); coverage_by_hour[hour].add(day_dir.name)
-            timestamp=start_dt.replace(tzinfo=BERLIN).astimezone(timezone.utc).isoformat().replace('+00:00','Z')
             delta_key=str(delta.relative_to(tools_root)).replace('\\','/')
+            if delta_key not in window_difficulty: continue
+            start_utc=start_dt.replace(tzinfo=BERLIN).astimezone(timezone.utc)
+            if not (month_start_utc<=start_utc<next_month_utc): continue
+            hour=start_dt.hour; coverage_dates.add(day_dir.name); coverage_by_hour[hour].add(day_dir.name)
+            timestamp=start_utc.isoformat().replace('+00:00','Z')
             window_info=window_difficulty.get(delta_key,{})
             lobby_bonus=window_info.get('lobbyBonus',0)
-            coverage_windows[timestamp]={'timestamp':timestamp,'difficulty':round(difficulties[hour],1),'lobbyBonus':round(lobby_bonus,2),'confidence':window_info.get('confidence','')}
+            coverage_windows[timestamp]={'timestamp':timestamp,'difficulty':round(difficulties[hour],1),'lobbyBonus':round(lobby_bonus,6),'confidence':window_info.get('confidence','')}
             for row in delta_rows:
                 pid=(row.get('id') or row.get('player_id') or '').strip()
                 if pid not in top_ids: continue
@@ -433,7 +472,7 @@ def main():
                 hourly[pid][hour]['games']+=games; hourly[pid][hour]['wins']+=wins
                 hourly[pid][hour]['dates'].add(day_dir.name)
                 if games>0:
-                    player_windows[pid].append({'timestamp':timestamp,'games':games,'wins':wins,'difficulty':round(difficulties[hour],1),'lobbyBonus':round(lobby_bonus,2)})
+                    player_windows[pid].append({'timestamp':timestamp,'games':games,'wins':wins,'difficulty':round(difficulties[hour],1),'lobbyBonus':round(lobby_bonus,6)})
                     top50_windows[timestamp]['games']+=games
                     top50_windows[timestamp]['wins']+=wins
     monthly_dir=out/'monthly-profiles'; monthly_dir.mkdir(exist_ok=True)

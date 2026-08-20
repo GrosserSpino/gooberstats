@@ -226,7 +226,18 @@ def build_alltime_data(tools_root: Path, window_difficulty: dict, output_path: P
                 try: moment=datetime.fromisoformat(stamp.replace('Z','+00:00'))
                 except ValueError:
                     try: moment=datetime.strptime(stamp,'%d.%m.%Y').replace(tzinfo=timezone.utc)
-                    except ValueError: continue
+                    except ValueError:
+                        try: moment=datetime.strptime(stamp,'%d.%m.%y').replace(tzinfo=timezone.utc)
+                        except ValueError: continue
+                if moment.tzinfo is None: moment=moment.replace(tzinfo=timezone.utc)
+                history_points[pid].append((moment,number(item.get('games'),as_int=True),number(item.get('wins'),as_int=True)))
+    for snapshot in snapshots:
+        with snapshot.open(encoding='utf-8-sig',newline='') as f:
+            for item in csv.DictReader(f):
+                pid=item.get('player_id','')
+                if pid not in top_ids: continue
+                try: moment=datetime.fromisoformat(item.get('snapshot_time','').replace('Z','+00:00'))
+                except ValueError: continue
                 if moment.tzinfo is None: moment=moment.replace(tzinfo=timezone.utc)
                 history_points[pid].append((moment,number(item.get('games'),as_int=True),number(item.get('wins'),as_int=True)))
 
@@ -283,7 +294,7 @@ def build_alltime_data(tools_root: Path, window_difficulty: dict, output_path: P
             'view':'alltime','month':'alltime','monthLabel':'Alltime','level':row.get('level'),
             'deaths':row.get('deaths',0),'winstreak':row.get('winstreak'),
             'winrate':round(100*row['wins']/row['games'],2) if row['games'] else None,
-            'deathrate':round(100*row.get('deaths',0)/row['games'],2) if row['games'] else None,
+            'deathrate':round(row.get('deaths',0)/row['games'],4) if row['games'] else None,
             'history':rolling_history(row['id']),'badges':[],
         }
         (profiles_dir/f"{row['id']}.json").write_text(json.dumps(profile,ensure_ascii=False,separators=(',',':')),encoding='utf-8')

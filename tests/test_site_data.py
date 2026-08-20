@@ -38,6 +38,8 @@ class SiteDataTests(unittest.TestCase):
             self.assertEqual(profile['view'],'alltime')
             self.assertEqual((profile['games'],profile['wins']),(player['games'],player['wins']))
             self.assertEqual(profile['pps'],player['pps'])
+            self.assertEqual(profile['rank'],player['rank'])
+            self.assertAlmostEqual(profile['deathrate'],profile['deaths']/profile['games'],places=3)
             self.assertTrue(all(span['games']==100 and 0<=span['winrate']<=100 and 0<span['gamesPerDay']<=100 for span in profile['history']))
     def test_monthly_profile_links(self):
         data=json.loads((ROOT/'docs/data/biggest-winners.json').read_text(encoding='utf-8'))

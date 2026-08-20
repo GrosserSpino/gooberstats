@@ -8,5 +8,5 @@ h1{margin:4px 0 2px;font:42px/1 "Luckiest Guy",sans-serif;text-shadow:0 3px 0 #1
 main>span{display:block;margin-bottom:18px;color:#e1eee7;font-size:13px;text-shadow:0 1px 4px #000}
 .card-stage{position:relative;width:100%;filter:drop-shadow(0 25px 30px #0009)}
 .card-master{display:block;width:100%;height:auto}
-.score-flame{position:absolute;z-index:1;top:7.5%;right:7.5%;width:31%;height:auto;filter:drop-shadow(0 5px 7px #0008)}
+.pps-flame{position:absolute;z-index:1;top:7.5%;right:7.5%;width:31%;height:auto;filter:drop-shadow(0 5px 7px #0008)}
 @media(max-width:620px){body{padding:14px}.back{position:relative;display:table;top:auto;left:auto;margin-bottom:18px}main{margin-top:0}h1{font-size:34px}}

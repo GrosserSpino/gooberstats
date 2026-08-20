@@ -158,7 +158,7 @@ def build_method_data(tools_root: Path, window_difficulty: dict, output_path: Pa
     doc={'generatedAt':datetime.now(timezone.utc).isoformat(timespec='seconds'),'coveragePct':coverage,'examples':examples,'hourTop':hour_top}
     output_path.write_text(json.dumps(doc,ensure_ascii=False,separators=(',',':')),encoding='utf-8')
 
-def build_method_data_v2(tools_root: Path, window_difficulty: dict, output_path: Path):
+def build_method_data(tools_root: Path, window_difficulty: dict, output_path: Path):
     """Build examples plus raw rolling windows for precise local-time grouping."""
     snapshots=sorted((tools_root/'daily_snapshots').glob('*.csv'))
     latest={}
@@ -234,7 +234,7 @@ def main():
         pid=r['player_id']; name=r['display_name']
         aka=[x for x in aliases[pid] if x.casefold()!=name.casefold()]
         monthly_wr=number(r.get('monthly_winrate',r.get('winrate')))
-        players.append({'rank':int(r['rank']),'id':pid,'name':name,'aliases':aka,'country':r.get('country',''),'wins':number(r.get('monthly_wins',r.get('wins')),as_int=True),'games':number(r.get('monthly_games',r.get('games')),as_int=True),'deaths':number(r.get('monthly_deaths'),as_int=True),'winrate':monthly_wr,'monthlyWinrate':monthly_wr,'cleanWinrate':number(r.get('clean_winrate'),default=None),'expectedWinrate':number(r.get('expected_winrate'),default=None),'lobbyBonus':number(r.get('lobby_bonus'),default=None),'performanceScore':number(r.get('performance_score'),default=None),'pps':number(r.get('pps'),default=None),'deathrate':number(r.get('monthly_deathrate')),'ratedGames':number(r.get('skill_games'),as_int=True),'alltime':{'level':number(r.get('level'),default=None,as_int=True),'games':number(r.get('total_games'),default=None,as_int=True),'wins':number(r.get('total_wins'),default=None,as_int=True),'deaths':number(r.get('total_deaths'),default=None,as_int=True),'winstreak':None},'cosmetics':{key:r.get(key,'') for key in ('hat','suit','body','hand','color')}})
+        players.append({'rank':int(r['rank']),'id':pid,'name':name,'aliases':aka,'country':r.get('country',''),'wins':number(r.get('monthly_wins',r.get('wins')),as_int=True),'games':number(r.get('monthly_games',r.get('games')),as_int=True),'deaths':number(r.get('monthly_deaths'),as_int=True),'winrate':monthly_wr,'monthlyWinrate':monthly_wr,'cleanWinrate':number(r.get('clean_winrate'),default=None),'expectedWinrate':number(r.get('expected_winrate'),default=None),'lobbyBonus':number(r.get('lobby_bonus'),default=None),'pps':number(r.get('pps'),default=None),'deathrate':number(r.get('monthly_deathrate')),'ratedGames':number(r.get('skill_games'),as_int=True),'alltime':{'level':number(r.get('level'),default=None,as_int=True),'games':number(r.get('total_games'),default=None,as_int=True),'wins':number(r.get('total_wins'),default=None,as_int=True),'deaths':number(r.get('total_deaths'),default=None,as_int=True),'winstreak':None},'cosmetics':{key:r.get(key,'') for key in ('hat','suit','body','hand','color')}})
     label=datetime.strptime(month.name,'%Y-%m').strftime('%B %Y')
     payload={'generatedAt':datetime.now(timezone.utc).isoformat(timespec='seconds'),'month':month.name,'monthLabel':label,'current':month.name==date.today().strftime('%Y-%m'),'source':str(csv_path.relative_to(tools_root)).replace('\\','/'),'players':players}
     top_ids={p['id'] for p in players}
@@ -243,7 +243,7 @@ def main():
     if window_path.exists():
         with window_path.open(encoding='utf-8-sig',newline='') as f:
             window_difficulty={row['delta_file'].replace('\\','/'):{'lobbyBonus':number(row.get('lobby_bonus')),'confidence':row.get('confidence',''),'windowEffect':number(row.get('smoothed_window_effect')),'windowStart':row.get('window_start',''),'players':row.get('players',''),'games':row.get('games','')} for row in csv.DictReader(f)}
-    build_method_data_v2(tools_root,window_difficulty,out/'method.json')
+    build_method_data(tools_root,window_difficulty,out/'method.json')
     difficulties={h:0.0 for h in range(24)}
     difficulty_path=tools_root/'Hourly Difficulty'/'global.json'
     if difficulty_path.exists():

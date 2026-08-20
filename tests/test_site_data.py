@@ -19,7 +19,7 @@ class SiteDataTests(unittest.TestCase):
         self.assertEqual(data['players'][0]['name'],'Davi cardoso')
         self.assertGreater(data['players'][0]['wins'],0)
         self.assertEqual([p['rank'] for p in data['players']],list(range(1,51)))
-        self.assertIn('performanceScore',data['players'][0])
+        self.assertIn('pps',data['players'][0])
         self.assertIn('expectedWinrate',data['players'][0])
         self.assertIn('lobbyBonus',data['players'][0])
         self.assertIn('alltime',data['players'][0])
@@ -66,7 +66,7 @@ class SiteDataTests(unittest.TestCase):
             self.assertFalse(badge['estimated'])
     def test_july_has_scores_and_visual_assets(self):
         data=json.loads((ROOT/'docs/data/months/2026-07/biggest-winners.json').read_text(encoding='utf-8'))
-        self.assertTrue(all(player['performanceScore'] is not None for player in data['players']))
+        self.assertTrue(all(player['pps'] is not None for player in data['players']))
         for player in data['players']:
             self.assertTrue((ROOT/'docs/assets/goobers'/f"{player['id']}.png").exists())
     def test_historical_leaderboards_are_auditable_and_drive_badges(self):

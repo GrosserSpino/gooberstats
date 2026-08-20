@@ -51,7 +51,7 @@
   font-weight: 800;
 }
 
-.hour-score-comparison {
+.hour-pps-comparison {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   gap: 18px;
@@ -59,41 +59,41 @@
   margin: 28px auto 24px;
 }
 
-.hour-score-card {
+.hour-pps-card {
   padding: 24px;
   border: 2px solid rgba(255, 255, 255, .22);
   border-radius: 20px;
   background: rgba(255, 255, 255, .055);
 }
 
-.hour-score-card h3 {
+.hour-pps-card h3 {
   margin: 0;
   font-size: 28px;
 }
 
-.hour-score-card time {
+.hour-pps-card time {
   display: block;
   margin: 5px 0 20px;
   color: #c1d0c4;
   font-weight: 800;
 }
 
-.hour-score-card p {
+.hour-pps-card p {
   margin: 10px 0;
   color: #fff;
   font-size: clamp(17px, 2vw, 22px);
 }
 
-.hour-score-card b,
-.hour-score-card strong {
+.hour-pps-card b,
+.hour-pps-card strong {
   color: #ffb45d;
 }
 
-.hour-score-card p strong:last-child {
+.hour-pps-card p strong:last-child {
   font-size: 32px;
 }
 
-.hour-score-card > span {
+.hour-pps-card > span {
   color: #c1d0c4;
   font-weight: 900;
   text-transform: uppercase;
@@ -104,7 +104,7 @@
   background: linear-gradient(145deg, rgba(255, 107, 66, .14), rgba(255, 255, 255, .045));
 }
 
-.equal-score {
+.equal-pps {
   align-self: center;
   color: #ffcf70;
   font-size: 42px;
@@ -257,11 +257,11 @@
     font-size: 17px;
   }
 
-  .hour-score-comparison {
+  .hour-pps-comparison {
     grid-template-columns: 1fr;
   }
 
-  .equal-score {
+  .equal-pps {
     line-height: .7;
   }
 

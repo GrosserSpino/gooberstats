@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="How the GooberStats Performance Score and Lobby Bonus work.">
-  <title>How the Performance Score Works · GooberStats</title>
+  <meta name="description" content="How the GooberStats Public Performance Score and Lobby Bonus work.">
+  <title>How the Public Performance Score Works · GooberStats</title>
   <link rel="stylesheet" href="./styles.css">
   <link rel="stylesheet" href="./theme.css?v=20260813-1">
   <link rel="stylesheet" href="./how-it-works.css?v=20260814-2">
@@ -14,16 +14,16 @@
   <main class="method-shell">
     <a class="back-link" href="./">← Back to Biggest Winners</a>
     <header class="method-visual-hero">
-      <img src="./assets/performance-score-classroom.png" alt="Professor GrosserSpino explains the Performance Score formulas on a chalkboard">
+      <img src="./assets/public-performance-score-classroom.png" alt="Professor GrosserSpino explains the Public Performance Score formulas on a chalkboard">
       <h1>HOW DOES IT WORK</h1>
     </header>
     <p class="method-intro">Every win counts. Wins against a stronger field count a little more.</p>
 
-    <section class="steps" aria-label="Performance Score steps">
+    <section class="steps" aria-label="Public Performance Score steps">
       <article><b>1</b><h2>Monthly WR</h2><p>Your wins divided by your games played during the month.</p></article>
       <article><b>2</b><h2>Expected WR</h2><p>Before an hour starts, previous games help us estimate each player’s current strength.</p></article>
       <article><b>3</b><h2>Lobby Bonus</h2><p>The easiest lobbies receive no bonus. Harder lobbies receive a bigger bonus.</p></article>
-      <article><b>4</b><h2>Performance Score</h2><p>Wins and their Lobby Bonuses are combined into one easy-to-compare score.</p></article>
+      <article><b>4</b><h2>Public Performance Score</h2><p>Wins and their Lobby Bonuses are combined into one easy-to-compare PPS.</p></article>
     </section>
 
     <section class="explain-panel">
@@ -32,23 +32,23 @@
       <p class="comparison-caption">Same time. Different players. Different difficulty.</p>
     </section>
 
-    <section class="score-example">
-      <div><p class="eyebrow">A SIMPLE EXAMPLE</p><h2>Same score. Different hours.</h2></div>
-      <div class="hour-score-comparison">
-        <article class="hour-score-card easy-hour">
+    <section class="pps-example">
+      <div><p class="eyebrow">A SIMPLE EXAMPLE</p><h2>Same PPS. Different hours.</h2></div>
+      <div class="hour-pps-comparison">
+        <article class="hour-pps-card easy-hour">
           <h3>Easy Hour</h3>
           <time data-local-hour="2026-08-10T02:00:00Z">04:00–05:00 local time</time>
           <p><strong>7 wins</strong> ÷ 10 games = <b>70% WR</b></p>
           <p><b>70% WR</b> × 1.00 = <strong>700</strong></p>
-          <span>Performance Score</span>
+          <span>Public Performance Score</span>
         </article>
-        <div class="equal-score" aria-label="equals">=</div>
-        <article class="hour-score-card hard-hour">
+        <div class="equal-pps" aria-label="equals">=</div>
+        <article class="hour-pps-card hard-hour">
           <h3>Hard Hour</h3>
           <time data-local-hour="2026-08-10T18:00:00Z">20:00–21:00 local time</time>
           <p><strong>5 wins</strong> ÷ 10 games = <b>50% WR</b></p>
           <p><b>50% WR</b> × 1.40 = <strong>700</strong></p>
-          <span>Performance Score</span>
+          <span>Public Performance Score</span>
         </article>
       </div>
       <p>A 50% winrate during a hard hour can be worth the same as a 70% winrate during an easy hour. Times are shown in your local timezone.</p>
@@ -65,14 +65,14 @@
 
     <section class="coverage-note">
       <h2>About the data</h2>
-      <p>Our observations currently cover approximately <strong id="coverage-value">—</strong> of the available hourly period. Some player profiles are not known, so Lobby Bonus and Performance Score are estimates based on the players we can observe.</p>
+      <p>Our observations currently cover approximately <strong id="coverage-value">—</strong> of the available hourly period. Some player profiles are not known, so Lobby Bonus and Public Performance Score are estimates based on the players we can observe.</p>
     </section>
 
-    <section id="player-score-explanation" class="player-score-explanation" hidden>
+    <section id="player-pps-explanation" class="player-pps-explanation" hidden>
       <div class="section-copy">
-        <p class="eyebrow">YOUR MONTHLY SCORE</p>
-        <h2 id="player-score-title">How this score was earned</h2>
-        <p id="player-score-summary"></p>
+        <p class="eyebrow">YOUR MONTHLY PPS</p>
+        <h2 id="player-pps-title">How this PPS was earned</h2>
+        <p id="player-pps-summary"></p>
       </div>
       <label class="explanation-timezone">Your time zone <select id="explanation-timezone"></select></label>
       <div class="personal-chart-card">

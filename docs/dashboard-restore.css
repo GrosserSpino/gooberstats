@@ -72,3 +72,9 @@ body[class^="month-"] .dashboard-profile{background-color:#173544;background-ima
 .profile-goober-glow{width:300px;height:300px;flex-basis:300px;margin-top:-2px;transform:translateX(-50px)}
 .dashboard-profile .profile-goober{width:300px;height:300px;flex-basis:300px;object-position:center top}
 @media(max-width:700px){.dashboard-profile .profile-head{min-height:235px;padding:0 12px 12px}.profile-goober-glow{width:175px;height:185px;flex-basis:175px;margin-top:-2px;transform:translateX(-32px)}.dashboard-profile .profile-goober{width:175px;height:185px;flex-basis:175px;object-position:center top}.dashboard-profile .profile-identity>div{margin-top:-7px}.dashboard-profile .profile-identity h2{font-size:28px}.dashboard-profile .profile-identity h2 .gel-flag{width:56px;height:56px;margin-right:8px}}
+
+/* Alltime compares the stable 300-game PPS3 with the faster 100-game PPS1. */
+.alltime-view .monthly-layout{grid-template-columns:minmax(580px,660px) minmax(0,1fr)!important}
+.alltime-view .leaderboard-head.compact-head,.alltime-view .monthly-rank-item.compact-row{grid-template-columns:42px minmax(0,1fr) 64px 64px 64px!important}
+@media(max-width:1180px){.alltime-view .monthly-layout{grid-template-columns:1fr!important}}
+@media(max-width:700px){.alltime-view .leaderboard-head.compact-head,.alltime-view .monthly-rank-item.compact-row{grid-template-columns:36px minmax(0,1fr) 50px 50px 50px!important}}

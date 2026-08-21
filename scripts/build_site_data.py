@@ -166,18 +166,23 @@ def build_alltime_data(tools_root: Path, window_difficulty: dict, output_path: P
         snapshot_rows=list(csv.DictReader(f))
     snapshot_time=datetime.fromisoformat(snapshot_rows[0]['snapshot_time'].replace('Z','+00:00'))
     next_full_hour=snapshot_time.replace(minute=0,second=0,microsecond=0)+timedelta(hours=1)
+    # A daily scan may omit dormant players. Alltime must therefore retain each
+    # player's newest known lifetime totals across the complete snapshot history
+    # instead of treating absence from the newest file as removal from the game.
     totals={}
-    for row in snapshot_rows:
-        pid=(row.get('player_id') or row.get('id') or '').strip()
-        if not pid: continue
-        totals[pid]={
-            'id':pid,'name':row.get('display_name') or row.get('username') or pid[:8],
-            'games':number(row.get('games'),as_int=True),'wins':number(row.get('wins'),as_int=True),
-            'deaths':number(row.get('deaths'),as_int=True),'level':number(row.get('level'),default=None,as_int=True),
-            'winstreak':number(row.get('winstreak'),default=None,as_int=True),
-            'country':'','hat':row.get('hat',''),'suit':row.get('suit',''),
-            'body':row.get('body',''),'hand':row.get('hand',''),'color':row.get('color',''),
-        }
+    for snapshot in snapshots:
+        with snapshot.open(encoding='utf-8-sig',newline='') as f:
+            for row in csv.DictReader(f):
+                pid=(row.get('player_id') or row.get('id') or '').strip()
+                if not pid: continue
+                totals[pid]={
+                    'id':pid,'name':row.get('display_name') or row.get('username') or pid[:8],
+                    'games':number(row.get('games'),as_int=True),'wins':number(row.get('wins'),as_int=True),
+                    'deaths':number(row.get('deaths'),as_int=True),'level':number(row.get('level'),default=None,as_int=True),
+                    'winstreak':number(row.get('winstreak'),default=None,as_int=True),
+                    'country':'','hat':row.get('hat',''),'suit':row.get('suit',''),
+                    'body':row.get('body',''),'hand':row.get('hand',''),'color':row.get('color',''),
+                }
     countries={}
     for source_name in ('players_master_identity.csv','players_registry.csv'):
         source_path=tools_root/source_name
@@ -223,9 +228,15 @@ def build_alltime_data(tools_root: Path, window_difficulty: dict, output_path: P
                 totals[pid]['deaths']+=number(row.get('deaths'),as_int=True)
 
     top=sorted(totals.values(),key=lambda row:(-row['wins'],-row['games'],row['id']))[:50]
+    top_ids={row['id'] for row in top}
+    if top:
+        cutoff=top[-1]
+        omitted=[row for row in totals.values() if row['id'] not in top_ids and (row['wins']>cutoff['wins'] or (row['wins']==cutoff['wins'] and row['games']>cutoff['games']))]
+        if omitted:
+            names=', '.join(f"{row['name']} ({row['wins']} wins)" for row in omitted[:10])
+            raise RuntimeError(f'Alltime Top 50 validation failed; qualifying players were omitted: {names}')
     history_points=defaultdict(list)
     history_path=tools_root/'daily_snapshots_history.csv'
-    top_ids={row['id'] for row in top}
     if history_path.exists():
         with history_path.open(encoding='utf-8-sig',newline='') as f:
             for item in csv.DictReader(f):
@@ -284,18 +295,26 @@ def build_alltime_data(tools_root: Path, window_difficulty: dict, output_path: P
     players=[]; profiles_dir=output_path.parent/'alltime-profiles'
     if profiles_dir.exists(): shutil.rmtree(profiles_dir)
     profiles_dir.mkdir(parents=True)
-    for rank,row in enumerate(top,1):
-        remaining=300.0; weighted_wins=0.0; used_games=0.0; last_activity=None
-        for start,games,wins,bonus in sorted(observations.get(row['id'],[]),reverse=True):
+
+    def recent_pps(player_id, game_limit):
+        remaining=float(game_limit); weighted_wins=0.0; used_games=0.0; last_activity=None
+        for start,games,wins,bonus in sorted(observations.get(player_id,[]),reverse=True):
             if last_activity is None: last_activity=start
             take=min(remaining,float(games)); fraction=take/games
             weighted_wins+=wins*fraction*(1+bonus/100)
             used_games+=take; remaining-=take
             if remaining<=0: break
-        pps=round(1000*weighted_wins/used_games) if used_games>=300 else None
+        score=round(1000*weighted_wins/used_games) if used_games>=game_limit else None
+        return score,int(used_games),last_activity
+
+    for rank,row in enumerate(top,1):
+        pps3,pps3_games,last_activity=recent_pps(row['id'],300)
+        pps1,pps1_games,_=recent_pps(row['id'],100)
         players.append({
             'rank':rank,'id':row['id'],'name':row['name'],'aliases':[],'country':countries.get(row['id'],''),
-            'wins':row['wins'],'games':row['games'],'pps':pps,'ppsGames':int(used_games),
+            'wins':row['wins'],'games':row['games'],
+            'pps':pps3,'ppsGames':pps3_games,
+            'pps3':pps3,'pps3Games':pps3_games,'pps1':pps1,'pps1Games':pps1_games,
             'lastActivity':last_activity.astimezone(timezone.utc).isoformat().replace('+00:00','Z') if last_activity else None,
             'cosmetics':{key:row.get(key,'') for key in ('hat','suit','body','hand','color')},
         })
@@ -354,7 +373,8 @@ def build_method_data(tools_root: Path, window_difficulty: dict, output_path: Pa
         snapshots_by_key[str(delta.relative_to(tools_root)).replace('\\','/')]={'rows':rows,'start':start}
         if start>=cutoff:
             observed_games=number(info.get('games'),as_int=True) or sum(p['games'] for p in window_players)
-            hour_windows.append({'timestamp':start.astimezone(timezone.utc).isoformat().replace('+00:00','Z'),'games':observed_games,'lobbyFactor':round(1+number(info.get('lobbyBonus'))/100,4),'players':window_players})
+            start_utc=start.replace(tzinfo=BERLIN).astimezone(timezone.utc)
+            hour_windows.append({'timestamp':start_utc.isoformat().replace('+00:00','Z'),'games':observed_games,'lobbyFactor':round(1+number(info.get('lobbyBonus'))/100,4),'players':window_players})
         if start.hour==12: exact_noon[start.date().isoformat()]={'start':start,'info':info,'leaders':leaders}
     def player(pid,wins,games):
         row=latest.get(pid,{})
